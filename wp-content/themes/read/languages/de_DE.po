@@ -1,0 +1,683 @@
+# Loco Gettext template
+msgid ""
+msgstr ""
+"Project-Id-Version: Read\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-22 00:03+0000\n"
+"POT-Revision-Date: Sun Jan 10 2016 13:51:19 GMT+0200 (GTB Standart Saati)\n"
+"PO-Revision-Date: 2022-04-22 00:05+0000\n"
+"Last-Translator: Mehmet Sali\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.1; wp-5.9.3"
+
+#: blog-masonry.php:78 blog-regular.php:78 search.php:43
+msgid "% Comments"
+msgstr ""
+
+#. 1: date, 2: time
+#: functions.php:582
+#, php-format
+msgid "%1$s at %2$s"
+msgstr ""
+
+#: part-pagination.php:35
+msgid "&#8592; Older posts"
+msgstr ""
+
+#: functions.php:2731 functions.php:2747 functions.php:2763 functions.php:2779
+#: header.php:122 search.php:12
+msgid "&#8594;"
+msgstr ""
+
+#: comments.php:45
+msgid "&larr; Older Comments"
+msgstr ""
+
+#: functions.php:554
+msgid "(Edit)"
+msgstr ""
+
+#: search.php:43
+msgid "0 Comment"
+msgstr ""
+
+#: blog-masonry.php:76 blog-regular.php:76
+msgid "0 Comments"
+msgstr ""
+
+#: blog-masonry.php:77 blog-regular.php:77 search.php:43
+msgid "1 Comment"
+msgstr ""
+
+#: comments.php:21
+#, php-format
+msgid "1 Comment %2$s"
+msgid_plural "%1$s Comments %2$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: functions.php:702
+msgid "1x"
+msgstr ""
+
+#: functions.php:704
+msgid "2x"
+msgstr ""
+
+#: 404.php:12
+msgid "404"
+msgstr ""
+
+#: admin/post-type-portfolio.php:39
+#, php-format
+msgid ""
+"<strong>Item draft updated.</strong> <a target=\"_blank\" href=\"%s\">"
+"Preview</a>"
+msgstr ""
+
+#: admin/post-type-portfolio.php:33
+#, php-format
+msgid "<strong>Published.</strong> <a target=\"_blank\" href=\"%s\">View</a>"
+msgstr ""
+
+#: admin/post-type-portfolio.php:27
+#, php-format
+msgid "<strong>Updated.</strong> <a target=\"_blank\" href=\"%s\">View</a>"
+msgstr ""
+
+#: about-author.php:2
+msgid "ABOUT THE AUTHOR"
+msgstr ""
+
+#: admin/post-type-portfolio.php:140 admin/post-type-portfolio.php:162
+msgid "Add New"
+msgstr ""
+
+#: admin/post-type-portfolio.php:135 admin/post-type-portfolio.php:157
+msgid "All"
+msgstr ""
+
+#: page-portfolio.php:60 taxonomy-department.php:38
+msgid "all"
+msgstr ""
+
+#: no-posts.php:23
+msgid ""
+"Apologies, but no results were found. Perhaps searching will help find a "
+"related post."
+msgstr ""
+
+#. Name of the template
+msgid "Archive"
+msgstr ""
+
+#. Name of the template
+msgid "Archive 2"
+msgstr ""
+
+#: functions.php:2797
+msgid "Archives"
+msgstr ""
+
+#: page-archive-2.php:82
+msgid "Archives by category"
+msgstr ""
+
+#: page-archive-2.php:114
+msgid "Archives by format"
+msgstr ""
+
+#: page-archive-2.php:67
+msgid "Archives by month"
+msgstr ""
+
+#: page-archive-2.php:98
+msgid "Archives by tag"
+msgstr ""
+
+#: functions.php:2760
+msgid "Author Archives"
+msgstr ""
+
+#: single-portfolio.php:66
+msgid "BACK TO PORTFOLIO"
+msgstr ""
+
+#: functions.php:377 admin/widget_area-register.php:7
+msgid "Blog Sidebar"
+msgstr ""
+
+#: blog-masonry.php:59 blog-regular.php:59 search.php:45 single.php:45
+msgid "by"
+msgstr ""
+
+#: page-archive.php:48
+msgid "Categories"
+msgstr ""
+
+#: functions.php:2455
+msgid "Colors"
+msgstr ""
+
+#: comments.php:41
+msgid "Comment navigation"
+msgstr ""
+
+#: comments.php:66
+msgid "Comments are closed."
+msgstr ""
+
+#. Name of the template
+msgid "Contact"
+msgstr ""
+
+#: blog-masonry.php:110 blog-masonry.php:130 blog-masonry.php:135
+#: blog-regular.php:110 blog-regular.php:130 blog-regular.php:135
+#: functions.php:353
+msgid "Continue reading <span class=\"meta-nav\">&#8594;</span>"
+msgstr ""
+
+#: admin/post-type-portfolio.php:29
+msgid "Custom field deleted."
+msgstr ""
+
+#: admin/post-type-portfolio.php:28
+msgid "Custom field updated."
+msgstr ""
+
+#: admin/post-type-portfolio.php:57
+msgid "Date"
+msgstr ""
+
+#: functions.php:2776
+msgid "Date Archives"
+msgstr ""
+
+#: admin/demo-import.php:10
+msgid "Demo"
+msgstr ""
+
+#: admin/post-type-portfolio.php:133
+msgid "Department"
+msgstr ""
+
+#: admin/post-type-portfolio.php:53 admin/post-type-portfolio.php:132
+#: admin/post-type-portfolio.php:142
+msgid "Departments"
+msgstr ""
+
+#: functions.php:724
+msgid "Details"
+msgstr ""
+
+#: functions.php:663
+msgid "Direct URL"
+msgstr ""
+
+#: functions.php:672
+msgid "Direct URL:"
+msgstr ""
+
+#: admin/install-plugins.php:41
+msgid "Dynamic To Top"
+msgstr ""
+
+#: blog-masonry.php:85 blog-regular.php:85 functions.php:601 single.php:60
+#: admin/post-type-portfolio.php:138 admin/post-type-portfolio.php:160
+msgid "Edit"
+msgstr ""
+
+#: header.php:122
+msgid "Enter keyword"
+msgstr ""
+
+#: searchform.php:5
+msgid "Enter keyword..."
+msgstr ""
+
+#: functions.php:246 admin/post-type-portfolio.php:52
+msgid "Featured Image"
+msgstr ""
+
+#: functions.php:1243
+msgid "First"
+msgstr ""
+
+#: functions.php:2484
+msgid "Fonts"
+msgstr ""
+
+#: admin/widget_area-register.php:43
+msgid "Footer 1"
+msgstr ""
+
+#: admin/widget_area-register.php:55
+msgid "Footer 2"
+msgstr ""
+
+#: admin/widget_area-register.php:67
+msgid "Footer 3"
+msgstr ""
+
+#: admin/widget_area-register.php:79
+msgid "Footer 4"
+msgstr ""
+
+#. Name of the template
+msgid "Full width Page"
+msgstr ""
+
+#: admin/widget_area-register.php:31
+msgid "Header Social Icons"
+msgstr ""
+
+#: functions.php:289
+msgid "Home"
+msgstr ""
+
+#. Name of the template
+msgid "Homepage"
+msgstr ""
+
+#. Author URI of the theme
+msgid "https://themeforest.net/user/pixelwars"
+msgstr ""
+
+#. URI of the theme
+msgid "https://themeforest.net/user/pixelwars/portfolio"
+msgstr ""
+
+#: admin/install-plugins.php:46
+msgid "Instagram Feed Gallery"
+msgstr ""
+
+#: admin/install-plugins.php:16 admin/install-plugins.php:20
+msgid "Install Theme Plugins"
+msgstr ""
+
+#: functions.php:1476
+msgid "Last"
+msgstr ""
+
+#: page-archive-2.php:34
+msgid "Last 30 posts"
+msgstr ""
+
+#: functions.php:659
+msgid "Lightbox Audio"
+msgstr ""
+
+#: functions.php:647
+msgid "Lightbox Featured Image"
+msgstr ""
+
+#: functions.php:651
+msgid "Lightbox Gallery"
+msgstr ""
+
+#: functions.php:655
+msgid "Lightbox Video"
+msgstr ""
+
+#: functions.php:2461
+msgid "Link Color"
+msgstr ""
+
+#: functions.php:2469
+msgid "Link Hover Color"
+msgstr ""
+
+#: admin/install-plugins.php:36
+msgid "Loco Translate"
+msgstr ""
+
+#. Publish box date format, see http://php.net/date
+#: admin/post-type-portfolio.php:38
+msgid "M j, Y @ G:i"
+msgstr ""
+
+#: functions.php:2477
+msgid "Menu Active Color"
+msgstr ""
+
+#. Description of the theme
+msgid "Minimalist WordPress Blog Theme"
+msgstr ""
+
+#: functions.php:2789
+msgctxt "monthly archives date format"
+msgid "F Y"
+msgstr ""
+
+#: taxonomy-department.php:110
+msgid "MORE ITEMS"
+msgstr ""
+
+#: functions.php:104
+msgid "Navigation Menu"
+msgstr ""
+
+#: admin/post-type-portfolio.php:141
+msgid "New Department Name"
+msgstr ""
+
+#: admin/post-type-portfolio.php:163
+msgid "New Portfolio Tag Name"
+msgstr ""
+
+#: comments.php:52
+msgid "Newer Comments &rarr;"
+msgstr ""
+
+#: part-pagination.php:41
+msgid "Newer posts &#8594;"
+msgstr ""
+
+#: image.php:27
+msgid "NEXT IMAGE"
+msgstr ""
+
+#: single.php:128
+msgid "NEXT POST"
+msgstr ""
+
+#: single-portfolio.php:82
+msgid "NEXT PROJECT"
+msgstr ""
+
+#: no-posts.php:6
+msgid "No posts to display"
+msgstr ""
+
+#: no-posts.php:18 search.php:60
+msgid "Nothing Found"
+msgstr ""
+
+#: blog-masonry.php:46 blog-regular.php:46 search.php:41 single.php:38
+msgid "on"
+msgstr ""
+
+#: admin/install-plugins.php:26
+msgid "One Click Demo Import"
+msgstr ""
+
+#: functions.php:674
+msgid "Open link in new tab"
+msgstr ""
+
+#: functions.php:198
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: functions.php:376 admin/widget_area-register.php:19
+msgid "Page Sidebar"
+msgstr ""
+
+#. Name of the template
+msgid "Page with Sidebar"
+msgstr ""
+
+#: page-archive.php:36
+msgid "Pages"
+msgstr ""
+
+#: blog-masonry.php:141 blog-regular.php:141 image.php:95 page-archive-2.php:30
+#: page-archive.php:72 page-contact.php:126 page-full-width.php:27
+#: page-home.php:22 page-portfolio.php:41 page-portfolio.php:127
+#: page-sidebar.php:29 page.php:24 single-portfolio.php:51 single.php:86
+msgid "Pages:"
+msgstr ""
+
+#: admin/post-type-portfolio.php:136
+msgid "Parent Department"
+msgstr ""
+
+#: admin/post-type-portfolio.php:137
+msgid "Parent Department:"
+msgstr ""
+
+#: admin/post-type-portfolio.php:158
+msgid "Parent Portfolio Tag"
+msgstr ""
+
+#: admin/post-type-portfolio.php:159
+msgid "Parent Portfolio Tag:"
+msgstr ""
+
+#: functions.php:554
+msgid "Pingback:"
+msgstr ""
+
+#. Author of the theme
+msgid "Pixelwars"
+msgstr ""
+
+#: page-contact.php:53
+msgid "Please feel free to contact me about anything."
+msgstr ""
+
+#. Name of the template
+#: admin/post-type-portfolio.php:8
+msgid "Portfolio"
+msgstr ""
+
+#: admin/post-type-portfolio.php:155
+msgid "Portfolio Tag"
+msgstr ""
+
+#: admin/post-type-portfolio.php:154 admin/post-type-portfolio.php:164
+msgid "Portfolio Tags"
+msgstr ""
+
+#: page-archive.php:22
+msgid "Post Archives"
+msgstr ""
+
+#: functions.php:2728
+msgid "Post Category"
+msgstr ""
+
+#: blog-masonry.php:37 blog-regular.php:37 search.php:39 single.php:29
+msgid "posted in"
+msgstr ""
+
+#: functions.php:2744
+msgid "Posts Tagged"
+msgstr ""
+
+#: image.php:21
+msgid "PREVIOUS IMAGE"
+msgstr ""
+
+#: single.php:120
+msgid "PREVIOUS POST"
+msgstr ""
+
+#: single-portfolio.php:76
+msgid "PREVIOUS PROJECT"
+msgstr ""
+
+#. Name of the theme
+msgid "Read"
+msgstr ""
+
+#: no-posts.php:11
+#, php-format
+msgid "Ready to publish your first post? <a href=\"%s\">Get started here</a>."
+msgstr ""
+
+#: admin/install-plugins.php:31
+msgid "Regenerate Thumbnails"
+msgstr ""
+
+#: functions.php:608
+msgid "Reply"
+msgstr ""
+
+#. %s: date and time of the revision
+#: admin/post-type-portfolio.php:32
+#, php-format
+msgid "Restored to revision from %s"
+msgstr ""
+
+#: admin/post-type-portfolio.php:34
+msgid "Saved."
+msgstr ""
+
+#: admin/post-type-portfolio.php:36
+#, php-format
+msgid ""
+"Scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">"
+"Preview</a>"
+msgstr ""
+
+#: header.php:122 searchform.php:7 admin/post-type-portfolio.php:134
+#: admin/post-type-portfolio.php:156
+msgid "Search"
+msgstr ""
+
+#: searchform.php:3
+msgid "Search for:"
+msgstr ""
+
+#: header.php:122
+msgid "Search it"
+msgstr ""
+
+#: search.php:12
+msgid "Search Results"
+msgstr ""
+
+#: page-contact.php:108
+msgid "Send it"
+msgstr ""
+
+#: part-share.php:2
+msgid "SHARE"
+msgstr ""
+
+#: functions.php:709 admin/post-type-portfolio.php:54
+msgid "Short Description"
+msgstr ""
+
+#: admin/post-type-portfolio.php:195
+msgid "Show All"
+msgstr ""
+
+#: functions.php:410
+msgid "Sidebar"
+msgstr ""
+
+#: search.php:61
+msgid ""
+"Sorry, but nothing matched your search criteria. Please try again with some "
+"different keywords."
+msgstr ""
+
+#: functions.php:643
+msgid "Standard"
+msgstr ""
+
+#: page-contact.php:72
+msgid "Subject"
+msgstr ""
+
+#: admin/post-type-portfolio.php:35
+#, php-format
+msgid "Submitted. <a target=\"_blank\" href=\"%s\">Preview</a>"
+msgstr ""
+
+#: 404.php:14
+msgid "The page you are looking for was not found!"
+msgstr ""
+
+#: functions.php:696
+msgid "Thumbnail Size"
+msgstr ""
+
+#: admin/post-type-portfolio.php:51
+msgid "Title"
+msgstr ""
+
+#: functions.php:485
+msgid "Title Visibility"
+msgstr ""
+
+#: part-share.php:26
+msgid "Tweet"
+msgstr ""
+
+#: admin/install-plugins.php:56
+msgid "Twitter Widget Pro"
+msgstr ""
+
+#: functions.php:636 admin/post-type-portfolio.php:55
+msgid "Type"
+msgstr ""
+
+#: admin/post-type-portfolio.php:139 admin/post-type-portfolio.php:161
+msgid "Update"
+msgstr ""
+
+#: admin/post-type-portfolio.php:30
+msgid "Updated."
+msgstr ""
+
+#: blog-masonry.php:63 blog-regular.php:63 search.php:47 single.php:47
+msgid "View all posts by "
+msgstr ""
+
+#: page-contact.php:98
+msgid "What is the sum?"
+msgstr ""
+
+#: page-contact.php:33
+msgid "Where am I in this world?"
+msgstr ""
+
+#: admin/install-plugins.php:51
+msgid "YARPP - Related Posts"
+msgstr ""
+
+#: functions.php:2793
+msgctxt "yearly archives date format"
+msgid "Y"
+msgstr ""
+
+#: functions.php:974
+#, php-format
+msgid ""
+"You shall not place the %1$s template tag inside the loop on "
+"list/archives/search/etc templates."
+msgstr ""
+
+#: functions.php:590
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: page-contact.php:66
+msgid "Your Email"
+msgstr ""
+
+#: page-contact.php:80
+msgid "Your Message"
+msgstr ""
+
+#: page-contact.php:60
+msgid "Your Name"
+msgstr ""

@@ -1,0 +1,200 @@
+
+
+.wrap2 {
+	max-width: 800px;
+}
+
+
+/* ============================================================================= */
+
+
+.wrap2 .nav-tab {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.wrap2 .nav-tab:hover,
+.wrap2 .nav-tab:focus {
+	background-color: #f0f0f1;
+}
+
+.wrap2 .nav-tab-active:hover {
+	cursor: default;
+}
+
+.wrap2 .nav-tab-active:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+
+/* ============================================================================= */
+
+
+.wrap2 .postbox {
+	background-color: #f9f9f9;
+}
+
+
+/* ============================================================================= */
+
+
+.wrap2 table {
+	border-spacing: 0px;
+	width: 100%;
+}
+
+.wrap2 .option-left {
+	border-top: 1px solid #dfdfdf;
+	border-bottom: 2px solid #ffffff;
+	border-right: 2px solid #ffffff;
+	padding-right: 20px;
+	padding-bottom: 20px;
+	width: 450px;
+}
+
+.wrap2 .metabox-prefs .option-left {
+	width: 350px;
+}
+
+.wrap2 .option-right {
+	font-size: 12px;
+	color: #777777;
+	border-top: 1px solid #dfdfdf;
+	border-bottom: 2px solid #ffffff;
+	border-left: 1px solid #dfdfdf;
+	padding: 20px;
+	padding-right: 10px;
+}
+
+.wrap2 table tr:first-child td {
+	border-top: 0px;
+}
+
+.wrap2 table tr:last-child td {
+	border-bottom: 0px;
+}
+
+
+/* ============================================================================= */
+
+
+.wrap2 h4 {
+	margin-bottom: 0.5em;
+}
+
+.wrap2 textarea {
+	resize: vertical;
+	width: 100%;
+}
+
+.wrap2 select {
+	height: auto;
+	max-width: 100%;
+}
+
+.wrap2 select:hover {
+	color: #2c3338;
+}
+
+.wrap2 input[type=text],
+.wrap2 input[type=number],
+.wrap2 textarea {
+	border-radius: 3px;
+}
+
+.wrap2 .button-primary {
+	margin-top: 20px;
+}
+
+.wrap2 label {
+	display: inline-block;
+	margin-top: 20px;
+}
+
+
+/* ============================================================================= */
+
+
+.code2 {
+	font-family: Consolas, Monaco, monospace, "Courier New";
+}
+
+
+/* ============================================================================= */
+
+
+.wrap2 .alert-success {
+	height: 50px;
+}
+
+.wrap2 .alert-success p {
+	color: #333333;
+	background-color: #ffffe0;
+	border: 1px solid #e6db55;
+	cursor: pointer;
+	padding: .7em;
+	border-radius: 3px;
+	background-clip: padding-box;
+}
+
+.wrap2 .status {
+	display: none;
+	position: fixed;
+	top: 44%;
+	left: 44%;
+	z-index: 999;
+	font-size: 20px;
+	color: #333333;
+	background-color: #ffffe0;
+	border: 1px solid #e6db55;
+	padding: 25px;
+	border-radius: 3px;
+	background-clip: padding-box;
+}
+
+.wrap2 .status img {
+	margin-right: 5px;
+}
+
+
+/* ============================================================================= */
+
+
+.color {
+	margin-top: 3px !important;
+	margin-left: 10px !important;
+}
+
+
+/* ============================================================================= */
+
+
+.read--meta-box select {
+	display: block;
+	width: -moz-available;
+	width: -webkit-fill-available;
+}
+
+.read--meta-box select:hover {
+	color: #2c3338;
+}
+
+.read--meta-box .howto {
+	font-size: 12px;
+	font-style: italic;
+	margin-bottom: 10px;
+}
+
+
+/* ============================================================================= */
+
+
+/* Plugin: "MC4WP Mailchimp for WordPress" */
+
+.notice.notice-warning.mc4wp-is-dismissible {
+	display: none !important;
+}
+
+/* Plugin: "MC4WP Mailchimp for WordPress" */
+

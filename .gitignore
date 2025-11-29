@@ -1,0 +1,54 @@
+# WordPress Core
+/wp-admin/
+/wp-includes/
+/wp-*.php
+/xmlrpc.php
+/license.txt
+/readme.html
+
+# WordPress Configuration
+wp-config.php
+wp-config-local.php
+
+# Database
+*.sql
+*.sql.gz
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Docker volumes
+db_data/
+wordpress_data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Node modules (if using build tools)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build artifacts
+dist/
+build/
+*.map
+
+# Temporary files
+tmp/
+temp/
+*.tmp

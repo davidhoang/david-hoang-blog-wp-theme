@@ -1,0 +1,270 @@
+.entry-meta,
+.related-posts,
+.about-author,
+.nav-single,
+.comments-area,
+.page-links {
+	clear: both;
+}
+
+
+.main-navigation ul .current_page_item > a {
+	color: #cc3300;
+}
+
+.navigation .nav-next {
+	float: right;
+}
+
+
+a.loadmore:hover {
+	color: #ffffff;
+}
+
+
+.page-links {
+	padding: 3em 0;
+}
+
+.page-links a {
+	padding: 0 .2em;
+}
+
+
+td.label {
+	display: block;
+	background: #ffffff;
+	padding: .8em 2em .6em 0;
+}
+
+
+.single .entry-meta {
+	margin-top: 2em;
+}
+
+
+.single-format-aside .entry-content {
+	margin-bottom: 5em;
+}
+
+.single-format-link .entry-content,
+.single-format-status .entry-content,
+.single-format-video .entry-content {
+	margin-bottom: 3em;
+}
+
+
+.single-gallery .entry-header .share-links {
+	margin-left: 0px;
+}
+
+.single-gallery .entry-header .share-links > a:hover {
+	color: #000000;
+}
+
+
+.portfolio-single .entry-header .share-links {
+	margin-left: 0px;
+}
+
+.portfolio-single .entry-header .share-links > a:hover {
+	color: #000000;
+}
+
+
+.post-password-required label {
+	display: inline-block;
+}
+
+
+dd.gallery-caption:before {
+	display: none;
+}
+
+
+.attachment img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+blockquote p {
+	margin: 0px;
+}
+
+
+.blog-masonry .page-header {
+	width: 100%;
+}
+
+
+.entry-meta .comments-link {
+	white-space: nowrap;
+}
+
+
+.share-wrap .fb_iframe_widget > span,
+.share-wrap .fb_iframe_widget iframe {
+	height: 20px !important;
+	width: 78px !important;
+}
+
+
+.wp-video,
+.wp-video .wp-video-shortcode {
+    width: 100% !important;
+}
+
+
+.widget-area a:hover {
+	color:#333;
+}
+
+
+.widget_text .tabs ul li {
+	padding-left: 0px;
+	margin-bottom: 0px;
+}
+
+.widget_text .tabs ul li:before {
+	content: "";
+}
+
+
+.site-header .textwidget ul.social {
+	margin-top: 0px;
+}
+
+
+.comments-area textarea#comment {
+	width: 100%;
+}
+
+.comments-area .comment-form-cookies-consent label {
+	display: inline;
+}
+
+
+/* ============================================================================= */
+
+
+/* Posts Pagination */
+
+.navigation.pagination {
+	text-align: center;
+	padding: 2em 0;
+}
+
+.navigation.pagination .nav-links {
+	float: none;
+	width: 100%;
+}
+
+.navigation.pagination a:hover {
+	background: none;
+	border-bottom: 1px solid #555555;
+}
+
+.navigation.pagination .page-numbers {
+    display: inline-block;
+    border-bottom: 1px solid #dddddd;
+    padding: 0.3em 0.9em;
+	margin: 0 .1em;
+}
+
+.navigation.pagination .page-numbers.current {
+	cursor: default;
+	border: 0;
+    border-bottom: 2px solid #555555;
+}
+
+.navigation.pagination .dots {
+	border-bottom: none;
+}
+
+
+/* ============================================================================= */
+
+
+/* PLUGIN: "Social Feed Gallery" */
+
+.widget-area .insta-gallery-feed a.insta-gallery-link:hover {
+	border-bottom: 0px;
+}
+
+
+/* ============================================================================= */
+
+
+/* PLUGIN: "Twitter Widget Pro" */
+
+.widget_twitter ul li {
+	padding-top: .4em;
+	margin-bottom: 3em;
+	max-width: 26em;
+}
+
+.widget_twitter ul li:before {
+	content: "\f099";
+	font-size: 22px;
+	top: -0.2em;
+}
+
+.widget_twitter ul li span.entry-content {
+	position: relative;
+	display: block;
+	background: #f7f7f7;
+	padding: 1em 1.4em;
+	margin-left: 2em;
+}
+
+.widget_twitter ul li span.entry-content:before {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 100%;
+	border-top: 13px solid #e7e7e7;
+	border-left: 15px solid transparent;
+	width: 0;
+	height: 0;
+}
+
+.widget_twitter ul li .time-meta a {
+	float: right;
+	letter-spacing: 0px;
+	color: #aaaaaa;
+	border-bottom: none;
+	margin-top: .4em;
+}
+
+.widget_twitter ul li .time-meta a:hover {
+	border-bottom: 1px dotted #aaaaaa;
+}
+
+.widget_twitter .from-meta,
+.widget_twitter .in-reply-to-meta {
+	display: none;
+}
+
+
+/* ============================================================================= */
+
+
+/* PLUGIN: "Dynamic To Top" */
+
+#dynamic-to-top {
+	background: #272727 !important;
+	border: 0 !important;
+	
+	-webkit-border-radius: 0px !important;
+	        border-radius: 0px !important;
+	           
+	   	    box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+}
+
+#dynamic-to-top:hover {
+	background: #000000 !important;
+}
+
