@@ -46,6 +46,7 @@ body {
 #page.site {
     margin-top: 0;
     padding-top: 0;
+    position: relative;
 }
 
 /* Typography */
@@ -100,12 +101,12 @@ a:hover {
 
 /* Navigation */
 .main-navigation {
-    position: absolute;
+    position: fixed;
     top: 24px;
     left: 50%;
     transform: translateX(-50%);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.08);
-    z-index: 1000;
+    z-index: 9999;
     background: rgba(255, 255, 255, 1.0);
     border-radius: 36px;
     width: auto;
@@ -120,17 +121,29 @@ a:hover {
     overflow: hidden;
 }
 
-#page.site {
-    position: relative;
+/* Adjust navigation position when WordPress admin bar is present */
+.admin-bar .main-navigation {
+    top: calc(32px + 24px); /* Admin bar height (32px) + original top spacing (24px) */
+}
+
+.admin-bar .main-navigation:hover {
+    top: calc(32px + 22px); /* Slight movement on hover */
+}
+
+@media screen and (max-width: 782px) {
+    .admin-bar .main-navigation {
+        top: calc(46px + 24px); /* Mobile admin bar height (46px) + original top spacing (24px) */
+    }
+    
+    .admin-bar .main-navigation:hover {
+        top: calc(46px + 22px); /* Slight movement on hover */
+    }
 }
 
 @media (hover: hover) {
     .main-navigation:hover {
-        top: 20px;
-        padding: 0;
-        border: 2px solid rgba(0, 0, 0, 0.08);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.12);
-        opacity: 0.95;
+        top: 22px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 }
 
@@ -221,7 +234,7 @@ a:hover {
 
 @media (max-width: 768px) {
     .main-navigation {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         transform: none;
@@ -232,6 +245,7 @@ a:hover {
         min-width: unset;
         border: none;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 9999;
     }
 
     .nav-container {
@@ -255,6 +269,7 @@ a:hover {
 /* Content */
 .site-main {
     padding: calc(var(--spacing-unit) * 2) 0;
+    margin-top: 24px;
 }
 
 .post {
@@ -364,6 +379,17 @@ a:hover {
     line-height: 1.8;
 }
 
+.post-content img,
+.post-content .wp-image,
+.post-content .wp-block-image img,
+.post-content figure img {
+    margin-top: calc(var(--spacing-unit) * 2);
+    margin-bottom: calc(var(--spacing-unit) * 2);
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
 .post-content blockquote {
     margin: calc(var(--spacing-unit) * 2) 0;
     padding-left: calc(var(--spacing-unit) * 2);
@@ -418,6 +444,7 @@ article .post-content ol li.has-medium-font-size,
     margin-bottom: 0.75rem !important;
     padding-left: 0.5rem !important;
     margin-left: 0 !important;
+    line-height: 1.4 !important;
 }
 
 .post-content ul {
