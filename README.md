@@ -194,11 +194,35 @@ docker compose exec wordpress wp search-replace 'https://blog.davidhoang.com' 'h
 
 ## Development Workflow
 
+### Live Reload Setup
+
+For automatic browser refresh when you make changes:
+
+1. **Install Node.js dependencies** (first time only):
+   ```bash
+   npm install
+   ```
+
+2. **Start BrowserSync** (in a separate terminal):
+   ```bash
+   npm run dev
+   ```
+   This will:
+   - Start a proxy server (usually at http://localhost:3000)
+   - Watch for changes in PHP, CSS, and JS files
+   - Automatically refresh your browser when files change
+
+3. **Access your site** through the BrowserSync URL (shown in terminal, typically http://localhost:3000)
+
+4. **Edit your theme files** - changes will automatically refresh in the browser!
+
+**Note:** Keep BrowserSync running in a separate terminal while developing. Press `Ctrl+C` to stop it.
+
 ### Making Theme Changes
 
 1. **Edit theme files** in `./wp-content/themes/your-theme-name/`
 2. **Changes are immediately reflected** (no restart needed)
-3. **Refresh your browser** to see changes
+3. **Browser automatically refreshes** if using BrowserSync, or manually refresh your browser
 
 ### Debugging
 
@@ -282,6 +306,7 @@ This removes all data including the database.
 ```
 blog-dot-davidhoang-dot-com/
 ├── docker-compose.yml      # Docker services configuration
+├── package.json           # Node.js dependencies for live reload
 ├── .env                    # Environment variables
 ├── .gitignore             # Git ignore rules
 ├── README.md              # This file

@@ -1,0 +1,12 @@
+{
+  "name": "blog-dot-davidhoang-dot-com",
+  "version": "1.0.0",
+  "description": "WordPress development environment with live reload",
+  "scripts": {
+    "dev": "browser-sync start --proxy 'localhost:8080' --files 'wp-content/**/*.php,wp-content/**/*.css,wp-content/**/*.js' --no-open",
+    "dev:open": "browser-sync start --proxy 'localhost:8080' --files 'wp-content/**/*.php,wp-content/**/*.css,wp-content/**/*.js'"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.29.3"
+  }
+}
