@@ -22,10 +22,6 @@ if (post_password_required()) {
                 number_format_i18n($comments_number)
             );
             ?>
-            <span class="comments-title-post">
-                <span class="comments-title-arrow">→</span>
-                <span class="comments-title-post-name"><?php echo esc_html(get_the_title()); ?></span>
-            </span>
         </h2>
         
         <ol class="comment-list">

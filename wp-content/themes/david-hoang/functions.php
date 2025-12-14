@@ -48,10 +48,10 @@ function david_hoang_scripts() {
     // Enqueue main stylesheet
     wp_enqueue_style('david-hoang-style', get_stylesheet_uri(), array('david-hoang-eb-garamond'), '1.0.0');
     
-    // Enqueue parallax featured image script
-    if (is_singular() && has_post_thumbnail()) {
-        wp_enqueue_script('david-hoang-parallax', get_template_directory_uri() . '/js/parallax-featured-image.js', array(), '1.0.0', true);
-    }
+    // Parallax script removed - featured images are now inline in post content
+    
+    // Enqueue mobile menu script
+    wp_enqueue_script('david-hoang-mobile-menu', get_template_directory_uri() . '/js/mobile-menu.js', array(), '1.0.0', true);
     
     // Enqueue comment reply script
     if (is_singular() && comments_open() && get_option('thread_comments')) {
@@ -200,7 +200,7 @@ function david_hoang_comment($comment, $args, $depth) {
                         <?php edit_comment_link(esc_html__('Edit', 'david-hoang'), '<span class="edit-link">', '</span>'); ?>
                         <?php
                         comment_reply_link(array_merge($args, array(
-                            'reply_text' => esc_html__('REPLY', 'david-hoang') . ' ↓',
+                            'reply_text' => esc_html__('REPLY', 'david-hoang'),
                             'depth' => $depth,
                             'max_depth' => $args['max_depth'],
                         )));

@@ -12,15 +12,6 @@ get_header();
     <?php
     while (have_posts()) :
         the_post();
-        if (has_post_thumbnail()) :
-            ?>
-            <div class="post-featured-image-hero">
-                <div class="site-container">
-                    <?php the_post_thumbnail('large', array('class' => 'featured-image-hero')); ?>
-                </div>
-            </div>
-            <?php
-        endif;
         ?>
         
         <div class="site-container single-post-container">
@@ -32,6 +23,12 @@ get_header();
                             <?php echo david_hoang_posted_on(); ?>
                         </div>
                     </header>
+                    
+                    <?php if (has_post_thumbnail()) : ?>
+                        <div class="post-featured-image">
+                            <?php the_post_thumbnail('large', array('class' => 'featured-image')); ?>
+                        </div>
+                    <?php endif; ?>
                     
                     <div class="post-content">
                         <?php
@@ -46,12 +43,6 @@ get_header();
                     
                     <footer class="post-footer">
                         <?php
-                        // Post navigation
-                        the_post_navigation(array(
-                            'prev_text' => '<span class="nav-subtitle">' . esc_html__('Previous:', 'david-hoang') . '</span> <span class="nav-title">%title</span>',
-                            'next_text' => '<span class="nav-subtitle">' . esc_html__('Next:', 'david-hoang') . '</span> <span class="nav-title">%title</span>',
-                        ));
-                        
                         // Comments
                         if (comments_open() || get_comments_number()) :
                             comments_template();

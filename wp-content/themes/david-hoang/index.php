@@ -25,6 +25,14 @@ get_header();
                         </div>
                     </header>
                     
+                    <?php if (has_post_thumbnail()) : ?>
+                        <div class="post-featured-image">
+                            <a href="<?php the_permalink(); ?>">
+                                <?php the_post_thumbnail('large', array('class' => 'featured-image')); ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                    
                     <div class="post-content">
                         <?php
                         if (is_singular()) {
@@ -34,12 +42,6 @@ get_header();
                         }
                         ?>
                     </div>
-                    
-                    <?php if (!is_singular()) : ?>
-                        <footer class="post-footer">
-                            <a href="<?php the_permalink(); ?>" class="read-more">Read more →</a>
-                        </footer>
-                    <?php endif; ?>
                 </article>
                 <?php
             endwhile;

@@ -21,6 +21,13 @@
     <nav id="site-navigation" class="main-navigation" aria-label="Main navigation">
         <div class="nav-container">
             <a href="<?php echo esc_url(home_url('/')); ?>" class="logo" aria-label="<?php bloginfo('name'); ?> homepage">DH</a>
+            <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false" aria-label="Toggle navigation menu">
+                <span class="menu-toggle-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </button>
             <?php if (has_nav_menu('primary')) : ?>
                 <?php
                 wp_nav_menu(array(
