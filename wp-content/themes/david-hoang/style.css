@@ -152,9 +152,9 @@ a:hover {
     justify-content: space-between;
     align-items: center;
     height: 100%;
-    padding: 16px 48px;
+    padding: 0.75em 2.5em;
     margin: 0 auto;
-    gap: 1rem;
+    gap: 2.5em;
     border-radius: 36px;
 }
 
@@ -175,10 +175,11 @@ a:hover {
 
 .main-navigation .nav-links {
     display: flex;
-    gap: 1rem;
+    gap: 1.75em;
     list-style: none;
     align-items: center;
     margin: 0;
+    margin-left: auto;
     padding: 0;
     height: 100%;
 }
@@ -242,8 +243,8 @@ a:hover {
 
     .nav-container {
         height: 100%;
-        padding: 0 32px;
-        gap: 1.5rem;
+        padding: 0.75em 2.5em;
+        gap: 2.5em;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -261,7 +262,7 @@ a:hover {
     }
     
     .main-navigation .nav-links {
-        gap: 1.5rem;
+        gap: 1.75em;
         display: flex;
         align-items: center;
         height: 100%;
@@ -531,7 +532,7 @@ a:hover {
 }
 
 .post-featured-image {
-    margin: calc(var(--spacing-unit) * 2) 0 calc(var(--spacing-unit) * 3) 0;
+    margin: calc(var(--spacing-unit) * 2) 0 0 0;
     width: 100%;
 }
 
@@ -651,8 +652,7 @@ article .post-content ol li.has-medium-font-size,
 
 /* Sidebar */
 .sidebar {
-    position: sticky;
-    top: calc(var(--spacing-unit) * 2);
+    position: static;
     font-size: 1rem;
     line-height: 1.8;
 }
@@ -804,13 +804,21 @@ article .post-content ol li.has-medium-font-size,
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    transition: color 0.2s ease, gap 0.2s ease;
+    padding: 8px 16px;
+    background-color: #ffffff;
+    border: 1px solid #999;
+    border-radius: 999px;
+    transition: all 0.2s ease;
     font-weight: 500;
+    font-size: 0.95rem;
 }
 
 .read-more:hover {
     color: var(--link-hover);
+    background-color: #ffffff;
+    border-color: #666;
     gap: 0.75rem;
+    transform: translateY(-1px);
 }
 
 .read-more::after {
@@ -1221,6 +1229,25 @@ article .post-content ol li.has-medium-font-size,
     margin-top: var(--spacing-unit);
 }
 
+/* Comment Form Cookies Consent - Make checkbox and label inline */
+.comment-form-cookies-consent {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: var(--spacing-unit);
+}
+
+.comment-form-cookies-consent input[type="checkbox"] {
+    flex-shrink: 0;
+    margin: 0;
+}
+
+.comment-form-cookies-consent label {
+    display: inline;
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
 /* Search Form */
 .search-form {
     margin: calc(var(--spacing-unit) * 2) 0;
@@ -1236,7 +1263,7 @@ article .post-content ol li.has-medium-font-size,
     flex: 1;
     padding: 0.75rem;
     border: 1px solid #ccc;
-    border-radius: 0;
+    border-radius: 999px;
     font-family: var(--font-family);
     font-size: 1rem;
     line-height: 1.5;
@@ -1261,7 +1288,7 @@ article .post-content ol li.has-medium-font-size,
     background-color: #000;
     color: #fff;
     border: none;
-    border-radius: 3px;
+    border-radius: 999px;
     font-family: var(--font-family);
     font-size: 1rem;
     font-weight: 500;

@@ -67,11 +67,11 @@ function david_hoang_widgets_init() {
     register_sidebar(array(
         'name'          => esc_html__('Sidebar', 'david-hoang'),
         'id'            => 'sidebar-1',
-        'description'   => esc_html__('Add widgets here.', 'david-hoang'),
-        'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget'  => '</section>',
-        'before_title'  => '<h2 class="widget-title">',
-        'after_title'   => '</h2>',
+        'description'   => esc_html__('Add widgets here to appear in the sidebar.', 'david-hoang'),
+        'before_widget' => '<div id="%1$s" class="widget %2$s sidebar-section">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="sidebar-title widget-title">',
+        'after_title'   => '</h3>',
     ));
 }
 add_action('widgets_init', 'david_hoang_widgets_init');
