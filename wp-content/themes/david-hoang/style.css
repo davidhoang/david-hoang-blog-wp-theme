@@ -14,6 +14,38 @@ Text Domain: david-hoang
 Tags: blog, minimal, clean, custom
 */
 
+/* ============================================
+   ABC Diatype Variable Fonts
+   ============================================
+
+   Typeface: ABC Diatype & ABC Diatype Mono
+   Foundry: Dinamo (https://abcdinamo.com)
+
+   ABC Diatype is a sans-serif with a warm, rational character.
+   Designed by Johannes Breyer and Fabian Harb.
+
+   Support independent type foundries!
+
+   ============================================ */
+
+@font-face {
+    font-family: 'ABC Diatype';
+    src: url('fonts/ABCDiatypeVariable.woff2') format('woff2'),
+         url('fonts/ABCDiatypeVariable.woff') format('woff');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ABC Diatype Mono';
+    src: url('fonts/ABCDiatypeMonoVariable.woff2') format('woff2'),
+         url('fonts/ABCDiatypeMonoVariable.woff') format('woff');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -49,11 +81,11 @@ Tags: blog, minimal, clean, custom
     --max-width: 800px;
     --container-padding: clamp(1rem, 3vw, 2rem);
 
-    /* Typography - System font stack (matching davidhoang-web fallback) */
-    --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, sans-serif;
+    /* Typography - ABC Diatype by Dinamo (https://abcdinamo.com) */
+    --font-primary: 'ABC Diatype', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, sans-serif;
     --font-heading: var(--font-primary);
     --font-body: var(--font-primary);
-    --font-mono: 'SF Mono', 'Courier New', Courier, monospace;
+    --font-mono: 'ABC Diatype Mono', 'SF Mono', 'Courier New', Courier, monospace;
     --font-family: var(--font-primary);
     --font-family-serif: Georgia, serif;
 

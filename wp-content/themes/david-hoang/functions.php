@@ -42,11 +42,8 @@ add_action('after_setup_theme', 'david_hoang_setup');
  * Enqueue Scripts and Styles
  */
 function david_hoang_scripts() {
-    // Enqueue EB Garamond font from Google Fonts
-    wp_enqueue_style('david-hoang-eb-garamond', 'https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap', array(), null);
-    
-    // Enqueue main stylesheet
-    wp_enqueue_style('david-hoang-style', get_stylesheet_uri(), array('david-hoang-eb-garamond'), '1.0.0');
+    // Enqueue main stylesheet (ABC Diatype fonts are self-hosted in /fonts/)
+    wp_enqueue_style('david-hoang-style', get_stylesheet_uri(), array(), '1.0.0');
     
     // Parallax script removed - featured images are now inline in post content
     
