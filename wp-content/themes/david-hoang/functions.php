@@ -52,7 +52,10 @@ function david_hoang_scripts() {
     
     // Enqueue mobile menu script
     wp_enqueue_script('david-hoang-mobile-menu', get_template_directory_uri() . '/js/mobile-menu.js', array(), '1.0.0', true);
-    
+
+    // Enqueue theme toggle script
+    wp_enqueue_script('david-hoang-theme-toggle', get_template_directory_uri() . '/js/theme-toggle.js', array(), '1.0.0', true);
+
     // Enqueue comment reply script
     if (is_singular() && comments_open() && get_option('thread_comments')) {
         wp_enqueue_script('comment-reply');
