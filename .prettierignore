@@ -1,0 +1,7 @@
+node_modules/
+wordpress_data/
+db_data/
+*.min.css
+*.min.js
+wp-content/plugins/
+wp-content/themes/twentytwenty*/

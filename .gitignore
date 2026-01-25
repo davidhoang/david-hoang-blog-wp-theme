@@ -49,6 +49,9 @@ yarn.lock
 dist/
 build/
 *.map
+*.min.css
+*.min.js
+bundle.min.js
 
 # Temporary files
 tmp/

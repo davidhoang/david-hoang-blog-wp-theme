@@ -145,6 +145,181 @@ function david_hoang_remove_home_from_menu($items, $args) {
 add_filter('wp_nav_menu_objects', 'david_hoang_remove_home_from_menu', 10, 2);
 
 /**
+ * Preload Critical Fonts
+ */
+function david_hoang_preload_fonts() {
+    ?>
+    <link rel="preload" href="<?php echo esc_url(get_template_directory_uri()); ?>/fonts/ABCDiatypeVariable.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="<?php echo esc_url(get_template_directory_uri()); ?>/fonts/ABCDiatypeMonoVariable.woff2" as="font" type="font/woff2" crossorigin>
+    <?php
+}
+add_action('wp_head', 'david_hoang_preload_fonts', 1);
+
+/**
+ * Add Open Graph and Twitter Card Meta Tags
+ */
+function david_hoang_social_meta_tags() {
+    $title = '';
+    $description = '';
+    $image = '';
+    $url = '';
+    $type = 'website';
+
+    if (is_singular()) {
+        global $post;
+        $title = get_the_title();
+        $description = has_excerpt() ? get_the_excerpt() : wp_trim_words(strip_tags($post->post_content), 30);
+        $url = get_permalink();
+        $type = is_single() ? 'article' : 'website';
+
+        if (has_post_thumbnail()) {
+            $image = get_the_post_thumbnail_url($post->ID, 'large');
+        }
+    } elseif (is_home() || is_front_page()) {
+        $title = get_bloginfo('name');
+        $description = get_bloginfo('description');
+        $url = home_url('/');
+    } elseif (is_archive()) {
+        $title = get_the_archive_title();
+        $description = get_the_archive_description() ?: get_bloginfo('description');
+        $url = get_permalink();
+    }
+
+    if (empty($description)) {
+        $description = get_bloginfo('description');
+    }
+
+    $description = wp_strip_all_tags($description);
+    $description = str_replace(array("\r", "\n"), ' ', $description);
+    ?>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="<?php echo esc_attr($title); ?>">
+    <meta property="og:description" content="<?php echo esc_attr($description); ?>">
+    <meta property="og:type" content="<?php echo esc_attr($type); ?>">
+    <meta property="og:url" content="<?php echo esc_url($url); ?>">
+    <meta property="og:site_name" content="<?php echo esc_attr(get_bloginfo('name')); ?>">
+    <?php if ($image) : ?>
+    <meta property="og:image" content="<?php echo esc_url($image); ?>">
+    <?php endif; ?>
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="<?php echo $image ? 'summary_large_image' : 'summary'; ?>">
+    <meta name="twitter:title" content="<?php echo esc_attr($title); ?>">
+    <meta name="twitter:description" content="<?php echo esc_attr($description); ?>">
+    <?php if ($image) : ?>
+    <meta name="twitter:image" content="<?php echo esc_url($image); ?>">
+    <?php endif; ?>
+
+    <?php
+}
+add_action('wp_head', 'david_hoang_social_meta_tags', 5);
+
+/**
+ * Add Canonical URL
+ */
+function david_hoang_canonical_url() {
+    if (is_singular()) {
+        $url = get_permalink();
+    } elseif (is_home() || is_front_page()) {
+        $url = home_url('/');
+    } elseif (is_category() || is_tag() || is_tax()) {
+        $url = get_term_link(get_queried_object());
+    } elseif (is_author()) {
+        $url = get_author_posts_url(get_queried_object_id());
+    } elseif (is_archive()) {
+        $url = get_permalink();
+    } else {
+        $url = home_url($_SERVER['REQUEST_URI']);
+    }
+
+    if (!is_wp_error($url)) {
+        echo '<link rel="canonical" href="' . esc_url($url) . '">' . "\n";
+    }
+}
+add_action('wp_head', 'david_hoang_canonical_url', 5);
+
+/**
+ * Add Schema.org Structured Data
+ */
+function david_hoang_schema_markup() {
+    if (is_singular('post')) {
+        global $post;
+        $author = get_the_author();
+        $date_published = get_the_date('c');
+        $date_modified = get_the_modified_date('c');
+        $title = get_the_title();
+        $excerpt = has_excerpt() ? get_the_excerpt() : wp_trim_words(strip_tags($post->post_content), 30);
+        $url = get_permalink();
+        $image = has_post_thumbnail() ? get_the_post_thumbnail_url($post->ID, 'large') : '';
+
+        $schema = array(
+            '@context' => 'https://schema.org',
+            '@type' => 'BlogPosting',
+            'headline' => $title,
+            'description' => wp_strip_all_tags($excerpt),
+            'url' => $url,
+            'datePublished' => $date_published,
+            'dateModified' => $date_modified,
+            'author' => array(
+                '@type' => 'Person',
+                'name' => $author,
+            ),
+            'publisher' => array(
+                '@type' => 'Person',
+                'name' => get_bloginfo('name'),
+            ),
+        );
+
+        if ($image) {
+            $schema['image'] = $image;
+        }
+
+        echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>' . "\n";
+    } elseif (is_home() || is_front_page()) {
+        $schema = array(
+            '@context' => 'https://schema.org',
+            '@type' => 'WebSite',
+            'name' => get_bloginfo('name'),
+            'description' => get_bloginfo('description'),
+            'url' => home_url('/'),
+        );
+
+        echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>' . "\n";
+    }
+}
+add_action('wp_head', 'david_hoang_schema_markup', 10);
+
+/**
+ * Add Lazy Loading to Images
+ */
+function david_hoang_lazy_load_images($content) {
+    if (is_admin() || is_feed()) {
+        return $content;
+    }
+
+    // Add loading="lazy" to images that don't already have it
+    $content = preg_replace(
+        '/<img((?!loading=)[^>]*)>/i',
+        '<img$1 loading="lazy">',
+        $content
+    );
+
+    return $content;
+}
+add_filter('the_content', 'david_hoang_lazy_load_images');
+add_filter('post_thumbnail_html', 'david_hoang_lazy_load_images');
+
+/**
+ * Add Lazy Loading Attribute to Post Thumbnails
+ */
+function david_hoang_lazy_load_thumbnail_attr($attr) {
+    $attr['loading'] = 'lazy';
+    return $attr;
+}
+add_filter('wp_get_attachment_image_attributes', 'david_hoang_lazy_load_thumbnail_attr');
+
+/**
  * Custom Comment Callback
  */
 function david_hoang_comment($comment, $args, $depth) {

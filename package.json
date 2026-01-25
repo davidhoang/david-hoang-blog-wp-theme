@@ -4,9 +4,20 @@
   "description": "WordPress development environment with live reload",
   "scripts": {
     "dev": "browser-sync start --proxy 'localhost:8080' --files 'wp-content/**/*.php,wp-content/**/*.css,wp-content/**/*.js' --no-open",
-    "dev:open": "browser-sync start --proxy 'localhost:8080' --files 'wp-content/**/*.php,wp-content/**/*.css,wp-content/**/*.js'"
+    "dev:open": "browser-sync start --proxy 'localhost:8080' --files 'wp-content/**/*.php,wp-content/**/*.css,wp-content/**/*.js'",
+    "lint": "eslint wp-content/themes/david-hoang/js/**/*.js",
+    "lint:fix": "eslint wp-content/themes/david-hoang/js/**/*.js --fix",
+    "format": "prettier --write 'wp-content/themes/david-hoang/**/*.{css,js}'",
+    "format:check": "prettier --check 'wp-content/themes/david-hoang/**/*.{css,js}'",
+    "build:css": "lightningcss --minify --bundle wp-content/themes/david-hoang/style.css -o wp-content/themes/david-hoang/style.min.css",
+    "build:js": "terser wp-content/themes/david-hoang/js/mobile-menu.js wp-content/themes/david-hoang/js/theme-toggle.js --compress --mangle -o wp-content/themes/david-hoang/js/bundle.min.js",
+    "build": "npm run build:css && npm run build:js"
   },
   "devDependencies": {
-    "browser-sync": "^2.29.3"
+    "browser-sync": "^2.29.3",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "lightningcss-cli": "^1.23.0",
+    "terser": "^5.27.0"
   }
 }
