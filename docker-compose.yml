@@ -36,6 +36,7 @@ services:
     volumes:
       - wordpress_data:/var/www/html
       - ./wp-content:/var/www/html/wp-content
+      - ./_development:/var/www/_development:ro
       - ./php.ini:/usr/local/etc/php/conf.d/uploads.ini
     networks:
       - wordpress-network

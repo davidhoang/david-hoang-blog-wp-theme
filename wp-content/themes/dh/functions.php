@@ -9,6 +9,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+require_once get_template_directory() . '/inc/dev-font-switcher.php';
+require_once get_template_directory() . '/inc/theme-fonts.php';
+
 /**
  * Theme setup.
  */
@@ -27,7 +30,6 @@ function dh_setup() {
     add_theme_support('automatic-feed-links');
     add_theme_support('editor-styles');
     add_editor_style(array(
-        'https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap',
         'editor-style.css',
     ));
 
@@ -59,6 +61,45 @@ function dh_get_tagline() {
 
     return __('Personal musings and my expressions on the internet.', 'dh');
 }
+
+/**
+ * Hero background image URL from the customizer.
+ */
+function dh_get_hero_image_url() {
+    $image_id = (int) get_theme_mod('dh_hero_image', 0);
+
+    if (!$image_id) {
+        return '';
+    }
+
+    $image_url = wp_get_attachment_image_url($image_id, 'large');
+
+    return $image_url ? $image_url : '';
+}
+
+/**
+ * Register hero customizer settings.
+ */
+function dh_customize_register($wp_customize) {
+    $wp_customize->add_section('dh_hero', array(
+        'title'       => esc_html__('Hero', 'dh'),
+        'description' => esc_html__('Upload an image for the halftone dot hero background.', 'dh'),
+        'priority'    => 30,
+    ));
+
+    $wp_customize->add_setting('dh_hero_image', array(
+        'default'           => 0,
+        'sanitize_callback' => 'absint',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'dh_hero_image', array(
+        'label'       => esc_html__('Hero image', 'dh'),
+        'description' => esc_html__('Shown as a halftone dot grid behind the site title.', 'dh'),
+        'section'     => 'dh_hero',
+        'mime_type'   => 'image',
+    )));
+}
+add_action('customize_register', 'dh_customize_register');
 
 /**
  * Default primary menu when none is assigned in WordPress.
@@ -110,29 +151,23 @@ function dh_render_primary_menu() {
  * Enqueue theme assets.
  */
 function dh_scripts() {
-    wp_enqueue_style(
-        'dh-font-geist',
-        'https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap',
-        array(),
-        null
-    );
+    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.7.6');
 
-    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-font-geist'), '0.4.8');
+    $hero_script = get_template_directory() . '/js/hero-halftone.js';
+
+    if (file_exists($hero_script)) {
+        wp_enqueue_script(
+            'dh-hero-halftone',
+            get_template_directory_uri() . '/js/hero-halftone.js',
+            array(),
+            '0.6.0',
+            true
+        );
+    }
 }
 add_action('wp_enqueue_scripts', 'dh_scripts');
 
-/**
- * Load Geist in the block editor chrome (widgets, posts, pages).
- */
-function dh_editor_assets() {
-    wp_enqueue_style(
-        'dh-font-geist-editor',
-        'https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap',
-        array(),
-        null
-    );
-}
-add_action('enqueue_block_editor_assets', 'dh_editor_assets');
+add_action('enqueue_block_editor_assets', 'dh_enqueue_theme_font_editor', 5);
 
 /**
  * Post meta line: posted in Category on Date by Author.

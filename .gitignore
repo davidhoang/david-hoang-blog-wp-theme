@@ -57,3 +57,7 @@ bundle.min.js
 tmp/
 temp/
 *.tmp
+
+# Local development / debugging (trial fonts, experiments)
+_development/*
+!_development/.gitignore

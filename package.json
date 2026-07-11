@@ -12,10 +12,13 @@
     "lint": "eslint wp-content/themes/dh/js/**/*.js",
     "lint:fix": "eslint wp-content/themes/dh/js/**/*.js --fix",
     "format": "prettier --write 'wp-content/themes/dh/**/*.{css,js}'",
-    "format:check": "prettier --check 'wp-content/themes/dh/**/*.{css,js}'"
+    "format:check": "prettier --check 'wp-content/themes/dh/**/*.{css,js}'",
+    "build:hero": "esbuild wp-content/themes/dh/js/src/hero-halftone.js --bundle --format=iife --outfile=wp-content/themes/dh/js/hero-halftone.js --platform=browser"
   },
   "devDependencies": {
+    "@paper-design/shaders": "^0.0.77",
     "browser-sync": "^2.29.3",
+    "esbuild": "^0.28.1",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5"
   }
