@@ -25,6 +25,11 @@ function dh_setup() {
         'script',
     ));
     add_theme_support('automatic-feed-links');
+    add_theme_support('editor-styles');
+    add_editor_style(array(
+        'https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap',
+        'editor-style.css',
+    ));
 
     register_nav_menus(array(
         'primary' => esc_html__('Primary Menu', 'dh'),
@@ -112,9 +117,22 @@ function dh_scripts() {
         null
     );
 
-    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-font-geist'), '0.4.2');
+    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-font-geist'), '0.4.8');
 }
 add_action('wp_enqueue_scripts', 'dh_scripts');
+
+/**
+ * Load Geist in the block editor chrome (widgets, posts, pages).
+ */
+function dh_editor_assets() {
+    wp_enqueue_style(
+        'dh-font-geist-editor',
+        'https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap',
+        array(),
+        null
+    );
+}
+add_action('enqueue_block_editor_assets', 'dh_editor_assets');
 
 /**
  * Post meta line: posted in Category on Date by Author.

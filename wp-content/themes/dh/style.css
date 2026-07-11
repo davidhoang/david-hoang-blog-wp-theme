@@ -4,7 +4,7 @@ Theme URI: https://davidhoang.com
 Author: David Hoang
 Author URI: https://davidhoang.com
 Description: Custom WordPress theme for David Hoang's blog.
-Version: 0.4.2
+Version: 0.4.8
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -19,12 +19,18 @@ Tags: blog, minimal
   --dh-color-bg: #fff;
   --dh-color-muted: #666;
   --dh-color-border: #ddd;
+  --dh-color-surface: #f7f7f7;
   --dh-color-link: #333;
   --dh-color-link-hover: #666;
   --dh-font-family: "Geist", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --dh-layout-width: 68rem;
   --dh-sidebar-width: 15rem;
   --dh-space: 1.5rem;
+  --dh-polaroid-bg: #f6f6f2;
+  --dh-polaroid-edge: rgba(0, 0, 0, 0.16);
+  --dh-polaroid-pad-side: 0.75rem;
+  --dh-polaroid-pad-top: 0.75rem;
+  --dh-polaroid-pad-bottom: 2.75rem;
 }
 
 *,
@@ -142,18 +148,43 @@ img {
 .post {
   margin-bottom: calc(var(--dh-space) * 2.5);
   padding-bottom: calc(var(--dh-space) * 2);
-  border-bottom: 1px solid var(--dh-color-border);
+  border-bottom: none;
+  background-image: radial-gradient(circle, var(--dh-color-border) 1.25px, transparent 1.25px);
+  background-size: 6px 2px;
+  background-repeat: repeat-x;
+  background-position: 0 100%;
 }
 
 .post:last-of-type {
-  border-bottom: none;
+  background-image: none;
+}
+
+.entry-header {
+  margin-bottom: 0.5rem;
+}
+
+.entry-header:has(.post-view) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.entry-header:has(.entry-title--empty) {
+  justify-content: flex-end;
 }
 
 .entry-title {
-  margin: 0 0 0.5rem;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
   font-size: 1.5rem;
   font-weight: 400;
   line-height: 1.3;
+}
+
+.entry-title--empty {
+  display: none;
 }
 
 .entry-title a {
@@ -163,6 +194,37 @@ img {
 
 .entry-title a:hover {
   text-decoration: underline;
+}
+
+.post-view {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  color: var(--dh-color-muted);
+  text-decoration: none;
+  border: 1px solid var(--dh-color-border);
+  border-radius: 999px;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.post-view__icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.post-view:hover,
+.post-view:focus-visible {
+  color: var(--dh-color-text);
+  border-color: var(--dh-color-muted);
+  background-color: var(--dh-color-surface);
+}
+
+.post-view:focus-visible {
+  outline: 2px solid var(--dh-color-border);
+  outline-offset: 2px;
 }
 
 .entry-meta {
@@ -177,10 +239,6 @@ img {
 
 .entry-meta a {
   color: inherit;
-}
-
-.post-featured-image {
-  margin: var(--dh-space) 0;
 }
 
 .entry-content {
@@ -198,9 +256,52 @@ img {
   margin: 0 0 var(--dh-space);
 }
 
-.entry-content img,
-.entry-content .wp-block-image {
-  margin: var(--dh-space) 0;
+.entry-content .wp-block-image,
+.post-featured-image,
+.entry-content p > img,
+.entry-content > img {
+  display: inline-block;
+  max-width: 100%;
+  margin: calc(var(--dh-space) * 1.5) 0;
+  padding: var(--dh-polaroid-pad-top) var(--dh-polaroid-pad-side) var(--dh-polaroid-pad-bottom);
+  background-color: var(--dh-polaroid-bg);
+  background-image: radial-gradient(rgba(0, 0, 0, 0.025) 0.5px, transparent 0.5px);
+  background-size: 3px 3px;
+  border-radius: 3px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    0 6px 16px rgba(0, 0, 0, 0.08);
+  line-height: 0;
+}
+
+.entry-content .wp-block-image:has(figcaption) {
+  padding-bottom: 0.875rem;
+}
+
+.entry-content .wp-block-image img,
+.post-featured-image img,
+.entry-content p > img,
+.entry-content > img {
+  display: block;
+  width: 100%;
+  margin: 0;
+  border: 1px solid var(--dh-polaroid-edge);
+  border-radius: 0;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.entry-content .wp-block-image figcaption {
+  margin: 0.65rem 0 0;
+  padding: 0 0.15rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--dh-color-muted);
+  text-align: left;
+}
+
+.post-featured-image a {
+  display: block;
+  text-decoration: none;
 }
 
 .posts-navigation {
@@ -318,11 +419,11 @@ img {
 
 .comment-list > li + li,
 .comment-list .children > li + li {
-  margin-top: var(--dh-space);
+  margin-top: 0;
 }
 
 .comment-list .children {
-  margin-top: var(--dh-space);
+  margin-top: 0;
   margin-left: calc(48px + 1rem);
 }
 
@@ -331,6 +432,9 @@ img {
   align-items: flex-start;
   gap: 1rem;
   margin: 0;
+  padding: 1rem;
+  background: var(--dh-color-surface);
+  border-bottom: 1px solid var(--dh-color-border);
 }
 
 .comment-avatar {
