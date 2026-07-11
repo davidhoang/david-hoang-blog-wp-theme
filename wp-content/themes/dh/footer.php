@@ -6,9 +6,7 @@
  */
 ?>
     <footer id="colophon" class="site-footer">
-        <div class="site-container">
-            <p>&copy; <?php echo esc_html(gmdate('Y')); ?> <?php bloginfo('name'); ?></p>
-        </div>
+        <p><?php echo esc_html(gmdate('Y')); ?></p>
     </footer>
 </div><!-- #page -->
 

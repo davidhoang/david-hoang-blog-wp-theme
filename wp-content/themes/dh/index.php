@@ -9,38 +9,28 @@ get_header();
 ?>
 
 <main id="main" class="site-main">
-    <div class="site-container">
-        <?php if (have_posts()) : ?>
-            <?php while (have_posts()) : ?>
-                <?php the_post(); ?>
-                <article id="post-<?php the_ID(); ?>" <?php post_class('post'); ?>>
-                    <header class="post-header">
-                        <h2 class="post-title">
-                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                        </h2>
-                        <div class="post-meta">
-                            <time datetime="<?php echo esc_attr(get_the_date('c')); ?>">
-                                <?php echo esc_html(get_the_date()); ?>
-                            </time>
-                        </div>
-                    </header>
+    <div class="site-layout">
+        <div class="content-area">
+            <?php if (have_posts()) : ?>
+                <?php while (have_posts()) : ?>
+                    <?php the_post(); ?>
+                    <?php get_template_part('template-parts/content'); ?>
+                <?php endwhile; ?>
 
-                    <div class="post-content">
-                        <?php
-                        if (is_singular()) {
-                            the_content();
-                        } else {
-                            the_excerpt();
-                        }
-                        ?>
-                    </div>
-                </article>
-            <?php endwhile; ?>
+                <nav class="posts-navigation" aria-label="<?php esc_attr_e('Posts', 'dh'); ?>">
+                    <?php
+                    the_posts_navigation(array(
+                        'prev_text' => esc_html__('← Older Posts', 'dh'),
+                        'next_text' => esc_html__('Newer Posts →', 'dh'),
+                    ));
+                    ?>
+                </nav>
+            <?php else : ?>
+                <p><?php esc_html_e('No posts found.', 'dh'); ?></p>
+            <?php endif; ?>
+        </div>
 
-            <?php the_posts_pagination(); ?>
-        <?php else : ?>
-            <p><?php esc_html_e('No posts found.', 'dh'); ?></p>
-        <?php endif; ?>
+        <?php get_sidebar(); ?>
     </div>
 </main>
 
