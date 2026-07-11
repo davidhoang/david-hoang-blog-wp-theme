@@ -32,6 +32,7 @@ if (post_password_required()) {
                 'style'       => 'ol',
                 'short_ping'  => true,
                 'avatar_size' => 48,
+                'callback'    => 'dh_comment',
             ));
             ?>
         </ol>

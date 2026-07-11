@@ -4,7 +4,7 @@ Theme URI: https://davidhoang.com
 Author: David Hoang
 Author URI: https://davidhoang.com
 Description: Custom WordPress theme for David Hoang's blog.
-Version: 0.4.1
+Version: 0.4.2
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -309,33 +309,102 @@ img {
   font-weight: 500;
 }
 
-.comment-list {
-  margin: 0 0 var(--dh-space);
+.comment-list,
+.comment-list .children {
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
+.comment-list > li + li,
+.comment-list .children > li + li {
+  margin-top: var(--dh-space);
+}
+
 .comment-list .children {
-  margin-left: var(--dh-space);
-  padding-left: 0;
-  list-style: none;
+  margin-top: var(--dh-space);
+  margin-left: calc(48px + 1rem);
 }
 
 .comment-body {
-  margin-bottom: var(--dh-space);
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 0;
 }
 
-.comment-author {
+.comment-avatar {
+  flex-shrink: 0;
+  width: 48px;
+}
+
+.comment-avatar img {
+  display: block;
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+}
+
+.comment-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.comment-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.comment-author-name {
+  font-style: normal;
   font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.comment-author-name a {
+  color: var(--dh-color-text);
+  text-decoration: underline;
 }
 
 .comment-metadata {
   font-size: 0.875rem;
   color: var(--dh-color-muted);
+  text-decoration: none;
+}
+
+.comment-metadata:hover {
+  color: var(--dh-color-text);
 }
 
 .comment-content {
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.comment-content p {
+  margin: 0 0 0.75rem;
+}
+
+.comment-content p:last-child {
+  margin-bottom: 0;
+}
+
+.comment-footer {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.comment-footer .edit-link,
+.comment-footer .reply-link {
+  margin-right: 0.75rem;
+}
+
+.comment-footer a {
+  text-decoration: none;
+}
+
+.comment-footer a:hover {
+  text-decoration: underline;
 }
 
 .comment-respond {

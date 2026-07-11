@@ -112,7 +112,7 @@ function dh_scripts() {
         null
     );
 
-    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-font-geist'), '0.4.1');
+    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-font-geist'), '0.4.2');
 }
 add_action('wp_enqueue_scripts', 'dh_scripts');
 
@@ -162,4 +162,73 @@ function dh_entry_meta() {
     }
 
     echo '<div class="entry-meta">' . implode(' ', $parts) . '</div>';
+}
+
+/**
+ * Custom comment markup.
+ */
+function dh_comment($comment, $args, $depth) {
+    if ('pingback' === $comment->comment_type || 'trackback' === $comment->comment_type) {
+        ?>
+        <li id="comment-<?php comment_ID(); ?>" <?php comment_class(); ?>>
+            <p>
+                <?php esc_html_e('Pingback:', 'dh'); ?>
+                <?php comment_author_link(); ?>
+                <?php edit_comment_link(esc_html__('(Edit)', 'dh'), '<span class="edit-link">', '</span>'); ?>
+            </p>
+        </li>
+        <?php
+        return;
+    }
+
+    $avatar_size = !empty($args['avatar_size']) ? (int) $args['avatar_size'] : 48;
+    ?>
+    <li id="comment-<?php comment_ID(); ?>" <?php comment_class(); ?>>
+        <article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
+            <div class="comment-avatar">
+                <?php echo get_avatar($comment, $avatar_size); ?>
+            </div>
+
+            <div class="comment-main">
+                <header class="comment-meta">
+                    <cite class="comment-author-name">
+                        <?php comment_author_link(); ?>
+                    </cite>
+                    <a class="comment-metadata" href="<?php echo esc_url(get_comment_link($comment)); ?>">
+                        <time datetime="<?php comment_time('c'); ?>">
+                            <?php
+                            printf(
+                                esc_html__('%1$s at %2$s', 'dh'),
+                                get_comment_date(),
+                                get_comment_time()
+                            );
+                            ?>
+                        </time>
+                    </a>
+                </header>
+
+                <?php if ('0' === $comment->comment_approved) : ?>
+                    <p class="comment-awaiting-moderation"><?php esc_html_e('Your comment is awaiting moderation.', 'dh'); ?></p>
+                <?php endif; ?>
+
+                <div class="comment-content">
+                    <?php comment_text(); ?>
+                </div>
+
+                <footer class="comment-footer">
+                    <?php
+                    edit_comment_link(esc_html__('Edit', 'dh'), '<span class="edit-link">', '</span>');
+                    comment_reply_link(array_merge($args, array(
+                        'reply_text' => esc_html__('Reply', 'dh'),
+                        'depth'      => $depth,
+                        'max_depth'  => $args['max_depth'],
+                        'before'     => '<span class="reply-link">',
+                        'after'      => '</span>',
+                    )));
+                    ?>
+                </footer>
+            </div>
+        </article>
+    </li>
+    <?php
 }
