@@ -4,8 +4,6 @@
  *
  * @package dh
  */
-
-$hero_image_url = dh_get_hero_image_url();
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -20,11 +18,10 @@ $hero_image_url = dh_get_hero_image_url();
 <div id="page" class="site">
     <header id="masthead" class="site-hero">
         <div
-            class="site-hero__shader<?php echo $hero_image_url ? '' : ' site-hero__shader--fallback'; ?>"
+            class="site-hero__shader"
             data-dh-hero-shader
-            <?php if ($hero_image_url) : ?>
-                data-image="<?php echo esc_url($hero_image_url); ?>"
-            <?php endif; ?>
+            data-color-back="#f8f8f6"
+            data-color-fill="rgba(0, 0, 0, 0.08)"
             aria-hidden="true"
         ></div>
 

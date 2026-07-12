@@ -4,7 +4,7 @@ Theme URI: https://davidhoang.com
 Author: David Hoang
 Author URI: https://davidhoang.com
 Description: Custom WordPress theme for David Hoang's blog.
-Version: 0.7.6
+Version: 0.8.0
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -29,7 +29,7 @@ Tags: blog, minimal
   --dh-font-family: "ABC Arizona Text Trial", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --dh-layout-width: 68rem;
   --dh-sidebar-width: 18rem;
-  --dh-space: 1.5rem;
+  --dh-space: 1.375rem;
   --dh-polaroid-bg: #f6f6f2;
   --dh-polaroid-edge: rgba(0, 0, 0, 0.16);
   --dh-polaroid-pad-side: 0.75rem;
@@ -79,9 +79,8 @@ img {
 
 .site-hero__shader {
   position: absolute;
-  inset: 0 0 auto;
-  height: 100%;
-  opacity: 0.42;
+  inset: 0;
+  opacity: 1;
   pointer-events: none;
 }
 
@@ -91,8 +90,8 @@ img {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(248, 248, 246, 0.15) 0%,
-    rgba(248, 248, 246, 0.72) 58%,
+    rgba(248, 248, 246, 0.1) 0%,
+    rgba(248, 248, 246, 0.55) 62%,
     var(--dh-hero-bg) 100%
   );
 }
@@ -208,7 +207,7 @@ img {
 .site-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) var(--dh-sidebar-width);
-  gap: calc(var(--dh-space) * 2.5);
+  gap: calc(var(--dh-space) * 2.25);
   max-width: var(--dh-layout-width);
   margin: 0 auto;
   align-items: start;
@@ -398,7 +397,7 @@ img {
 .sidebar {
   font-size: 0.9rem;
   line-height: 1.6;
-  padding: 1.25rem;
+  padding: 1rem;
   background-color: var(--dh-sidebar-bg);
   border: 1px solid var(--dh-sidebar-border);
   border-radius: 4px;

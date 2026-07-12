@@ -642,327 +642,134 @@ void main() {
 #define TWO_PI 6.28318530718
 #define PI 3.14159265358979323846
 `;
-  var rotation2 = `
-vec2 rotate(vec2 uv, float th) {
-  return mat2(cos(th), sin(th), -sin(th), cos(th)) * uv;
+  var simplexNoise = `
+vec3 permute(vec3 x) { return mod(((x * 34.0) + 1.0) * x, 289.0); }
+float snoise(vec2 v) {
+  const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+    -0.577350269189626, 0.024390243902439);
+  vec2 i = floor(v + dot(v, C.yy));
+  vec2 x0 = v - i + dot(i, C.xx);
+  vec2 i1;
+  i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+  vec4 x12 = x0.xyxy + C.xxzz;
+  x12.xy -= i1;
+  i = mod(i, 289.0);
+  vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0))
+    + i.x + vec3(0.0, i1.x, 1.0));
+  vec3 m = max(0.5 - vec3(dot(x0, x0), dot(x12.xy, x12.xy),
+      dot(x12.zw, x12.zw)), 0.0);
+  m = m * m;
+  m = m * m;
+  vec3 x = 2.0 * fract(p * C.www) - 1.0;
+  vec3 h = abs(x) - 0.5;
+  vec3 ox = floor(x + 0.5);
+  vec3 a0 = x - ox;
+  m *= 1.79284291400159 - 0.85373472095314 * (a0 * a0 + h * h);
+  vec3 g;
+  g.x = a0.x * x0.x + h.x * x0.y;
+  g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+  return 130.0 * dot(m, g);
 }
 `;
-  var proceduralHash21 = `
-  float hash21(vec2 p) {
-    p = fract(p * vec2(0.3183099, 0.3678794)) + 0.1;
-    p += dot(p, p + 19.19);
-    return fract(p.x * p.y);
-  }
-`;
 
-  // node_modules/@paper-design/shaders/dist/shaders/halftone-dots.js
-  var halftoneDotsFragmentShader = `#version 300 es
+  // node_modules/@paper-design/shaders/dist/shaders/dot-grid.js
+  var dotGridFragmentShader = `#version 300 es
 precision mediump float;
 
-uniform float u_rotation;
-
-uniform float u_time;
-
-uniform vec4 u_colorFront;
 uniform vec4 u_colorBack;
-uniform float u_radius;
-uniform float u_contrast;
+uniform vec4 u_colorFill;
+uniform vec4 u_colorStroke;
+uniform float u_dotSize;
+uniform float u_gapX;
+uniform float u_gapY;
+uniform float u_strokeWidth;
+uniform float u_sizeRange;
+uniform float u_opacityRange;
+uniform float u_shape;
 
-uniform sampler2D u_image;
-uniform float u_imageAspectRatio;
-
-uniform float u_size;
-uniform float u_grainMixer;
-uniform float u_grainOverlay;
-uniform float u_grainSize;
-uniform float u_grid;
-uniform bool u_originalColors;
-uniform bool u_inverted;
-uniform float u_type;
-
-in vec2 v_imageUV;
+in vec2 v_patternUV;
 
 out vec4 fragColor;
 
 ${declarePI}
-${rotation2}
-${proceduralHash21}
+${simplexNoise}
 
-float valueNoise(vec2 st) {
-  vec2 i = floor(st);
-  vec2 f = fract(st);
-  float a = hash21(i);
-  float b = hash21(i + vec2(1.0, 0.0));
-  float c = hash21(i + vec2(0.0, 1.0));
-  float d = hash21(i + vec2(1.0, 1.0));
-  vec2 u = f * f * (3.0 - 2.0 * f);
-  float x1 = mix(a, b, u.x);
-  float x2 = mix(c, d, u.x);
-  return mix(x1, x2, u.y);
+float polygon(vec2 p, float N, float rot) {
+  float a = atan(p.x, p.y) + rot;
+  float r = TWO_PI / float(N);
+
+  return cos(floor(.5 + a / r) * r - a) * length(p);
 }
-
-float lst(float edge0, float edge1, float x) {
-  return clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
-}
-
-float sst(float edge0, float edge1, float x) {
-  return smoothstep(edge0, edge1, x);
-}
-
-float getCircle(vec2 uv, float r, float baseR) {
-  r = mix(.25 * baseR, 0., r);
-  float d = length(uv - .5);
-  float aa = fwidth(d);
-  return 1. - smoothstep(r - aa, r + aa, d);
-}
-
-float getCell(vec2 uv) {
-  float insideX = step(0.0, uv.x) * (1.0 - step(1.0, uv.x));
-  float insideY = step(0.0, uv.y) * (1.0 - step(1.0, uv.y));
-  return insideX * insideY;
-}
-
-float getCircleWithHole(vec2 uv, float r, float baseR) {
-  float cell = getCell(uv);
-
-  r = mix(.75 * baseR, 0., r);
-  float rMod = mod(r, .5);
-
-  float d = length(uv - .5);
-  float aa = fwidth(d);
-  float circle = 1. - smoothstep(rMod - aa, rMod + aa, d);
-  if (r < .5) {
-    return circle;
-  } else {
-    return cell - circle;
-  }
-}
-
-float getGooeyBall(vec2 uv, float r, float baseR) {
-  float d = length(uv - .5);
-  float sizeRadius = .3;
-  if (u_grid == 1.) {
-    sizeRadius = .42;
-  }
-  sizeRadius = mix(sizeRadius * baseR, 0., r);
-  d = 1. - sst(0., sizeRadius, d);
-
-  d = pow(d, 2. + baseR);
-  return d;
-}
-
-float getSoftBall(vec2 uv, float r, float baseR) {
-  float d = length(uv - .5);
-  float sizeRadius = clamp(baseR, 0., 1.);
-  sizeRadius = mix(.5 * sizeRadius, 0., r);
-  d = 1. - lst(0., sizeRadius, d);
-  float powRadius = 1. - lst(0., 2., baseR);
-  d = pow(d, 4. + 3. * powRadius);
-  return d;
-}
-
-float getUvFrame(vec2 uv, vec2 pad) {
-  float aa = 0.0001;
-
-  float left   = smoothstep(-pad.x, -pad.x + aa, uv.x);
-  float right  = smoothstep(1.0 + pad.x, 1.0 + pad.x - aa, uv.x);
-  float bottom = smoothstep(-pad.y, -pad.y + aa, uv.y);
-  float top    = smoothstep(1.0 + pad.y, 1.0 + pad.y - aa, uv.y);
-
-  return left * right * bottom * top;
-}
-
-float sigmoid(float x, float k) {
-  return 1.0 / (1.0 + exp(-k * (x - 0.5)));
-}
-
-float getLumAtPx(vec2 uv, float contrast) {
-  vec4 tex = texture(u_image, uv);
-  vec3 color = vec3(
-  sigmoid(tex.r, contrast),
-  sigmoid(tex.g, contrast),
-  sigmoid(tex.b, contrast)
-  );
-  float lum = dot(vec3(0.2126, 0.7152, 0.0722), color);
-  lum = mix(1., lum, tex.a);
-  lum = u_inverted ? (1. - lum) : lum;
-  return lum;
-}
-
-float getLumBall(vec2 p, vec2 pad, vec2 inCellOffset, float contrast, float baseR, float stepSize, out vec4 ballColor) {
-  p += inCellOffset;
-  vec2 uv_i = floor(p);
-  vec2 uv_f = fract(p);
-  vec2 samplingUV = (uv_i + .5 - inCellOffset) * pad + vec2(.5);
-  float outOfFrame = getUvFrame(samplingUV, pad * stepSize);
-
-  float lum = getLumAtPx(samplingUV, contrast);
-  ballColor = texture(u_image, samplingUV);
-  ballColor.rgb *= ballColor.a;
-  ballColor *= outOfFrame;
-
-  float ball = 0.;
-  if (u_type == 0.) {
-    // classic
-    ball = getCircle(uv_f, lum, baseR);
-  } else if (u_type == 1.) {
-    // gooey
-    ball = getGooeyBall(uv_f, lum, baseR);
-  } else if (u_type == 2.) {
-    // holes
-    ball = getCircleWithHole(uv_f, lum, baseR);
-  } else if (u_type == 3.) {
-    // soft
-    ball = getSoftBall(uv_f, lum, baseR);
-  }
-
-  return ball * outOfFrame;
-}
-
 
 void main() {
 
-  float stepMultiplier = 1.;
-  if (u_type == 0.) {
-    // classic
-    stepMultiplier = 2.;
-  } else if (u_type == 1. || u_type == 3.) {
-    // gooey & soft
-    stepMultiplier = 6.;
+  // x100 is a default multiplier between vertex and fragmant shaders
+  // we use it to avoid UV presision issues
+  vec2 shape_uv = 100. * v_patternUV;
+
+  vec2 gap = max(abs(vec2(u_gapX, u_gapY)), vec2(1e-6));
+  vec2 grid = fract(shape_uv / gap) + 1e-4;
+  vec2 grid_idx = floor(shape_uv / gap);
+  float sizeRandomizer = .5 + .8 * snoise(2. * vec2(grid_idx.x * 100., grid_idx.y));
+  float opacity_randomizer = .5 + .7 * snoise(2. * vec2(grid_idx.y, grid_idx.x));
+
+  vec2 center = vec2(0.5) - 1e-3;
+  vec2 p = (grid - center) * vec2(u_gapX, u_gapY);
+
+  float baseSize = u_dotSize * (1. - sizeRandomizer * u_sizeRange);
+  float strokeWidth = u_strokeWidth * (1. - sizeRandomizer * u_sizeRange);
+
+  float dist;
+  if (u_shape < 0.5) {
+    // Circle
+    dist = length(p);
+  } else if (u_shape < 1.5) {
+    // Diamond
+    strokeWidth *= 1.5;
+    dist = polygon(1.5 * p, 4., .25 * PI);
+  } else if (u_shape < 2.5) {
+    // Square
+    dist = polygon(1.03 * p, 4., 1e-3);
+  } else {
+    // Triangle
+    strokeWidth *= 1.5;
+    p = p * 2. - 1.;
+    p *= .9;
+    p.y = 1. - p.y;
+    p.y -= .75 * baseSize;
+    dist = polygon(p, 3., 1e-3);
   }
 
-  float cellsPerSide = mix(300., 7., pow(u_size, .7));
-  cellsPerSide /= stepMultiplier;
-  float cellSizeY = 1. / cellsPerSide;
-  vec2 pad = cellSizeY * vec2(1. / u_imageAspectRatio, 1.);
-  if (u_type == 1. && u_grid == 1.) {
-    // gooey diagonal grid works differently
-    pad *= .7;
-  }
+  float edgeWidth = fwidth(dist);
+  float shapeOuter = 1. - smoothstep(baseSize - edgeWidth, baseSize + edgeWidth, dist - strokeWidth);
+  float shapeInner = 1. - smoothstep(baseSize - edgeWidth, baseSize + edgeWidth, dist);
+  float stroke = shapeOuter - shapeInner;
 
-  vec2 uv = v_imageUV;
-  uv -= vec2(.5);
-  uv /= pad;
+  float dotOpacity = max(0., 1. - opacity_randomizer * u_opacityRange);
+  stroke *= dotOpacity;
+  shapeInner *= dotOpacity;
 
-  float contrast = mix(0., 15., pow(u_contrast, 1.5));
-  float baseRadius = u_radius;
-  if (u_originalColors == true) {
-    contrast = mix(.1, 4., pow(u_contrast, 2.));
-    baseRadius = 2. * pow(.5 * u_radius, .3);
-  }
-
-  float totalShape = 0.;
-  vec3 totalColor = vec3(0.);
-  float totalOpacity = 0.;
-
-  vec4 ballColor;
-  float shape;
-  float stepSize = 1. / stepMultiplier;
-  for (float x = -0.5; x < 0.5; x += stepSize) {
-    for (float y = -0.5; y < 0.5; y += stepSize) {
-      vec2 offset = vec2(x, y);
-
-      if (u_grid == 1.) {
-        float rowIndex = floor((y + .5) / stepSize);
-        float colIndex = floor((x + .5) / stepSize);
-        if (stepSize == 1.) {
-          rowIndex = floor(uv.y + y + 1.);
-          if (u_type == 1.) {
-            colIndex = floor(uv.x + x + 1.);
-          }
-        }
-        if (u_type == 1.) {
-          if (mod(rowIndex + colIndex, 2.) == 1.) {
-            continue;
-          }
-        } else {
-          if (mod(rowIndex, 2.) == 1.) {
-            offset.x += .5 * stepSize;
-          }
-        }
-      }
-
-      shape = getLumBall(uv, pad, offset, contrast, baseRadius, stepSize, ballColor);
-      totalColor   += ballColor.rgb * shape;
-      totalShape   += shape;
-      totalOpacity += shape;
-    }
-  }
-
-  const float eps = 1e-4;
-
-  totalColor /= max(totalShape, eps);
-  totalOpacity /= max(totalShape, eps);
-
-  float finalShape = 0.;
-  if (u_type == 0.) {
-    finalShape = min(1., totalShape);
-  } else if (u_type == 1.) {
-    float aa = fwidth(totalShape);
-    float th = .5;
-    finalShape = smoothstep(th - aa, th + aa, totalShape);
-  } else if (u_type == 2.) {
-    finalShape = min(1., totalShape);
-  } else if (u_type == 3.) {
-    finalShape = totalShape;
-  }
-
-  vec2 grainSize = mix(2000., 200., u_grainSize) * vec2(1., 1. / u_imageAspectRatio);
-  vec2 grainUV = v_imageUV - .5;
-  grainUV *= grainSize;
-  grainUV += .5;
-  float grain = valueNoise(grainUV);
-  grain = smoothstep(.55, .7 + .2 * u_grainMixer, grain);
-  grain *= u_grainMixer;
-  finalShape = mix(finalShape, 0., grain);
+  stroke *= u_colorStroke.a;
+  shapeInner *= u_colorFill.a;
 
   vec3 color = vec3(0.);
+  color += stroke * u_colorStroke.rgb;
+  color += shapeInner * u_colorFill.rgb;
+  color += (1. - shapeInner - stroke) * u_colorBack.rgb * u_colorBack.a;
+
   float opacity = 0.;
-
-  if (u_originalColors == true) {
-    color = totalColor * finalShape;
-    opacity = totalOpacity * finalShape;
-
-    vec3 bgColor = u_colorBack.rgb * u_colorBack.a;
-    color = color + bgColor * (1. - opacity);
-    opacity = opacity + u_colorBack.a * (1. - opacity);
-  } else {
-    vec3 fgColor = u_colorFront.rgb * u_colorFront.a;
-    float fgOpacity = u_colorFront.a;
-    vec3 bgColor = u_colorBack.rgb * u_colorBack.a;
-    float bgOpacity = u_colorBack.a;
-
-    color = fgColor * finalShape;
-    opacity = fgOpacity * finalShape;
-    color += bgColor * (1. - opacity);
-    opacity += bgOpacity * (1. - opacity);
-  }
-
-  float grainOverlay = valueNoise(rotate(grainUV, 1.) + vec2(3.));
-  grainOverlay = mix(grainOverlay, valueNoise(rotate(grainUV, 2.) + vec2(-1.)), .5);
-  grainOverlay = pow(grainOverlay, 1.3);
-
-  float grainOverlayV = grainOverlay * 2. - 1.;
-  vec3 grainOverlayColor = vec3(step(0., grainOverlayV));
-  float grainOverlayStrength = u_grainOverlay * abs(grainOverlayV);
-  grainOverlayStrength = pow(grainOverlayStrength, .8);
-  color = mix(color, grainOverlayColor, .5 * grainOverlayStrength);
-
-  opacity += .5 * grainOverlayStrength;
-  opacity = clamp(opacity, 0., 1.);
+  opacity += stroke;
+  opacity += shapeInner;
+  opacity += (1. - opacity) * u_colorBack.a;
 
   fragColor = vec4(color, opacity);
 }
 `;
-  var HalftoneDotsTypes = {
-    classic: 0,
-    gooey: 1,
-    holes: 2,
-    soft: 3
-  };
-  var HalftoneDotsGrids = {
-    square: 0,
-    hex: 1
+  var DotGridShapes = {
+    circle: 0,
+    diamond: 1,
+    square: 2,
+    triangle: 3
   };
 
   // node_modules/@paper-design/shaders/dist/get-shader-color-from-string.js
@@ -1055,57 +862,43 @@ void main() {
     const canvas = document.createElement("canvas");
     return Boolean(canvas.getContext("webgl2"));
   }
-  function mountHeroHalftone(container) {
-    const imageUrl = container.dataset.image;
-    if (!imageUrl || !supportsWebGL2()) {
+  function mountHeroDotGrid(container) {
+    if (!supportsWebGL2()) {
       container.classList.add("site-hero__shader--fallback");
       return;
     }
-    const image = new Image();
-    image.crossOrigin = "anonymous";
-    image.src = imageUrl;
-    image.addEventListener("error", () => {
-      container.classList.add("site-hero__shader--fallback");
-    });
-    image.addEventListener("load", () => {
-      container.classList.remove("site-hero__shader--fallback");
-      new ShaderMount(
-        container,
-        halftoneDotsFragmentShader,
-        {
-          u_image: image,
-          u_colorFront: getShaderColorFromString(container.dataset.colorFront || "#2b2b2b"),
-          u_colorBack: getShaderColorFromString(container.dataset.colorBack || "#f2f1e8"),
-          u_type: HalftoneDotsTypes.gooey,
-          u_grid: HalftoneDotsGrids.hex,
-          u_size: parseFloat(container.dataset.size || "0.5"),
-          u_radius: parseFloat(container.dataset.radius || "1.25"),
-          u_contrast: parseFloat(container.dataset.contrast || "0.35"),
-          u_originalColors: false,
-          u_inverted: false,
-          u_grainMixer: 0.2,
-          u_grainOverlay: 0.15,
-          u_grainSize: 0.5,
-          u_fit: ShaderFitOptions.cover,
-          u_scale: 1,
-          u_rotation: 0,
-          u_offsetX: 0,
-          u_offsetY: 0,
-          u_originX: 0.5,
-          u_originY: 0.5,
-          u_worldWidth: 0,
-          u_worldHeight: 0
-        },
-        void 0,
-        0,
-        0,
-        2,
-        1920 * 1080 * 2,
-        ["u_image"]
-      );
-    });
+    container.classList.remove("site-hero__shader--fallback");
+    new ShaderMount(
+      container,
+      dotGridFragmentShader,
+      {
+        u_colorBack: getShaderColorFromString(container.dataset.colorBack || "#f8f8f6"),
+        u_colorFill: getShaderColorFromString(container.dataset.colorFill || "rgba(0, 0, 0, 0.08)"),
+        u_colorStroke: getShaderColorFromString(container.dataset.colorStroke || "rgba(0, 0, 0, 0)"),
+        u_dotSize: parseFloat(container.dataset.dotSize || "1.6"),
+        u_gapX: parseFloat(container.dataset.gapX || "16"),
+        u_gapY: parseFloat(container.dataset.gapY || "24"),
+        u_strokeWidth: 0,
+        u_sizeRange: parseFloat(container.dataset.sizeRange || "0"),
+        u_opacityRange: parseFloat(container.dataset.opacityRange || "0.08"),
+        u_shape: DotGridShapes.circle,
+        u_fit: ShaderFitOptions.cover,
+        u_scale: 1,
+        u_rotation: 0,
+        u_offsetX: 0,
+        u_offsetY: 0,
+        u_originX: 0.5,
+        u_originY: 0.5,
+        u_worldWidth: 0,
+        u_worldHeight: 0
+      },
+      void 0,
+      0,
+      0,
+      2
+    );
   }
   document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll("[data-dh-hero-shader]").forEach(mountHeroHalftone);
+    document.querySelectorAll("[data-dh-hero-shader]").forEach(mountHeroDotGrid);
   });
 })();

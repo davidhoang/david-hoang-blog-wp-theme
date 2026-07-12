@@ -151,7 +151,7 @@ function dh_render_primary_menu() {
  * Enqueue theme assets.
  */
 function dh_scripts() {
-    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.7.6');
+    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.8.0');
 
     $hero_script = get_template_directory() . '/js/hero-halftone.js';
 
@@ -160,7 +160,7 @@ function dh_scripts() {
             'dh-hero-halftone',
             get_template_directory_uri() . '/js/hero-halftone.js',
             array(),
-            '0.6.0',
+            '0.8.0',
             true
         );
     }
