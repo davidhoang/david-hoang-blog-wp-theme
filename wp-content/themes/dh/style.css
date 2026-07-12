@@ -4,7 +4,7 @@ Theme URI: https://davidhoang.com
 Author: David Hoang
 Author URI: https://davidhoang.com
 Description: Custom WordPress theme for David Hoang's blog.
-Version: 0.8.3
+Version: 0.8.4
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -24,6 +24,7 @@ Tags: blog, minimal
   --dh-sidebar-border: rgba(0, 0, 0, 0.06);
   --dh-hero-bg: #f8f8f6;
   --dh-hero-border: rgba(0, 0, 0, 0.08);
+  --dh-nav-border: rgba(0, 0, 0, 0.14);
   --dh-color-link: #333;
   --dh-color-link-hover: #666;
   --dh-font-family: "ABC Arizona Text Trial", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -69,18 +70,16 @@ img {
   height: auto;
 }
 
-.site-hero,
-#masthead.site-hero {
+.site-header,
+#masthead {
+  margin-bottom: 0;
+}
+
+.site-hero {
   position: relative;
-  display: flex;
-  flex-direction: column;
   width: 100%;
-  overflow: hidden;
-  height: auto;
   padding-inline: var(--dh-space);
-  margin-bottom: calc(var(--dh-space) * 1.5);
   background-color: var(--dh-hero-bg);
-  border-bottom: 1px solid var(--dh-hero-border);
 }
 
 .site-hero__shader {
@@ -122,20 +121,15 @@ img {
 .site-hero__inner {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-rows: auto auto;
   width: 100%;
-  min-width: 0;
   max-width: var(--dh-layout-width);
   margin-inline: auto;
-  padding-top: calc(var(--dh-space) * 2.25);
+  padding: calc(var(--dh-space) * 2.25) 0 calc(var(--dh-space) * 3.5);
   text-align: center;
 }
 
 .site-hero__intro {
-  align-self: start;
   min-width: 0;
-  min-height: 0;
 }
 
 .site-title {
@@ -158,44 +152,79 @@ img {
   color: var(--dh-color-muted);
 }
 
-.site-hero__nav {
-  position: relative;
-  flex-shrink: 0;
-  align-self: stretch;
+.site-nav,
+#site-navigation.site-nav {
   width: 100%;
-  min-width: 0;
-  margin: 0;
-  padding-top: 0;
+  padding-inline: var(--dh-space);
+  margin-bottom: calc(var(--dh-space) * 1.5);
   background-color: var(--dh-hero-bg);
+  border-top: 1px solid var(--dh-nav-border);
+  border-bottom: 1px solid var(--dh-hero-border);
 }
 
-.site-hero__nav::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 100vw;
-  height: 1px;
-  transform: translateX(-50%);
-  background-color: var(--dh-color-border);
+.site-nav__inner {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: var(--dh-space);
+  width: 100%;
+  max-width: var(--dh-layout-width);
+  margin-inline: auto;
+}
+
+.site-nav__menu {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.site-nav__social {
+  flex-shrink: 0;
 }
 
 .main-navigation {
-  width: 100%;
-  margin-top: 0;
-  border-top: 0;
   border-bottom: 0;
+}
+
+.site-nav__menu .nav-links,
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav__menu .nav-links {
+  justify-content: flex-start;
+  width: auto;
 }
 
 .nav-links {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 0;
-  width: 100%;
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.site-nav__menu .nav-links li,
+.site-nav__social .social-links li {
+  margin: 0;
+  padding: 0.9rem 1.25rem;
+  border-left: 1px solid var(--dh-hero-border);
+}
+
+.site-nav__menu .nav-links li:first-child,
+.site-nav__social .social-links li:first-child {
+  padding-left: 1.25rem;
+}
+
+.site-nav__menu .nav-links li:last-child,
+.site-nav__social .social-links li:last-child {
+  border-right: 1px solid var(--dh-hero-border);
 }
 
 .nav-links li {
@@ -203,19 +232,30 @@ img {
   padding: 0.9rem 1.25rem;
 }
 
-.nav-links li + li {
-  border-left: 1px solid var(--dh-hero-border);
-}
-
-.nav-links a {
+.nav-links a,
+.social-links a {
   color: var(--dh-color-text);
   font-size: 0.9rem;
   text-decoration: none;
 }
 
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.social-links__icon {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+}
+
 .nav-links a:hover,
 .nav-links .current-menu-item > a,
-.nav-links .current_page_item > a {
+.nav-links .current_page_item > a,
+.social-links a:hover {
   border-bottom: 1px dotted var(--dh-color-muted);
 }
 

@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
+require_once get_template_directory() . '/inc/social-icons.php';
 
 /**
  * Theme setup.
@@ -147,10 +148,48 @@ function dh_render_primary_menu() {
 }
 
 /**
+ * Social links shown in the site nav.
+ */
+function dh_get_social_links() {
+    return array(
+        array(
+            'label' => __('Twitter', 'dh'),
+            'url'   => 'https://twitter.com/davidhoang',
+            'icon'  => 'twitter',
+        ),
+        array(
+            'label' => __('GitHub', 'dh'),
+            'url'   => 'https://github.com/davidhoang',
+            'icon'  => 'github',
+        ),
+    );
+}
+
+/**
+ * Render social links for the site nav.
+ */
+function dh_render_social_links() {
+    echo '<ul class="social-links">';
+
+    foreach (dh_get_social_links() as $link) {
+        $icon = dh_get_social_icon_svg($link['icon']);
+
+        printf(
+            '<li><a href="%s" target="_blank" rel="noopener noreferrer" aria-label="%s">%s</a></li>',
+            esc_url($link['url']),
+            esc_attr($link['label']),
+            $icon
+        );
+    }
+
+    echo '</ul>';
+}
+
+/**
  * Enqueue theme assets.
  */
 function dh_scripts() {
-    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.8.3');
+    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.8.4');
 
     $hero_script = get_template_directory() . '/js/hero-halftone.js';
 

@@ -6,6 +6,8 @@
  */
 
 get_header();
+
+get_template_part('template-parts/site-nav');
 ?>
 
 <main id="main" class="site-main">
