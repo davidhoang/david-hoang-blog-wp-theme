@@ -24,7 +24,6 @@ Tags: blog, minimal
   --dh-sidebar-border: rgba(0, 0, 0, 0.06);
   --dh-hero-bg: #f8f8f6;
   --dh-hero-border: rgba(0, 0, 0, 0.08);
-  --dh-hero-height: 300px;
   --dh-color-link: #333;
   --dh-color-link-hover: #666;
   --dh-font-family: "ABC Arizona Text Trial", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -73,8 +72,12 @@ img {
 .site-hero,
 #masthead.site-hero {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   overflow: hidden;
-  height: var(--dh-hero-height);
+  height: auto;
+  padding-inline: var(--dh-space);
   margin-bottom: calc(var(--dh-space) * 1.5);
   background-color: var(--dh-hero-bg);
   border-bottom: 1px solid var(--dh-hero-border);
@@ -83,6 +86,7 @@ img {
 .site-hero__shader {
   position: absolute;
   inset: 0;
+  z-index: 0;
   opacity: 1;
   pointer-events: none;
 }
@@ -118,17 +122,20 @@ img {
 .site-hero__inner {
   position: relative;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  display: grid;
+  grid-template-rows: auto auto;
+  width: 100%;
+  min-width: 0;
   max-width: var(--dh-layout-width);
-  margin: 0 auto;
-  padding: calc(var(--dh-space) * 2.25) var(--dh-space) 0;
+  margin-inline: auto;
+  padding-top: calc(var(--dh-space) * 2.25);
   text-align: center;
 }
 
 .site-hero__intro {
-  flex-shrink: 0;
+  align-self: start;
+  min-width: 0;
+  min-height: 0;
 }
 
 .site-title {
@@ -153,7 +160,11 @@ img {
 
 .site-hero__nav {
   position: relative;
-  margin: auto calc(var(--dh-space) * -1) 0;
+  flex-shrink: 0;
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
   padding-top: 0;
   background-color: var(--dh-hero-bg);
 }
@@ -170,6 +181,7 @@ img {
 }
 
 .main-navigation {
+  width: 100%;
   margin-top: 0;
   border-top: 0;
   border-bottom: 0;
@@ -180,6 +192,7 @@ img {
   flex-wrap: wrap;
   justify-content: center;
   gap: 0;
+  width: 100%;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -342,9 +355,6 @@ img {
   background-image: radial-gradient(rgba(0, 0, 0, 0.025) 0.5px, transparent 0.5px);
   background-size: 3px 3px;
   border-radius: 3px;
-  box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.03),
-    0 10px 28px rgba(0, 0, 0, 0.04);
   line-height: 0;
 }
 
@@ -368,7 +378,6 @@ img {
   margin: 0;
   border: 1px solid var(--dh-polaroid-edge);
   border-radius: 0;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
 }
 
 .wp-block-image figcaption {
