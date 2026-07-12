@@ -9,7 +9,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-require_once get_template_directory() . '/inc/dev-font-switcher.php';
 require_once get_template_directory() . '/inc/theme-fonts.php';
 
 /**
@@ -151,7 +150,7 @@ function dh_render_primary_menu() {
  * Enqueue theme assets.
  */
 function dh_scripts() {
-    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.8.0');
+    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.8.3');
 
     $hero_script = get_template_directory() . '/js/hero-halftone.js';
 
@@ -166,8 +165,6 @@ function dh_scripts() {
     }
 }
 add_action('wp_enqueue_scripts', 'dh_scripts');
-
-add_action('enqueue_block_editor_assets', 'dh_enqueue_theme_font_editor', 5);
 
 /**
  * Post meta line: posted in Category on Date by Author.
