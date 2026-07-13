@@ -20,3 +20,10 @@ function dh_get_social_icon_svg($icon) {
 
     return isset($icons[$icon]) ? $icons[$icon] : '';
 }
+
+/**
+ * Return inline SVG markup for the search submit button.
+ */
+function dh_get_search_icon_svg() {
+    return '<svg class="search-submit__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><circle cx="6.75" cy="6.75" r="3.75" stroke="currentColor" stroke-width="1.25"/><path d="M9.75 9.75 12.5 12.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>';
+}

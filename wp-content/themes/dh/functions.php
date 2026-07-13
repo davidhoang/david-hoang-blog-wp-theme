@@ -186,6 +186,42 @@ function dh_render_social_links() {
 }
 
 /**
+ * Unify core search block markup with the theme search form.
+ */
+function dh_customize_search_block($block_content, $block) {
+    if (empty($block['blockName']) || 'core/search' !== $block['blockName']) {
+        return $block_content;
+    }
+
+    $block_content = str_replace(
+        'wp-block-search__label',
+        'wp-block-search__label screen-reader-text',
+        $block_content
+    );
+
+    $icon = dh_get_search_icon_svg();
+
+    $block_content = preg_replace(
+        '/(<button[^>]*class="[^"]*wp-block-search__button[^"]*"[^>]*>)(.*?)(<\/button>)/s',
+        '$1' . $icon . '$3',
+        $block_content,
+        1
+    );
+
+    if (false === strpos($block_content, 'placeholder=')) {
+        return $block_content;
+    }
+
+    return preg_replace(
+        '/placeholder=""/',
+        'placeholder="' . esc_attr__('Search', 'dh') . '"',
+        $block_content,
+        1
+    );
+}
+add_filter('render_block', 'dh_customize_search_block', 10, 2);
+
+/**
  * Enqueue theme assets.
  */
 function dh_scripts() {
