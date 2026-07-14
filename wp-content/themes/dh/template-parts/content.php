@@ -19,7 +19,7 @@
         <?php endif; ?>
     </header>
 
-    <?php if (is_singular()) : ?>
+    <?php if (is_singular('post')) : ?>
         <?php dh_entry_meta(); ?>
     <?php endif; ?>
 
