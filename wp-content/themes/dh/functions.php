@@ -225,7 +225,7 @@ add_filter('render_block', 'dh_customize_search_block', 10, 2);
  * Enqueue theme assets.
  */
 function dh_scripts() {
-    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.8.4');
+    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.9.0');
 
     $hero_script = get_template_directory() . '/js/hero-halftone.js';
 
@@ -240,6 +240,46 @@ function dh_scripts() {
     }
 }
 add_action('wp_enqueue_scripts', 'dh_scripts');
+
+/**
+ * Clean archive titles (drop "Category:" / "Tag:" prefixes).
+ */
+function dh_archive_title($title) {
+    if (is_category()) {
+        return single_cat_title('', false);
+    }
+
+    if (is_tag()) {
+        return single_tag_title('', false);
+    }
+
+    if (is_author()) {
+        return get_the_author();
+    }
+
+    if (is_year()) {
+        return get_the_date(_x('Y', 'yearly archives date format', 'dh'));
+    }
+
+    if (is_month()) {
+        return get_the_date(_x('F Y', 'monthly archives date format', 'dh'));
+    }
+
+    if (is_day()) {
+        return get_the_date();
+    }
+
+    if (is_post_type_archive()) {
+        return post_type_archive_title('', false);
+    }
+
+    if (is_tax()) {
+        return single_term_title('', false);
+    }
+
+    return $title;
+}
+add_filter('get_the_archive_title', 'dh_archive_title');
 
 /**
  * Post meta line: posted in Category on Date by Author.

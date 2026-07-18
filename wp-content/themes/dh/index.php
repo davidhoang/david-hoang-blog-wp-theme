@@ -28,7 +28,7 @@ get_template_part('template-parts/site-nav');
                     ?>
                 </nav>
             <?php else : ?>
-                <p><?php esc_html_e('No posts found.', 'dh'); ?></p>
+                <?php get_template_part('template-parts/content', 'none'); ?>
             <?php endif; ?>
         </div>
 
