@@ -21,8 +21,6 @@
             <div
                 class="site-hero__shader"
                 data-dh-hero-shader
-                data-color-back="#f8f8f6"
-                data-color-fill="rgba(0, 0, 0, 0.08)"
                 aria-hidden="true"
             ></div>
 

@@ -12,8 +12,12 @@
             <?php dh_render_primary_menu(); ?>
         </div>
 
-        <div class="site-nav__social">
-            <?php dh_render_social_links(); ?>
+        <div class="site-nav__actions">
+            <?php dh_render_theme_toggle(); ?>
+
+            <div class="site-nav__social">
+                <?php dh_render_social_links(); ?>
+            </div>
         </div>
     </div>
 </nav>

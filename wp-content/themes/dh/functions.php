@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
 require_once get_template_directory() . '/inc/social-icons.php';
+require_once get_template_directory() . '/inc/theme-mode.php';
 
 /**
  * Theme setup.
@@ -225,7 +226,7 @@ add_filter('render_block', 'dh_customize_search_block', 10, 2);
  * Enqueue theme assets.
  */
 function dh_scripts() {
-    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.9.0');
+    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.10.0');
 
     $hero_script = get_template_directory() . '/js/hero-halftone.js';
 
@@ -234,7 +235,7 @@ function dh_scripts() {
             'dh-hero-halftone',
             get_template_directory_uri() . '/js/hero-halftone.js',
             array(),
-            '0.8.0',
+            '0.10.0',
             true
         );
     }
