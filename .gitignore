@@ -61,3 +61,7 @@ temp/
 # Local development / debugging (trial fonts, experiments)
 _development/*
 !_development/.gitignore
+
+# Local QA artifacts
+output/
+.playwright-cli/

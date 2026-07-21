@@ -43,7 +43,7 @@ add_action('after_setup_theme', 'david_hoang_setup');
  */
 function david_hoang_scripts() {
     // Enqueue main stylesheet (ABC Diatype fonts are self-hosted in /fonts/)
-    wp_enqueue_style('david-hoang-style', get_stylesheet_uri(), array(), '1.0.0');
+    wp_enqueue_style('david-hoang-style', get_stylesheet_uri(), array(), '3.2.0');
     
     // Parallax script removed - featured images are now inline in post content
     
