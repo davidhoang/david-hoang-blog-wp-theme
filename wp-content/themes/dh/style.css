@@ -170,25 +170,15 @@ img {
     max-width: var(--dh-layout-width);
     min-height: clamp(18rem, 30vw, 26rem);
     margin-inline: auto;
-    padding: calc(var(--dh-space) * 3.5) 0 calc(var(--dh-space) * 5.5);
+    padding: calc(var(--dh-space) * 4.5) 0;
+    display: flex;
+    align-items: center;
     text-align: left;
 }
 
 .site-hero__intro {
     max-width: 58rem;
     min-width: 0;
-}
-
-.site-hero__intro::before {
-    content: 'Personal archive / essays / notes';
-    display: block;
-    margin-bottom: calc(var(--dh-space) * 0.9);
-    color: var(--dh-color-muted);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.09em;
-    line-height: 1;
-    text-transform: uppercase;
 }
 
 .site-title {
@@ -1067,7 +1057,7 @@ img {
 
     .site-hero__inner {
         min-height: 16rem;
-        padding: calc(var(--dh-space) * 2.5) 0 calc(var(--dh-space) * 3.5);
+        padding: calc(var(--dh-space) * 3) 0;
     }
 
     .site-description {
