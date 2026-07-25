@@ -100,14 +100,21 @@ add_action('template_redirect', 'dh_serve_dev_font', 0);
  * Default theme font family name.
  */
 function dh_get_theme_font_family() {
-    return 'ABC Arizona Text Trial';
+    return 'Newsreader';
 }
 
 /**
  * CSS font stack for the theme default.
  */
 function dh_get_theme_font_stack() {
-    return '"' . dh_get_theme_font_family() . '", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    return '"' . dh_get_theme_font_family() . '", Georgia, "Times New Roman", serif';
+}
+
+/**
+ * Google Fonts stylesheet URL for the theme font.
+ */
+function dh_get_theme_font_url() {
+    return 'https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap';
 }
 
 /**
@@ -164,14 +171,7 @@ function dh_get_theme_font_face_css() {
  * Enqueue the theme default font on localhost.
  */
 function dh_enqueue_theme_font() {
-    wp_register_style('dh-theme-font', false, array(), '0.8.1');
-    wp_enqueue_style('dh-theme-font');
-
-    $css = dh_get_theme_font_face_css();
-
-    if ($css) {
-        wp_add_inline_style('dh-theme-font', $css);
-    }
+    wp_enqueue_style('dh-theme-font', dh_get_theme_font_url(), array(), '1.0.0');
 }
 add_action('wp_enqueue_scripts', 'dh_enqueue_theme_font', 5);
 
@@ -179,13 +179,6 @@ add_action('wp_enqueue_scripts', 'dh_enqueue_theme_font', 5);
  * Enqueue the theme default font in the block editor on localhost.
  */
 function dh_enqueue_theme_font_editor() {
-    wp_register_style('dh-theme-font-editor', false, array(), '0.8.1');
-    wp_enqueue_style('dh-theme-font-editor');
-
-    $css = dh_get_theme_font_face_css();
-
-    if ($css) {
-        wp_add_inline_style('dh-theme-font-editor', $css);
-    }
+    wp_enqueue_style('dh-theme-font-editor', dh_get_theme_font_url(), array(), '1.0.0');
 }
 add_action('enqueue_block_editor_assets', 'dh_enqueue_theme_font_editor', 5);
