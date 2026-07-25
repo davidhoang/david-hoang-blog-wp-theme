@@ -173,17 +173,20 @@ img {
     padding: calc(var(--dh-space) * 4.5) 0;
     display: flex;
     align-items: center;
+    justify-content: center;
     text-align: left;
 }
 
 .site-hero__intro {
     max-width: 58rem;
     min-width: 0;
+    text-align: center;
 }
 
 .site-title {
     margin: 0;
     max-width: 12ch;
+    margin-inline: auto;
     font-size: clamp(4rem, 8.5vw, 8.5rem);
     font-weight: 500;
     line-height: 0.9;
@@ -198,6 +201,7 @@ img {
 .site-description {
     max-width: 32rem;
     margin: calc(var(--dh-space) * 1.1) 0 0;
+    margin-inline: auto;
     font-size: clamp(1.125rem, 1.8vw, 1.65rem);
     font-weight: 400;
     line-height: 1.35;
@@ -207,7 +211,7 @@ img {
 .site-nav,
 #site-navigation.site-nav {
     width: 100%;
-    padding-inline: var(--dh-space);
+    padding-inline: 0;
     margin-bottom: calc(var(--dh-space) * 1.5);
     background-color: var(--dh-hero-bg);
     border-top: 0;
@@ -220,8 +224,19 @@ img {
     justify-content: space-between;
     gap: var(--dh-space);
     width: 100%;
-    max-width: var(--dh-layout-width);
+    max-width: none;
     margin-inline: auto;
+}
+
+@media (min-width: 96rem) {
+    .site-nav,
+    #site-navigation.site-nav {
+        padding-inline: var(--dh-space);
+    }
+
+    .site-nav__inner {
+        max-width: var(--dh-layout-width);
+    }
 }
 
 .site-nav__menu {
@@ -327,13 +342,22 @@ img {
 
 .site-nav__menu .nav-links li,
 .site-nav__social .social-links li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.25rem;
     margin: 0;
-    padding: 1rem 1.35rem;
+    padding: 0.75rem 1.15rem;
     border-left: 1px solid var(--dh-hero-border);
 }
 
 .site-nav__menu .nav-links li:first-child {
-    padding-left: 1.25rem;
+    padding-left: 1.15rem;
+}
+
+.site-nav__social .social-links li {
+    width: 3.25rem;
+    padding-inline: 0;
 }
 
 .site-nav__menu .nav-links li:last-child {
@@ -350,7 +374,7 @@ img {
 
 .nav-links li {
     margin: 0;
-    padding: 0.9rem 1.25rem;
+    padding: 0.75rem 1.15rem;
 }
 
 .nav-links a,
@@ -370,6 +394,8 @@ img {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
     line-height: 1;
 }
 
@@ -760,8 +786,6 @@ img {
     border: 1px solid var(--dh-sidebar-border);
     border-radius: 0;
     box-shadow: none;
-    position: sticky;
-    top: var(--dh-space);
 }
 
 .sidebar-section,
@@ -1113,10 +1137,6 @@ img {
     .site-layout {
         grid-template-columns: 1fr;
         gap: calc(var(--dh-space) * 2);
-    }
-
-    .sidebar {
-        position: static;
     }
 
     .post-navigation .nav-links {
