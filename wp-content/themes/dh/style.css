@@ -38,6 +38,7 @@ Tags: blog, minimal
     --dh-color-link-hover: #666;
     --dh-control-hover-bg: rgba(0, 0, 0, 0.05);
     --dh-font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --dh-ui-font: 'Newsreader', Georgia, 'Times New Roman', serif;
     --dh-layout-width: 80rem;
     --dh-sidebar-width: 18rem;
     --dh-space: 1.375rem;
@@ -89,8 +90,8 @@ Tags: blog, minimal
 body {
     margin: 0;
     font-family: var(--dh-font-family);
-    font-size: 1.0625rem;
-    line-height: 1.7;
+    font-size: 1.125rem;
+    line-height: 1.68;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: var(--dh-color-text);
@@ -125,6 +126,7 @@ img {
     width: 100%;
     padding-inline: var(--dh-space);
     background-color: var(--dh-hero-bg);
+    border-bottom: 1px solid var(--dh-hero-border);
 }
 
 .site-hero__shader {
@@ -166,21 +168,36 @@ img {
     z-index: 1;
     width: 100%;
     max-width: var(--dh-layout-width);
-    min-height: 16rem;
+    min-height: clamp(18rem, 30vw, 26rem);
     margin-inline: auto;
-    padding: calc(var(--dh-space) * 3.25) 0 calc(var(--dh-space) * 4.75);
-    text-align: center;
+    padding: calc(var(--dh-space) * 3.5) 0 calc(var(--dh-space) * 5.5);
+    text-align: left;
 }
 
 .site-hero__intro {
+    max-width: 58rem;
     min-width: 0;
+}
+
+.site-hero__intro::before {
+    content: 'Personal archive / essays / notes';
+    display: block;
+    margin-bottom: calc(var(--dh-space) * 0.9);
+    color: var(--dh-color-muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    line-height: 1;
+    text-transform: uppercase;
 }
 
 .site-title {
     margin: 0;
-    font-size: 3.5rem;
-    font-weight: 400;
-    line-height: 1.1;
+    max-width: 12ch;
+    font-size: clamp(4rem, 8.5vw, 8.5rem);
+    font-weight: 500;
+    line-height: 0.9;
+    letter-spacing: -0.045em;
 }
 
 .site-title a {
@@ -189,10 +206,11 @@ img {
 }
 
 .site-description {
-    margin: 0.75rem 0 0;
-    font-size: 1.125rem;
+    max-width: 32rem;
+    margin: calc(var(--dh-space) * 1.1) 0 0;
+    font-size: clamp(1.125rem, 1.8vw, 1.65rem);
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 1.35;
     color: var(--dh-color-muted);
 }
 
@@ -202,7 +220,7 @@ img {
     padding-inline: var(--dh-space);
     margin-bottom: calc(var(--dh-space) * 1.5);
     background-color: var(--dh-hero-bg);
-    border-top: 1px solid var(--dh-nav-border);
+    border-top: 0;
     border-bottom: 1px solid var(--dh-hero-border);
 }
 
@@ -320,7 +338,7 @@ img {
 .site-nav__menu .nav-links li,
 .site-nav__social .social-links li {
     margin: 0;
-    padding: 0.9rem 1.25rem;
+    padding: 1rem 1.35rem;
     border-left: 1px solid var(--dh-hero-border);
 }
 
@@ -348,7 +366,9 @@ img {
 .nav-links a,
 .social-links a {
     color: var(--dh-color-text);
-    font-size: 0.9rem;
+    font-family: var(--dh-ui-font);
+    font-size: 0.95rem;
+    line-height: 1;
     text-decoration: none;
 }
 
@@ -373,7 +393,10 @@ img {
 .nav-links .current-menu-item > a,
 .nav-links .current_page_item > a,
 .social-links a:hover {
-    border-bottom: 1px dotted var(--dh-color-muted);
+    color: var(--dh-color-text);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 0.25em;
 }
 
 .site-main {
@@ -383,7 +406,7 @@ img {
 .site-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--dh-sidebar-width);
-    gap: calc(var(--dh-space) * 2.25);
+    gap: calc(var(--dh-space) * 2.75);
     max-width: var(--dh-layout-width);
     margin: 0 auto;
     align-items: start;
@@ -394,8 +417,8 @@ img {
 }
 
 .post {
-    margin-bottom: calc(var(--dh-space) * 2.5);
-    padding-bottom: calc(var(--dh-space) * 2);
+    margin-bottom: calc(var(--dh-space) * 3);
+    padding-bottom: calc(var(--dh-space) * 2.5);
     border-bottom: none;
     background-image: radial-gradient(circle, var(--dh-color-border) 1.25px, transparent 1.25px);
     background-size: 6px 2px;
@@ -413,14 +436,16 @@ img {
 }
 
 .entry-header {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
 }
 
 .entry-title {
     margin: 0;
-    font-size: 2.25rem;
+    max-width: 16ch;
+    font-size: clamp(2.35rem, 4.2vw, 4.75rem);
     font-weight: 500;
-    line-height: 1.3;
+    line-height: 0.96;
+    letter-spacing: -0.035em;
 }
 
 .entry-title--empty {
@@ -434,6 +459,29 @@ img {
 
 .entry-title a:hover {
     text-decoration: underline;
+    text-decoration-thickness: 0.05em;
+    text-underline-offset: 0.08em;
+}
+
+.entry-kicker {
+    margin-bottom: calc(var(--dh-space) * 0.9);
+    color: var(--dh-color-muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.entry-kicker a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.entry-kicker a:hover {
+    color: var(--dh-color-text);
+    text-decoration: underline;
+    text-decoration-style: dotted;
 }
 
 .post-view {
@@ -448,7 +496,7 @@ img {
     color: var(--dh-color-muted);
     text-decoration: none;
     border: 1px solid var(--dh-color-border);
-    border-radius: 999px;
+    border-radius: 0;
     transition:
         color 0.15s ease,
         border-color 0.15s ease,
@@ -476,6 +524,7 @@ img {
 .entry-meta {
     margin-bottom: var(--dh-space);
     font-size: 0.875rem;
+    font-weight: 500;
     color: var(--dh-color-muted);
 }
 
@@ -488,7 +537,12 @@ img {
 }
 
 .entry-content {
+    max-width: 46rem;
     overflow-wrap: break-word;
+}
+
+.post-featured-image + .entry-content {
+    margin-top: calc(var(--dh-space) * 0.75);
 }
 
 .entry-content > :first-child {
@@ -500,6 +554,11 @@ img {
 .entry-content ol,
 .entry-content blockquote {
     margin: 0 0 var(--dh-space);
+}
+
+.entry-content p,
+.entry-summary p {
+    max-width: 42rem;
 }
 
 .wp-block-image,
@@ -706,11 +765,13 @@ img {
 .sidebar {
     font-size: 0.9rem;
     line-height: 1.6;
-    padding: 1rem;
+    padding: calc(var(--dh-space) * 0.85);
     background-color: var(--dh-sidebar-bg);
     border: 1px solid var(--dh-sidebar-border);
-    border-radius: 4px;
-    box-shadow: var(--dh-sidebar-shadow);
+    border-radius: 0;
+    box-shadow: none;
+    position: sticky;
+    top: var(--dh-space);
 }
 
 .sidebar-section,
@@ -721,8 +782,12 @@ img {
 .sidebar-title,
 .sidebar .widget-title {
     margin: 0 0 0.75rem;
-    font-size: 1rem;
+    color: var(--dh-color-text);
+    font-size: 0.8125rem;
     font-weight: 600;
+    letter-spacing: 0.08em;
+    line-height: 1.1;
+    text-transform: uppercase;
 }
 
 .sidebar p {
@@ -738,7 +803,7 @@ img {
 
 .sidebar-list li,
 .sidebar ul li {
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.45rem;
 }
 
 .sidebar-list a,
@@ -762,8 +827,8 @@ img {
     align-items: center;
     width: 100%;
     overflow: hidden;
-    border: 1px solid transparent;
-    border-radius: var(--dh-search-radius);
+    border: 1px solid var(--dh-sidebar-border);
+    border-radius: 0;
     background: var(--dh-search-bg);
     transition:
         background-color 0.2s ease,
@@ -813,7 +878,7 @@ img {
     margin: 0.15rem 0.15rem 0.15rem 0;
     padding: 0.55rem 0.7rem;
     border: 0;
-    border-radius: calc(var(--dh-search-radius) - 0.125rem);
+    border-radius: 0;
     background: transparent;
     color: var(--dh-color-muted);
     font: inherit;
@@ -841,7 +906,8 @@ img {
 }
 
 .site-footer {
-    padding: var(--dh-space);
+    padding: calc(var(--dh-space) * 2) var(--dh-space);
+    border-top: 1px solid var(--dh-color-border);
     text-align: center;
     font-size: 0.875rem;
     color: var(--dh-color-muted);
@@ -996,12 +1062,16 @@ img {
 
 @media (max-width: 768px) {
     .site-title {
-        font-size: 2.75rem;
+        font-size: clamp(3rem, 16vw, 4.75rem);
     }
 
     .site-hero__inner {
-        min-height: 13rem;
-        padding: calc(var(--dh-space) * 2.25) 0 calc(var(--dh-space) * 3.25);
+        min-height: 16rem;
+        padding: calc(var(--dh-space) * 2.5) 0 calc(var(--dh-space) * 3.5);
+    }
+
+    .site-description {
+        font-size: 1.125rem;
     }
 
     .site-nav__inner {
@@ -1046,12 +1116,17 @@ img {
     }
 
     .entry-title {
-        font-size: 1.875rem;
+        max-width: 12ch;
+        font-size: 2.65rem;
     }
 
     .site-layout {
         grid-template-columns: 1fr;
         gap: calc(var(--dh-space) * 2);
+    }
+
+    .sidebar {
+        position: static;
     }
 
     .post-navigation .nav-links {

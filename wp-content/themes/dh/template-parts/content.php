@@ -21,6 +21,12 @@
 
     <?php if (is_singular('post')) : ?>
         <?php dh_entry_meta(); ?>
+    <?php else : ?>
+        <div class="entry-kicker">
+            <a href="<?php the_permalink(); ?>" rel="bookmark">
+                <time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date()); ?></time>
+            </a>
+        </div>
     <?php endif; ?>
 
     <?php if (has_post_thumbnail()) : ?>
