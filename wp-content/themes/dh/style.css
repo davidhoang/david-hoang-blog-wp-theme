@@ -484,9 +484,8 @@ img {
     color: var(--dh-color-muted);
     font-size: 0.8125rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.02em;
     line-height: 1;
-    text-transform: uppercase;
 }
 
 .entry-kicker a {
@@ -809,24 +808,26 @@ img {
 }
 
 .sidebar-list,
-.sidebar ul {
+.sidebar :where(ul, ol) {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
 .sidebar-list li,
-.sidebar ul li {
-    margin-bottom: 0.45rem;
+.sidebar :where(ul, ol) li {
+    margin: 0 0 0.55rem;
+    padding: 0;
+    line-height: 1.45;
 }
 
 .sidebar-list a,
-.sidebar ul a {
+.sidebar :where(ul, ol) a {
     text-decoration: none;
 }
 
 .sidebar-list a:hover,
-.sidebar ul a:hover {
+.sidebar :where(ul, ol) a:hover {
     text-decoration: underline;
 }
 
