@@ -328,7 +328,7 @@ function dh_comment($comment, $args, $depth) {
                         <time datetime="<?php comment_time('c'); ?>">
                             <?php
                             printf(
-                                esc_html__('%1$s at %2$s', 'dh'),
+                                esc_html__('%1$s, %2$s', 'dh'),
                                 get_comment_date(),
                                 get_comment_time()
                             );
