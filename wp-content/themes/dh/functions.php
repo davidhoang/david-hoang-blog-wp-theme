@@ -226,7 +226,7 @@ add_filter('render_block', 'dh_customize_search_block', 10, 2);
  * Enqueue theme assets.
  */
 function dh_scripts() {
-    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.10.0');
+    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.11.0');
 
     $hero_script = get_template_directory() . '/js/hero-halftone.js';
 
@@ -235,10 +235,18 @@ function dh_scripts() {
             'dh-hero-halftone',
             get_template_directory_uri() . '/js/hero-halftone.js',
             array(),
-            '0.10.0',
+            '0.11.0',
             true
         );
     }
+
+    wp_enqueue_script(
+        'dh-site-nav',
+        get_template_directory_uri() . '/js/site-nav.js',
+        array(),
+        '0.11.0',
+        true
+    );
 }
 add_action('wp_enqueue_scripts', 'dh_scripts');
 

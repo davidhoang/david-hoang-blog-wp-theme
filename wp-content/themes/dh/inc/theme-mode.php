@@ -96,7 +96,7 @@ function dh_enqueue_theme_mode_script() {
         'dh-theme-mode',
         get_template_directory_uri() . '/js/theme-mode.js',
         array(),
-        '0.10.0',
+        '0.11.0',
         true
     );
 
