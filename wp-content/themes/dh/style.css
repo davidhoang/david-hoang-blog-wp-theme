@@ -111,6 +111,58 @@ a:hover {
     color: var(--dh-color-link-hover);
 }
 
+.wp-block-button__link,
+.entry-content .wp-element-button,
+.comment-form input[type='submit'],
+.comment-form button[type='submit'] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.78rem 1.1rem;
+    border: 1px solid var(--dh-color-text);
+    border-radius: 0;
+    background: var(--dh-color-text);
+    color: var(--dh-color-bg);
+    font-family: var(--dh-ui-font);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        color 0.18s ease,
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        transform 0.18s ease;
+}
+
+.wp-block-button__link:hover,
+.entry-content .wp-element-button:hover,
+.comment-form input[type='submit']:hover,
+.comment-form button[type='submit']:hover {
+    background: transparent;
+    color: var(--dh-color-text);
+    transform: translateY(-1px);
+}
+
+.wp-block-button__link:focus-visible,
+.entry-content .wp-element-button:focus-visible,
+.comment-form input[type='submit']:focus-visible,
+.comment-form button[type='submit']:focus-visible {
+    outline: 2px solid var(--dh-color-border);
+    outline-offset: 3px;
+}
+
+.wp-block-button__link:disabled,
+.entry-content .wp-element-button:disabled,
+.comment-form input[type='submit']:disabled,
+.comment-form button[type='submit']:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
 img {
     max-width: 100%;
     height: auto;
@@ -559,10 +611,6 @@ img {
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--dh-color-muted);
-}
-
-.entry-meta span + span::before {
-    content: ' ';
 }
 
 .entry-meta a {
@@ -1091,6 +1139,10 @@ img {
     padding: 0.5rem 0.75rem;
     border: 1px solid var(--dh-color-border);
     font: inherit;
+}
+
+.comment-form .form-submit {
+    margin: calc(var(--dh-space) * 0.65) 0 0;
 }
 
 @media (max-width: 768px) {

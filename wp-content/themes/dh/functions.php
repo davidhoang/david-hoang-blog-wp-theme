@@ -283,51 +283,15 @@ function dh_archive_title($title) {
 add_filter('get_the_archive_title', 'dh_archive_title');
 
 /**
- * Post meta line: posted in Category on Date by Author.
+ * Post meta line.
  */
 function dh_entry_meta() {
-    $parts = array();
-
-    $categories = get_the_category();
-    if (!empty($categories)) {
-        $category_links = array();
-        foreach ($categories as $category) {
-            $category_links[] = '<a href="' . esc_url(get_category_link($category->term_id)) . '">' . esc_html($category->name) . '</a>';
-        }
-
-        $parts[] = sprintf(
-            '<span class="post-category">%s %s</span>',
-            esc_html__('posted in', 'dh'),
-            implode(', ', $category_links)
-        );
-    }
-
-    $parts[] = sprintf(
-        '<span class="post-date">%s <a href="%s" rel="bookmark"><time datetime="%s">%s</time></a></span>',
-        esc_html__('on', 'dh'),
+    printf(
+        '<div class="entry-meta"><a href="%s" rel="bookmark"><time datetime="%s">%s</time></a></div>',
         esc_url(get_permalink()),
         esc_attr(get_the_date('c')),
         esc_html(get_the_date())
     );
-
-    $parts[] = sprintf(
-        '<span class="post-author">%s <a href="%s">%s</a></span>',
-        esc_html__('by', 'dh'),
-        esc_url(get_author_posts_url(get_the_author_meta('ID'))),
-        esc_html(get_the_author())
-    );
-
-    if (comments_open() || get_comments_number()) {
-        ob_start();
-        comments_popup_link(
-            esc_html__('0 Comments', 'dh'),
-            esc_html__('1 Comment', 'dh'),
-            esc_html__('% Comments', 'dh')
-        );
-        $parts[] = '<span class="post-comments">' . ob_get_clean() . '</span>';
-    }
-
-    echo '<div class="entry-meta">' . implode(' ', $parts) . '</div>';
 }
 
 /**
