@@ -9,9 +9,14 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+if (!defined('DH_THEME_VERSION')) {
+    define('DH_THEME_VERSION', '0.13.0');
+}
+
 require_once get_template_directory() . '/inc/theme-fonts.php';
 require_once get_template_directory() . '/inc/social-icons.php';
 require_once get_template_directory() . '/inc/theme-mode.php';
+require_once get_template_directory() . '/inc/seo.php';
 
 /**
  * Theme setup.
@@ -226,7 +231,7 @@ add_filter('render_block', 'dh_customize_search_block', 10, 2);
  * Enqueue theme assets.
  */
 function dh_scripts() {
-    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.11.0');
+    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), DH_THEME_VERSION);
 
     $hero_script = get_template_directory() . '/js/hero-halftone.js';
 
@@ -235,7 +240,7 @@ function dh_scripts() {
             'dh-hero-halftone',
             get_template_directory_uri() . '/js/hero-halftone.js',
             array(),
-            '0.11.0',
+            DH_THEME_VERSION,
             true
         );
     }
@@ -244,11 +249,27 @@ function dh_scripts() {
         'dh-site-nav',
         get_template_directory_uri() . '/js/site-nav.js',
         array(),
-        '0.11.0',
+        DH_THEME_VERSION,
         true
     );
 }
 add_action('wp_enqueue_scripts', 'dh_scripts');
+
+/**
+ * Numbered posts pagination for archives and search.
+ *
+ * @param string $aria_label Accessible label for the nav landmark.
+ */
+function dh_the_posts_pagination($aria_label = '') {
+    the_posts_pagination(array(
+        'mid_size'           => 2,
+        'prev_text'          => __('← Older', 'dh'),
+        'next_text'          => __('Newer →', 'dh'),
+        'screen_reader_text' => __('Posts navigation', 'dh'),
+        'aria_label'         => $aria_label ? $aria_label : __('Posts', 'dh'),
+        'class'              => 'posts-pagination',
+    ));
+}
 
 /**
  * Clean archive titles (drop "Category:" / "Tag:" prefixes).

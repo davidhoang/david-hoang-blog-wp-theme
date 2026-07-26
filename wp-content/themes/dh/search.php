@@ -26,14 +26,7 @@ get_template_part('template-parts/site-nav');
                     <?php get_template_part('template-parts/content', 'search'); ?>
                 <?php endwhile; ?>
 
-                <nav class="posts-navigation" aria-label="<?php esc_attr_e('Search results', 'dh'); ?>">
-                    <?php
-                    the_posts_navigation(array(
-                        'prev_text' => esc_html__('← Older Results', 'dh'),
-                        'next_text' => esc_html__('Newer Results →', 'dh'),
-                    ));
-                    ?>
-                </nav>
+                <?php dh_the_posts_pagination(__('Search results', 'dh')); ?>
             <?php else : ?>
                 <?php get_template_part('template-parts/content', 'none'); ?>
             <?php endif; ?>

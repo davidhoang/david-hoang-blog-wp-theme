@@ -24,14 +24,7 @@ get_template_part('template-parts/site-nav');
                     <?php get_template_part('template-parts/content'); ?>
                 <?php endwhile; ?>
 
-                <nav class="posts-navigation" aria-label="<?php esc_attr_e('Posts', 'dh'); ?>">
-                    <?php
-                    the_posts_navigation(array(
-                        'prev_text' => esc_html__('← Older Posts', 'dh'),
-                        'next_text' => esc_html__('Newer Posts →', 'dh'),
-                    ));
-                    ?>
-                </nav>
+                <?php dh_the_posts_pagination(__('Posts', 'dh')); ?>
             <?php else : ?>
                 <?php get_template_part('template-parts/content', 'none'); ?>
             <?php endif; ?>

@@ -18,9 +18,28 @@
 <div id="page" class="site">
     <header id="masthead" class="site-header">
         <div class="site-hero">
+            <?php
+            $dh_hero_image_url = dh_get_hero_image_url();
+            $dh_hero_classes   = 'site-hero__shader';
+            $dh_hero_style     = '';
+
+            if ($dh_hero_image_url) {
+                $dh_hero_classes .= ' site-hero__shader--has-image';
+                $dh_hero_style = sprintf(
+                    '--dh-hero-image: url("%s");',
+                    esc_url($dh_hero_image_url)
+                );
+            }
+            ?>
             <div
-                class="site-hero__shader"
+                class="<?php echo esc_attr($dh_hero_classes); ?>"
                 data-dh-hero-shader
+                <?php if ($dh_hero_image_url) : ?>
+                    data-image-url="<?php echo esc_url($dh_hero_image_url); ?>"
+                <?php endif; ?>
+                <?php if ($dh_hero_style) : ?>
+                    style="<?php echo esc_attr($dh_hero_style); ?>"
+                <?php endif; ?>
                 aria-hidden="true"
             ></div>
 
