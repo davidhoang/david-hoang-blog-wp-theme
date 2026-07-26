@@ -7,10 +7,7 @@
     var STORAGE_KEY = 'dh-color-scheme';
     var config = window.dhThemeMode || {};
     var labels = config.labels || {};
-    var themeColors = config.colors || {
-        light: '#ffffff',
-        dark: '#161614',
-    };
+    var themeColors = config.colors || {};
 
     function getStoredTheme() {
         try {
@@ -62,11 +59,12 @@
 
     function updateThemeColor(theme) {
         var meta = document.querySelector('meta[name="theme-color"]');
-        if (!meta) {
+        var nextColor = themeColors[theme];
+        if (!meta || !nextColor) {
             return;
         }
 
-        meta.setAttribute('content', themeColors[theme] || themeColors.light);
+        meta.setAttribute('content', nextColor);
     }
 
     function applyTheme(theme, options) {
