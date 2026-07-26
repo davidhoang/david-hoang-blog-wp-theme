@@ -4,41 +4,43 @@
  */
 
 :root {
-  --dh-color-text: #333;
-  --dh-color-bg: #fff;
-  --dh-color-muted: #666;
-  --dh-color-border: #ddd;
-  --dh-color-surface: #f7f7f7;
-  --dh-color-link: var(--dh-color-text);
-  --dh-color-link-hover: var(--dh-color-muted);
-  --dh-font-family: "Newsreader", Georgia, "Times New Roman", serif;
-  --dh-space: 1.375rem;
-  --dh-polaroid-bg: #f6f6f2;
-  --dh-polaroid-edge: rgba(0, 0, 0, 0.16);
-  --dh-polaroid-dot: rgba(0, 0, 0, 0.025);
-  --dh-polaroid-pad-side: 0.75rem;
-  --dh-polaroid-pad-top: 0.75rem;
-  --dh-polaroid-pad-bottom: 2.75rem;
+    --dh-color-text: #333;
+    --dh-color-bg: #fff;
+    --dh-color-muted: #666;
+    --dh-color-border: #ddd;
+    --dh-color-surface: #f7f7f7;
+    --dh-color-link: var(--dh-color-text);
+    --dh-color-link-hover: var(--dh-color-muted);
+    --dh-font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --dh-font-size-sm: 0.875rem;
+    --dh-font-size-body: 1.125rem;
+    --dh-space: 1.375rem;
+    --dh-polaroid-bg: #f6f6f2;
+    --dh-polaroid-edge: rgba(0, 0, 0, 0.16);
+    --dh-polaroid-dot: rgba(0, 0, 0, 0.025);
+    --dh-polaroid-pad-side: 0.75rem;
+    --dh-polaroid-pad-top: 0.75rem;
+    --dh-polaroid-pad-bottom: 2.75rem;
 }
 
 body,
 .editor-styles-wrapper {
-  font-family: var(--dh-font-family);
-  font-size: 1.0625rem;
-  line-height: 1.7;
-  color: var(--dh-color-text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-family: var(--dh-font-family);
+    font-size: var(--dh-font-size-body);
+    line-height: 1.7;
+    color: var(--dh-color-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .editor-styles-wrapper a {
-  color: var(--dh-color-link);
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
+    color: var(--dh-color-link);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
 }
 
 .editor-styles-wrapper a:hover {
-  color: var(--dh-color-link-hover);
+    color: var(--dh-color-link-hover);
 }
 
 .editor-styles-wrapper .wp-block-heading,
@@ -48,58 +50,58 @@ body,
 .editor-styles-wrapper h4,
 .editor-styles-wrapper h5,
 .editor-styles-wrapper h6 {
-  font-family: var(--dh-font-family);
-  font-weight: 500;
-  line-height: 1.3;
-  color: var(--dh-color-text);
+    font-family: var(--dh-font-family);
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--dh-color-text);
 }
 
 .editor-styles-wrapper .wp-block-heading {
-  margin-top: 0;
-  margin-bottom: 0.75rem;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
 }
 
 .editor-styles-wrapper p,
 .editor-styles-wrapper ul,
 .editor-styles-wrapper ol {
-  font-family: var(--dh-font-family);
+    font-family: var(--dh-font-family);
 }
 
 .editor-styles-wrapper .wp-block-search__label,
 .editor-styles-wrapper .wp-block-latest-posts__post-title,
 .editor-styles-wrapper .wp-block-latest-comments__comment-author {
-  font-family: var(--dh-font-family);
+    font-family: var(--dh-font-family);
 }
 
 .editor-styles-wrapper .wp-block-image {
-  display: inline-block;
-  max-width: 100%;
-  margin: calc(var(--dh-space) * 1.5) 0;
-  padding: var(--dh-polaroid-pad-top) var(--dh-polaroid-pad-side) var(--dh-polaroid-pad-bottom);
-  background-color: var(--dh-polaroid-bg);
-  background-image: radial-gradient(var(--dh-polaroid-dot) 0.5px, transparent 0.5px);
-  background-size: 3px 3px;
-  border-radius: 3px;
-  line-height: 0;
+    display: inline-block;
+    max-width: 100%;
+    margin: calc(var(--dh-space) * 1.5) 0;
+    padding: var(--dh-polaroid-pad-top) var(--dh-polaroid-pad-side) var(--dh-polaroid-pad-bottom);
+    background-color: var(--dh-polaroid-bg);
+    background-image: radial-gradient(var(--dh-polaroid-dot) 0.5px, transparent 0.5px);
+    background-size: 3px 3px;
+    border-radius: 3px;
+    line-height: 0;
 }
 
 .editor-styles-wrapper .wp-block-image:has(figcaption) {
-  padding-bottom: 0.875rem;
+    padding-bottom: 0.875rem;
 }
 
 .editor-styles-wrapper .wp-block-image img {
-  display: block;
-  width: 100%;
-  margin: 0;
-  border: 1px solid var(--dh-polaroid-edge);
-  border-radius: 0;
+    display: block;
+    width: 100%;
+    margin: 0;
+    border: 1px solid var(--dh-polaroid-edge);
+    border-radius: 0;
 }
 
 .editor-styles-wrapper .wp-block-image figcaption {
-  margin: 0.65rem 0 0;
-  padding: 0 0.15rem;
-  font-size: 0.875rem;
-  line-height: 1.4;
-  color: var(--dh-color-muted);
-  text-align: left;
+    margin: 0.65rem 0 0;
+    padding: 0 0.15rem;
+    font-size: var(--dh-font-size-sm);
+    line-height: 1.4;
+    color: var(--dh-color-muted);
+    text-align: left;
 }
