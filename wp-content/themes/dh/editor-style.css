@@ -1,6 +1,6 @@
 /*
- * Editor styles — inherits design tokens from style.css.
- * Loaded in the block editor and widget editor via add_editor_style().
+ * Editor styles — mirrors front-end tokens used in the block editor.
+ * Loaded via add_editor_style().
  */
 
 :root {
@@ -9,10 +9,16 @@
   --dh-color-muted: #666;
   --dh-color-border: #ddd;
   --dh-color-surface: #f7f7f7;
-  --dh-color-link: #333;
-  --dh-color-link-hover: #666;
+  --dh-color-link: var(--dh-color-text);
+  --dh-color-link-hover: var(--dh-color-muted);
   --dh-font-family: "Newsreader", Georgia, "Times New Roman", serif;
-  --dh-space: 1.5rem;
+  --dh-space: 1.375rem;
+  --dh-polaroid-bg: #f6f6f2;
+  --dh-polaroid-edge: rgba(0, 0, 0, 0.16);
+  --dh-polaroid-dot: rgba(0, 0, 0, 0.025);
+  --dh-polaroid-pad-side: 0.75rem;
+  --dh-polaroid-pad-top: 0.75rem;
+  --dh-polaroid-pad-bottom: 2.75rem;
 }
 
 body,
@@ -69,9 +75,9 @@ body,
   display: inline-block;
   max-width: 100%;
   margin: calc(var(--dh-space) * 1.5) 0;
-  padding: 0.75rem 0.75rem 2.75rem;
-  background-color: #f6f6f2;
-  background-image: radial-gradient(rgba(0, 0, 0, 0.025) 0.5px, transparent 0.5px);
+  padding: var(--dh-polaroid-pad-top) var(--dh-polaroid-pad-side) var(--dh-polaroid-pad-bottom);
+  background-color: var(--dh-polaroid-bg);
+  background-image: radial-gradient(var(--dh-polaroid-dot) 0.5px, transparent 0.5px);
   background-size: 3px 3px;
   border-radius: 3px;
   line-height: 0;
@@ -85,7 +91,7 @@ body,
   display: block;
   width: 100%;
   margin: 0;
-  border: 1px solid rgba(0, 0, 0, 0.16);
+  border: 1px solid var(--dh-polaroid-edge);
   border-radius: 0;
 }
 

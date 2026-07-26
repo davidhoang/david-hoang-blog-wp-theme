@@ -21,24 +21,22 @@ Tags: blog, minimal
     --dh-color-muted: #666;
     --dh-color-border: #ddd;
     --dh-color-surface: #f7f7f7;
-    --dh-sidebar-bg: #f8f8f6;
+    --dh-color-link: var(--dh-color-text);
+    --dh-color-link-hover: var(--dh-color-muted);
+    --dh-chrome-bg: #f8f8f6;
+    --dh-sidebar-bg: var(--dh-chrome-bg);
     --dh-sidebar-border: rgba(0, 0, 0, 0.06);
-    --dh-sidebar-shadow: 0 2px 6px rgba(0, 0, 0, 0.02), 0 8px 20px rgba(0, 0, 0, 0.03);
-    --dh-hero-bg: #f8f8f6;
+    --dh-hero-bg: var(--dh-chrome-bg);
     --dh-hero-border: rgba(0, 0, 0, 0.08);
     --dh-hero-fade-start: rgba(248, 248, 246, 0.1);
     --dh-hero-fade-mid: rgba(248, 248, 246, 0.55);
     --dh-hero-fade-end: var(--dh-hero-bg);
     --dh-hero-fallback-dot: rgba(0, 0, 0, 0.07);
     --dh-hero-fallback-fade: rgba(248, 248, 246, 0.2);
-    --dh-hero-shader-back: #f8f8f6;
+    --dh-hero-shader-back: var(--dh-chrome-bg);
     --dh-hero-shader-fill: rgba(0, 0, 0, 0.08);
-    --dh-nav-border: rgba(0, 0, 0, 0.14);
-    --dh-color-link: #333;
-    --dh-color-link-hover: #666;
     --dh-control-hover-bg: rgba(0, 0, 0, 0.05);
     --dh-font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
-    --dh-ui-font: 'Newsreader', Georgia, 'Times New Roman', serif;
     --dh-layout-width: 80rem;
     --dh-sidebar-width: 18rem;
     --dh-space: 1.375rem;
@@ -49,7 +47,6 @@ Tags: blog, minimal
     --dh-polaroid-pad-top: 0.75rem;
     --dh-polaroid-pad-bottom: 2.75rem;
     --dh-search-bg: var(--dh-sidebar-bg);
-    --dh-search-radius: 0.5rem;
 }
 
 [data-theme='dark'] {
@@ -59,26 +56,20 @@ Tags: blog, minimal
     --dh-color-muted: #9a9890;
     --dh-color-border: #333330;
     --dh-color-surface: #222220;
-    --dh-sidebar-bg: #1c1c1a;
+    --dh-color-link-hover: #b8b6b0;
+    --dh-chrome-bg: #1c1c1a;
     --dh-sidebar-border: rgba(255, 255, 255, 0.08);
-    --dh-sidebar-shadow: 0 2px 6px rgba(0, 0, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.35);
-    --dh-hero-bg: #1c1c1a;
     --dh-hero-border: rgba(255, 255, 255, 0.1);
     --dh-hero-fade-start: rgba(28, 28, 26, 0.1);
     --dh-hero-fade-mid: rgba(28, 28, 26, 0.55);
-    --dh-hero-fade-end: var(--dh-hero-bg);
     --dh-hero-fallback-dot: rgba(255, 255, 255, 0.1);
     --dh-hero-fallback-fade: rgba(28, 28, 26, 0.35);
-    --dh-hero-shader-back: #1c1c1a;
     --dh-hero-shader-fill: rgba(255, 255, 255, 0.1);
-    --dh-nav-border: rgba(255, 255, 255, 0.14);
-    --dh-color-link: #e8e6e1;
-    --dh-color-link-hover: #b8b6b0;
     --dh-control-hover-bg: rgba(255, 255, 255, 0.08);
     --dh-polaroid-bg: #242422;
     --dh-polaroid-edge: rgba(255, 255, 255, 0.14);
     --dh-polaroid-dot: rgba(255, 255, 255, 0.04);
-    --dh-search-bg: #222220;
+    --dh-search-bg: var(--dh-color-surface);
 }
 
 *,
@@ -124,7 +115,7 @@ a:hover {
     border-radius: 0;
     background: var(--dh-color-text);
     color: var(--dh-color-bg);
-    font-family: var(--dh-ui-font);
+    font-family: var(--dh-font-family);
     font-size: 0.95rem;
     font-weight: 600;
     line-height: 1;
@@ -367,7 +358,7 @@ img {
     border-bottom: 0;
 }
 
-.site-nav__menu .nav-links,
+.nav-links,
 .social-links {
     display: flex;
     flex-wrap: wrap;
@@ -381,15 +372,6 @@ img {
 .site-nav__menu .nav-links {
     justify-content: flex-start;
     width: auto;
-}
-
-.nav-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0;
-    margin: 0;
-    padding: 0;
-    list-style: none;
 }
 
 .site-nav__menu .nav-links li,
@@ -406,19 +388,12 @@ img {
         color 0.18s ease;
 }
 
-.site-nav__menu .nav-links li:first-child {
-    padding-left: 1.15rem;
-}
-
 .site-nav__social .social-links li {
     width: 3.25rem;
     padding-inline: 0;
 }
 
-.site-nav__menu .nav-links li:last-child {
-    border-right: 1px solid var(--dh-hero-border);
-}
-
+.site-nav__menu .nav-links li:last-child,
 .site-nav__social .social-links li:last-child {
     border-right: 1px solid var(--dh-hero-border);
 }
@@ -427,15 +402,10 @@ img {
     border-left: 0;
 }
 
-.nav-links li {
-    margin: 0;
-    padding: 0.75rem 1.15rem;
-}
-
 .nav-links a,
 .social-links a {
     color: var(--dh-color-text);
-    font-family: var(--dh-ui-font);
+    font-family: var(--dh-font-family);
     font-size: 0.95rem;
     line-height: 1;
     text-decoration: none;
@@ -1274,10 +1244,6 @@ img {
     .site-nav__social .social-links li {
         padding: 0.75rem 1rem;
         flex-shrink: 0;
-    }
-
-    .site-nav__menu .nav-links li:first-child {
-        padding-left: 1rem;
     }
 
     .search-title,

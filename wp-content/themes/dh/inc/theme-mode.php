@@ -10,10 +10,23 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Browser chrome colors for light / dark modes.
+ *
+ * @return array{light: string, dark: string}
+ */
+function dh_get_theme_colors() {
+    return array(
+        'light' => '#ffffff',
+        'dark'  => '#161614',
+    );
+}
+
+/**
  * Browser chrome color meta tag (updated by the boot script / toggle).
  */
 function dh_print_theme_color_meta() {
-    echo '<meta name="theme-color" content="#ffffff">' . "\n";
+    $colors = dh_get_theme_colors();
+    printf('<meta name="theme-color" content="%s">' . "\n", esc_attr($colors['light']));
 }
 add_action('wp_head', 'dh_print_theme_color_meta', 0);
 
@@ -21,6 +34,7 @@ add_action('wp_head', 'dh_print_theme_color_meta', 0);
  * Inline script that applies the saved (or system) theme before first paint.
  */
 function dh_print_theme_mode_boot_script() {
+    $colors = dh_get_theme_colors();
     ?>
     <script>
     (function () {
@@ -31,13 +45,17 @@ function dh_print_theme_mode_boot_script() {
             var theme = stored === 'light' || stored === 'dark'
                 ? stored
                 : (prefersDark ? 'dark' : 'light');
+            var colors = {
+                light: <?php echo wp_json_encode($colors['light']); ?>,
+                dark: <?php echo wp_json_encode($colors['dark']); ?>
+            };
 
             document.documentElement.setAttribute('data-theme', theme);
             document.documentElement.style.colorScheme = theme;
 
             var meta = document.querySelector('meta[name="theme-color"]');
             if (meta) {
-                meta.setAttribute('content', theme === 'dark' ? '#161614' : '#ffffff');
+                meta.setAttribute('content', colors[theme] || colors.light);
             }
         } catch (e) {
             // no-op
@@ -90,10 +108,7 @@ function dh_enqueue_theme_mode_script() {
                 'toDark'  => __('Switch to dark mode', 'dh'),
                 'toLight' => __('Switch to light mode', 'dh'),
             ),
-            'colors' => array(
-                'light' => '#ffffff',
-                'dark'  => '#161614',
-            ),
+            'colors' => dh_get_theme_colors(),
         )
     );
 }
