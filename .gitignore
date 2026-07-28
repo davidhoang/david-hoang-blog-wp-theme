@@ -65,8 +65,6 @@ bundle.min.js
 /Import/
 /assets/
 /template-parts/
-/CONTENT_IMPORT.md
-/DOCKER_INSTALL.md
 /SERVER_SETUP.md
 /THEME_EXTRACTION.md
 /THEME_SCREENSHOT.md

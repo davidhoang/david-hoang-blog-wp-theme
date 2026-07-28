@@ -23,6 +23,19 @@
     --dh-polaroid-pad-bottom: 2.75rem;
 }
 
+[data-theme='dark'] {
+    --dh-color-text: #e8e6e1;
+    --dh-color-bg: #161614;
+    --dh-color-muted: #9a9890;
+    --dh-color-border: #333330;
+    --dh-color-surface: #222220;
+    --dh-color-link: var(--dh-color-text);
+    --dh-color-link-hover: var(--dh-color-muted);
+    --dh-polaroid-bg: #242422;
+    --dh-polaroid-edge: rgba(255, 255, 255, 0.14);
+    --dh-polaroid-dot: rgba(255, 255, 255, 0.04);
+}
+
 body,
 .editor-styles-wrapper {
     font-family: var(--dh-font-family);

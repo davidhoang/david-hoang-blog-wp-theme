@@ -10,13 +10,17 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('DH_THEME_VERSION')) {
-    define('DH_THEME_VERSION', '0.13.0');
+    define('DH_THEME_VERSION', '0.14.0');
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
 require_once get_template_directory() . '/inc/social-icons.php';
 require_once get_template_directory() . '/inc/theme-mode.php';
 require_once get_template_directory() . '/inc/seo.php';
+require_once get_template_directory() . '/inc/customizer.php';
+require_once get_template_directory() . '/inc/reading-time.php';
+require_once get_template_directory() . '/inc/related-posts.php';
+require_once get_template_directory() . '/inc/block-patterns.php';
 
 /**
  * Theme setup.
@@ -157,18 +161,22 @@ function dh_render_primary_menu() {
  * Social links shown in the site nav.
  */
 function dh_get_social_links() {
-    return array(
+    $links = array(
         array(
             'label' => __('Twitter', 'dh'),
-            'url'   => 'https://twitter.com/davidhoang',
+            'url'   => get_theme_mod('dh_social_twitter', 'https://twitter.com/davidhoang'),
             'icon'  => 'twitter',
         ),
         array(
             'label' => __('GitHub', 'dh'),
-            'url'   => 'https://github.com/davidhoang',
+            'url'   => get_theme_mod('dh_social_github', 'https://github.com/davidhoang'),
             'icon'  => 'github',
         ),
     );
+
+    return array_values(array_filter($links, function ($link) {
+        return !empty($link['url']);
+    }));
 }
 
 /**
@@ -315,12 +323,23 @@ add_filter('get_the_archive_title', 'dh_archive_title');
  * Post meta line.
  */
 function dh_entry_meta() {
+    $reading_time = dh_get_reading_time_label();
+
+    echo '<div class="entry-meta">';
+
     printf(
-        '<div class="entry-meta"><a href="%s" rel="bookmark"><time datetime="%s">%s</time></a></div>',
+        '<a href="%s" rel="bookmark"><time datetime="%s">%s</time></a>',
         esc_url(get_permalink()),
         esc_attr(get_the_date('c')),
         esc_html(get_the_date())
     );
+
+    if ($reading_time) {
+        echo '<span class="entry-meta__separator" aria-hidden="true">&middot;</span>';
+        printf('<span class="entry-meta__reading-time">%s</span>', esc_html($reading_time));
+    }
+
+    echo '</div>';
 }
 
 /**

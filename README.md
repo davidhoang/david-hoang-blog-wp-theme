@@ -17,6 +17,8 @@ Complete the WordPress install wizard, then activate the **dh** theme under **Ap
 ## Documentation
 
 - **[DEVELOPMENT.md](./DEVELOPMENT.md)** — local setup, daily workflow, troubleshooting
+- **[DOCKER_INSTALL.md](./DOCKER_INSTALL.md)** — Docker Desktop install guide
+- **[CONTENT_IMPORT.md](./CONTENT_IMPORT.md)** — import posts from a live site
 
 ## Theme status
 
