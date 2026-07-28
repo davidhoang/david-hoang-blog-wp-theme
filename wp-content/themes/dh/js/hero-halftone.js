@@ -1312,11 +1312,40 @@ void main() {
     }
     return mountDotGrid(container);
   }
+  function prefersReducedMotion() {
+    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+  function observeHeroShader(container) {
+    if (prefersReducedMotion()) {
+      container.classList.add("site-hero__shader--fallback");
+      return Promise.resolve(null);
+    }
+    if (!("IntersectionObserver" in window)) {
+      return mountHeroShader(container);
+    }
+    return new Promise((resolve) => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (!entry || !entry.isIntersecting) {
+            return;
+          }
+          observer.disconnect();
+          mountHeroShader(container).then(resolve);
+        },
+        {
+          rootMargin: "120px 0px",
+          threshold: 0
+        }
+      );
+      observer.observe(container);
+    });
+  }
   document.addEventListener("DOMContentLoaded", () => {
     const mounts = [];
     Promise.all(
       Array.from(document.querySelectorAll("[data-dh-hero-shader]")).map(async (container) => {
-        const mounted = await mountHeroShader(container);
+        const mounted = await observeHeroShader(container);
         if (mounted) {
           mounts.push({ container, ...mounted });
         }
