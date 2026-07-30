@@ -61,23 +61,14 @@ function dh_customizer_register($wp_customize) {
         'priority'    => 36,
     ));
 
-    $social_defaults = array(
-        'dh_social_twitter' => 'https://twitter.com/davidhoang',
-        'dh_social_github'  => 'https://github.com/davidhoang',
-    );
-
-    foreach ($social_defaults as $setting_id => $default_url) {
-        $label = 'dh_social_twitter' === $setting_id
-            ? esc_html__('Twitter / X URL', 'dh')
-            : esc_html__('GitHub URL', 'dh');
-
-        $wp_customize->add_setting($setting_id, array(
-            'default'           => $default_url,
+    foreach (dh_get_social_networks() as $network) {
+        $wp_customize->add_setting($network['setting'], array(
+            'default'           => $network['default'],
             'sanitize_callback' => 'esc_url_raw',
         ));
 
-        $wp_customize->add_control($setting_id, array(
-            'label'   => $label,
+        $wp_customize->add_control($network['setting'], array(
+            'label'   => $network['label'],
             'section' => 'dh_social',
             'type'    => 'url',
         ));

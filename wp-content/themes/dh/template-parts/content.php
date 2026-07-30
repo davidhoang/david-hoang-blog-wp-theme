@@ -41,18 +41,22 @@
         </div>
     <?php endif; ?>
 
-    <div class="entry-content">
-        <?php
-        the_content();
+    <?php if (is_singular()) : ?>
+        <div class="entry-content">
+            <?php
+            the_content();
 
-        if (is_singular()) {
             wp_link_pages(array(
                 'before' => '<div class="page-links">' . esc_html__('Pages:', 'dh'),
                 'after'  => '</div>',
             ));
-        }
-        ?>
-    </div>
+            ?>
+        </div>
+    <?php else : ?>
+        <div class="entry-summary">
+            <?php the_excerpt(); ?>
+        </div>
+    <?php endif; ?>
 
     <?php if (is_singular('post')) : ?>
         <?php
