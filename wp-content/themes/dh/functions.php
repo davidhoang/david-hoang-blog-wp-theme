@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('DH_THEME_VERSION')) {
-    define('DH_THEME_VERSION', '0.14.0');
+    define('DH_THEME_VERSION', '0.14.1');
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
@@ -38,6 +38,14 @@ function dh_setup() {
         'script',
     ));
     add_theme_support('automatic-feed-links');
+    add_theme_support('align-wide');
+    add_theme_support('responsive-embeds');
+    add_theme_support('custom-logo', array(
+        'height'      => 120,
+        'width'       => 400,
+        'flex-height' => true,
+        'flex-width'  => true,
+    ));
     add_theme_support('editor-styles');
     add_editor_style(array(
         'editor-style.css',
@@ -161,22 +169,23 @@ function dh_render_primary_menu() {
  * Social links shown in the site nav.
  */
 function dh_get_social_links() {
-    $links = array(
-        array(
-            'label' => __('Twitter', 'dh'),
-            'url'   => get_theme_mod('dh_social_twitter', 'https://twitter.com/davidhoang'),
-            'icon'  => 'twitter',
-        ),
-        array(
-            'label' => __('GitHub', 'dh'),
-            'url'   => get_theme_mod('dh_social_github', 'https://github.com/davidhoang'),
-            'icon'  => 'github',
-        ),
-    );
+    $links = array();
 
-    return array_values(array_filter($links, function ($link) {
-        return !empty($link['url']);
-    }));
+    foreach (dh_get_social_networks() as $icon => $network) {
+        $url = get_theme_mod($network['setting'], $network['default']);
+
+        if (!$url) {
+            continue;
+        }
+
+        $links[] = array(
+            'label' => $network['nav_label'],
+            'url'   => $url,
+            'icon'  => $icon,
+        );
+    }
+
+    return $links;
 }
 
 /**
