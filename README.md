@@ -12,17 +12,17 @@ npm run up
 open http://localhost:8080
 ```
 
-Complete the WordPress install wizard, then activate the **dh** theme under **Appearance → Themes**.
+Complete the WordPress install wizard, then activate the **dh** theme under **Appearance -> Themes**.
 
 ## Documentation
 
 - **[DEVELOPMENT.md](./DEVELOPMENT.md)** — local setup, daily workflow, troubleshooting
-- [DOCKER_INSTALL.md](./DOCKER_INSTALL.md) — Docker Desktop install guide
-- [CONTENT_IMPORT.md](./CONTENT_IMPORT.md) — importing posts from a live site
+- **[DOCKER_INSTALL.md](./DOCKER_INSTALL.md)** — Docker Desktop install guide
+- **[CONTENT_IMPORT.md](./CONTENT_IMPORT.md)** — import posts from a live site
 
 ## Theme status
 
-The `dh` theme is a minimal foundation (style.css, functions.php, header/footer, index). The older `david-hoang` theme in `wp-content/themes/david-hoang/` remains as reference material from earlier work.
+This repo tracks the **dh** theme and the small amount of local tooling needed to develop it. WordPress uploads, plugins, imports, packaged zips, and older theme references are local-only and ignored by Git.
 
 ## Commands
 

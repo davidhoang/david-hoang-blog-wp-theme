@@ -52,6 +52,32 @@ build/
 *.min.css
 *.min.js
 bundle.min.js
+*.zip
+
+# Local WordPress runtime/content. Keep only the dh theme in Git.
+/wp-content/*
+!/wp-content/themes/
+/wp-content/themes/*
+!/wp-content/themes/dh/
+!/wp-content/themes/dh/**
+
+# Local import/reference artifacts
+/Import/
+/assets/
+/template-parts/
+/SERVER_SETUP.md
+/THEME_EXTRACTION.md
+/THEME_SCREENSHOT.md
+/404.php
+/footer.php
+/functions.php
+/header.php
+/index.php
+/search.php
+/searchform.php
+/sidebar.php
+/single.php
+/style.css
 
 # Temporary files
 tmp/
@@ -59,5 +85,8 @@ temp/
 *.tmp
 
 # Local development / debugging (trial fonts, experiments)
-_development/*
-!_development/.gitignore
+_development/
+
+# Local QA artifacts
+output/
+.playwright-cli/

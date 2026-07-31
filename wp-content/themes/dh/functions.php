@@ -9,8 +9,18 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+if (!defined('DH_THEME_VERSION')) {
+    define('DH_THEME_VERSION', '0.16.0');
+}
+
 require_once get_template_directory() . '/inc/theme-fonts.php';
 require_once get_template_directory() . '/inc/social-icons.php';
+require_once get_template_directory() . '/inc/theme-mode.php';
+require_once get_template_directory() . '/inc/seo.php';
+require_once get_template_directory() . '/inc/customizer.php';
+require_once get_template_directory() . '/inc/reading-time.php';
+require_once get_template_directory() . '/inc/related-posts.php';
+require_once get_template_directory() . '/inc/block-patterns.php';
 
 /**
  * Theme setup.
@@ -28,6 +38,14 @@ function dh_setup() {
         'script',
     ));
     add_theme_support('automatic-feed-links');
+    add_theme_support('align-wide');
+    add_theme_support('responsive-embeds');
+    add_theme_support('custom-logo', array(
+        'height'      => 120,
+        'width'       => 400,
+        'flex-height' => true,
+        'flex-width'  => true,
+    ));
     add_theme_support('editor-styles');
     add_editor_style(array(
         'editor-style.css',
@@ -151,18 +169,23 @@ function dh_render_primary_menu() {
  * Social links shown in the site nav.
  */
 function dh_get_social_links() {
-    return array(
-        array(
-            'label' => __('Twitter', 'dh'),
-            'url'   => 'https://twitter.com/davidhoang',
-            'icon'  => 'twitter',
-        ),
-        array(
-            'label' => __('GitHub', 'dh'),
-            'url'   => 'https://github.com/davidhoang',
-            'icon'  => 'github',
-        ),
-    );
+    $links = array();
+
+    foreach (dh_get_social_networks() as $icon => $network) {
+        $url = get_theme_mod($network['setting'], $network['default']);
+
+        if (!$url) {
+            continue;
+        }
+
+        $links[] = array(
+            'label' => $network['nav_label'],
+            'url'   => $url,
+            'icon'  => $icon,
+        );
+    }
+
+    return $links;
 }
 
 /**
@@ -222,10 +245,38 @@ function dh_customize_search_block($block_content, $block) {
 add_filter('render_block', 'dh_customize_search_block', 10, 2);
 
 /**
+ * Enqueue a theme stylesheet from css/.
+ */
+function dh_enqueue_theme_style($handle, $file, $deps = array('dh-base')) {
+    wp_enqueue_style(
+        $handle,
+        get_template_directory_uri() . '/css/' . $file,
+        $deps,
+        DH_THEME_VERSION
+    );
+}
+
+/**
  * Enqueue theme assets.
  */
 function dh_scripts() {
-    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.8.4');
+    wp_enqueue_style(
+        'dh-base',
+        get_template_directory_uri() . '/css/base.css',
+        array('dh-theme-font'),
+        DH_THEME_VERSION
+    );
+
+    if (is_singular('post')) {
+        dh_enqueue_theme_style('dh-single', 'single.css');
+        dh_enqueue_theme_style('dh-comments', 'comments.css');
+    } elseif (is_page()) {
+        dh_enqueue_theme_style('dh-page', 'page.css');
+    }
+
+    if (is_home() || is_archive() || is_search()) {
+        dh_enqueue_theme_style('dh-post-list', 'post-list.css');
+    }
 
     $hero_script = get_template_directory() . '/js/hero-halftone.js';
 
@@ -234,59 +285,98 @@ function dh_scripts() {
             'dh-hero-halftone',
             get_template_directory_uri() . '/js/hero-halftone.js',
             array(),
-            '0.8.0',
+            DH_THEME_VERSION,
             true
         );
     }
+
+    wp_enqueue_script(
+        'dh-site-nav',
+        get_template_directory_uri() . '/js/site-nav.js',
+        array(),
+        DH_THEME_VERSION,
+        true
+    );
 }
 add_action('wp_enqueue_scripts', 'dh_scripts');
 
 /**
- * Post meta line: posted in Category on Date by Author.
+ * Numbered posts pagination for archives and search.
+ *
+ * @param string $aria_label Accessible label for the nav landmark.
  */
-function dh_entry_meta() {
-    $parts = array();
+function dh_the_posts_pagination($aria_label = '') {
+    the_posts_pagination(array(
+        'mid_size'           => 2,
+        'prev_text'          => __('← Older', 'dh'),
+        'next_text'          => __('Newer →', 'dh'),
+        'screen_reader_text' => __('Posts navigation', 'dh'),
+        'aria_label'         => $aria_label ? $aria_label : __('Posts', 'dh'),
+        'class'              => 'posts-pagination',
+    ));
+}
 
-    $categories = get_the_category();
-    if (!empty($categories)) {
-        $category_links = array();
-        foreach ($categories as $category) {
-            $category_links[] = '<a href="' . esc_url(get_category_link($category->term_id)) . '">' . esc_html($category->name) . '</a>';
-        }
-
-        $parts[] = sprintf(
-            '<span class="post-category">%s %s</span>',
-            esc_html__('posted in', 'dh'),
-            implode(', ', $category_links)
-        );
+/**
+ * Clean archive titles (drop "Category:" / "Tag:" prefixes).
+ */
+function dh_archive_title($title) {
+    if (is_category()) {
+        return single_cat_title('', false);
     }
 
-    $parts[] = sprintf(
-        '<span class="post-date">%s <a href="%s" rel="bookmark"><time datetime="%s">%s</time></a></span>',
-        esc_html__('on', 'dh'),
+    if (is_tag()) {
+        return single_tag_title('', false);
+    }
+
+    if (is_author()) {
+        return get_the_author();
+    }
+
+    if (is_year()) {
+        return get_the_date(_x('Y', 'yearly archives date format', 'dh'));
+    }
+
+    if (is_month()) {
+        return get_the_date(_x('F Y', 'monthly archives date format', 'dh'));
+    }
+
+    if (is_day()) {
+        return get_the_date();
+    }
+
+    if (is_post_type_archive()) {
+        return post_type_archive_title('', false);
+    }
+
+    if (is_tax()) {
+        return single_term_title('', false);
+    }
+
+    return $title;
+}
+add_filter('get_the_archive_title', 'dh_archive_title');
+
+/**
+ * Post meta line.
+ */
+function dh_entry_meta() {
+    $reading_time = dh_get_reading_time_label();
+
+    echo '<div class="entry-meta">';
+
+    printf(
+        '<a href="%s" rel="bookmark"><time datetime="%s">%s</time></a>',
         esc_url(get_permalink()),
         esc_attr(get_the_date('c')),
         esc_html(get_the_date())
     );
 
-    $parts[] = sprintf(
-        '<span class="post-author">%s <a href="%s">%s</a></span>',
-        esc_html__('by', 'dh'),
-        esc_url(get_author_posts_url(get_the_author_meta('ID'))),
-        esc_html(get_the_author())
-    );
-
-    if (comments_open() || get_comments_number()) {
-        ob_start();
-        comments_popup_link(
-            esc_html__('0 Comments', 'dh'),
-            esc_html__('1 Comment', 'dh'),
-            esc_html__('% Comments', 'dh')
-        );
-        $parts[] = '<span class="post-comments">' . ob_get_clean() . '</span>';
+    if ($reading_time) {
+        echo '<span class="entry-meta__separator" aria-hidden="true">&middot;</span>';
+        printf('<span class="entry-meta__reading-time">%s</span>', esc_html($reading_time));
     }
 
-    echo '<div class="entry-meta">' . implode(' ', $parts) . '</div>';
+    echo '</div>';
 }
 
 /**
@@ -323,7 +413,7 @@ function dh_comment($comment, $args, $depth) {
                         <time datetime="<?php comment_time('c'); ?>">
                             <?php
                             printf(
-                                esc_html__('%1$s at %2$s', 'dh'),
+                                esc_html__('%1$s, %2$s', 'dh'),
                                 get_comment_date(),
                                 get_comment_time()
                             );
