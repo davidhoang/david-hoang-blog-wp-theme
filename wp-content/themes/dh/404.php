@@ -8,15 +8,19 @@
 get_header();
 
 get_template_part('template-parts/site-nav');
+get_template_part('template-parts/layout', 'start');
 ?>
 
-<main id="main" class="site-main">
-    <div class="site-layout">
-        <div class="content-area">
             <section class="error-404 not-found">
-                <header class="error-404__header">
-                    <h1 class="error-404__title"><?php esc_html_e('Page not found', 'dh'); ?></h1>
-                </header>
+                <?php
+                get_template_part(
+                    'template-parts/page',
+                    'header',
+                    array(
+                        'title' => __('Page not found', 'dh'),
+                    )
+                );
+                ?>
 
                 <div class="error-404__content">
                     <p><?php esc_html_e('Nothing lives at this address. Try a search, or head back to the homepage.', 'dh'); ?></p>
@@ -26,11 +30,7 @@ get_template_part('template-parts/site-nav');
                     </p>
                 </div>
             </section>
-        </div>
-
-        <?php get_sidebar(); ?>
-    </div>
-</main>
 
 <?php
+get_template_part('template-parts/layout', 'end');
 get_footer();

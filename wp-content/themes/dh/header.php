@@ -49,7 +49,7 @@
                         <div class="site-logo">
                             <?php the_custom_logo(); ?>
                         </div>
-                    <?php elseif (is_front_page() && is_home()) : ?>
+                    <?php elseif (is_front_page()) : ?>
                         <h1 class="site-title">
                             <a href="<?php echo esc_url(home_url('/')); ?>" rel="home"><?php bloginfo('name'); ?></a>
                         </h1>
@@ -59,7 +59,7 @@
                         </p>
                     <?php endif; ?>
 
-                    <?php if (is_front_page() && is_home()) : ?>
+                    <?php if (is_front_page()) : ?>
                         <h2 class="site-description"><?php echo esc_html(dh_get_tagline()); ?></h2>
                     <?php else : ?>
                         <p class="site-description"><?php echo esc_html(dh_get_tagline()); ?></p>

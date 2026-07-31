@@ -64,6 +64,16 @@
                     "name": "Small"
                 },
                 {
+                    "slug": "ui",
+                    "size": "0.95rem",
+                    "name": "UI"
+                },
+                {
+                    "slug": "md",
+                    "size": "1rem",
+                    "name": "Medium"
+                },
+                {
                     "slug": "body",
                     "size": "1.125rem",
                     "name": "Body"
@@ -77,6 +87,21 @@
                     "slug": "xl",
                     "size": "2rem",
                     "name": "Extra large"
+                },
+                {
+                    "slug": "lede",
+                    "size": "clamp(1.125rem, 1.8vw, 1.65rem)",
+                    "name": "Lede"
+                },
+                {
+                    "slug": "display",
+                    "size": "clamp(2.35rem, 4.2vw, 4.75rem)",
+                    "name": "Display"
+                },
+                {
+                    "slug": "hero",
+                    "size": "clamp(4rem, 8.5vw, 8.5rem)",
+                    "name": "Hero"
                 }
             ]
         }
@@ -106,6 +131,13 @@
                 "typography": {
                     "fontWeight": "500",
                     "lineHeight": "1.1"
+                }
+            },
+            "h1": {
+                "typography": {
+                    "fontSize": "var(--wp--preset--font-size--display)",
+                    "lineHeight": "0.96",
+                    "letterSpacing": "-0.035em"
                 }
             }
         },
