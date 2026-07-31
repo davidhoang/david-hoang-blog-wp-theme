@@ -1,6 +1,6 @@
 /**
  * Mobile Menu Toggle
- * Handles hamburger menu functionality for mobile navigation
+ * Handles hamburger menu functionality for mobile and tablet navigation
  */
 (function() {
     'use strict';
@@ -60,12 +60,12 @@
     navLinks.addEventListener('click', closeMenuOnLinkClick);
     document.addEventListener('keydown', closeMenuOnEscape);
 
-    // Close menu on window resize if it's larger than mobile breakpoint
+    // Close menu on window resize if it's larger than tablet breakpoint
     let resizeTimer;
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function() {
-            if (window.innerWidth > 768 && navigation.classList.contains('menu-open')) {
+            if (window.innerWidth > 1024 && navigation.classList.contains('menu-open')) {
                 toggleMenu();
             }
         }, 250);

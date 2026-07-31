@@ -48,7 +48,7 @@ function david_hoang_scripts() {
     // Parallax script removed - featured images are now inline in post content
     
     // Enqueue mobile menu script
-    wp_enqueue_script('david-hoang-mobile-menu', get_template_directory_uri() . '/js/mobile-menu.js', array(), '1.0.0', true);
+    wp_enqueue_script('david-hoang-mobile-menu', get_template_directory_uri() . '/js/mobile-menu.js', array(), '1.0.1', true);
 
     // Enqueue theme toggle script
     wp_enqueue_script('david-hoang-theme-toggle', get_template_directory_uri() . '/js/theme-toggle.js', array(), '1.0.0', true);
