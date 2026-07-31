@@ -1,0 +1,133 @@
+.comments-area {
+  margin-top: calc(var(--dh-space) * 2);
+  padding-top: calc(var(--dh-space) * 2);
+  border-top: 1px solid var(--dh-color-border);
+}
+
+.comments-title {
+  margin: 0 0 var(--dh-space);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.comment-list,
+.comment-list .children {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.comment-list > li + li,
+.comment-list .children > li + li {
+  margin-top: 0;
+}
+
+.comment-list .children {
+  margin-top: 0;
+  margin-left: calc(48px + 1rem);
+}
+
+.comment-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 0;
+  padding: 1rem;
+  background: var(--dh-color-surface);
+  border-bottom: 1px solid var(--dh-color-border);
+}
+
+.comment-avatar {
+  flex-shrink: 0;
+  width: 48px;
+}
+
+.comment-avatar img {
+  display: block;
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+}
+
+.comment-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.comment-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.comment-author-name {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.comment-author-name a {
+  color: var(--dh-color-text);
+  text-decoration: underline;
+}
+
+.comment-metadata {
+  font-size: 0.875rem;
+  color: var(--dh-color-muted);
+  text-decoration: none;
+}
+
+.comment-metadata:hover {
+  color: var(--dh-color-text);
+}
+
+.comment-content {
+  margin-top: 0.75rem;
+}
+
+.comment-content p {
+  margin: 0 0 0.75rem;
+}
+
+.comment-content p:last-child {
+  margin-bottom: 0;
+}
+
+.comment-footer {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.comment-footer .edit-link,
+.comment-footer .reply-link {
+  margin-right: 0.75rem;
+}
+
+.comment-footer a {
+  text-decoration: none;
+}
+
+.comment-footer a:hover {
+  text-decoration: underline;
+}
+
+.comment-respond {
+  margin-top: var(--dh-space);
+}
+
+.comment-form label {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form input[type="url"],
+.comment-form textarea {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--dh-color-border);
+  font: inherit;
+}

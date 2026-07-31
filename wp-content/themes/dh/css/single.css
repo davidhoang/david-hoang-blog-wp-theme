@@ -1,0 +1,13 @@
+.single-post .entry-meta {
+  margin-bottom: var(--dh-space);
+  font-size: 0.875rem;
+  color: var(--dh-color-muted);
+}
+
+.single-post .entry-meta span + span::before {
+  content: " ";
+}
+
+.single-post .entry-meta a {
+  color: inherit;
+}
