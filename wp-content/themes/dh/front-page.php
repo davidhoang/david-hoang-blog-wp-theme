@@ -1,6 +1,6 @@
 <?php
 /**
- * Page template.
+ * Front page template for a static homepage.
  *
  * @package dh
  */

@@ -18,17 +18,38 @@
 <div id="page" class="site">
     <header id="masthead" class="site-header">
         <div class="site-hero">
+            <?php
+            $dh_hero_image_url = dh_get_hero_image_url();
+            $dh_hero_classes   = 'site-hero__shader';
+            $dh_hero_style     = '';
+
+            if ($dh_hero_image_url) {
+                $dh_hero_classes .= ' site-hero__shader--has-image';
+                $dh_hero_style = sprintf(
+                    '--dh-hero-image: url("%s");',
+                    esc_url($dh_hero_image_url)
+                );
+            }
+            ?>
             <div
-                class="site-hero__shader"
+                class="<?php echo esc_attr($dh_hero_classes); ?>"
                 data-dh-hero-shader
-                data-color-back="#f8f8f6"
-                data-color-fill="rgba(0, 0, 0, 0.08)"
+                <?php if ($dh_hero_image_url) : ?>
+                    data-image-url="<?php echo esc_url($dh_hero_image_url); ?>"
+                <?php endif; ?>
+                <?php if ($dh_hero_style) : ?>
+                    style="<?php echo esc_attr($dh_hero_style); ?>"
+                <?php endif; ?>
                 aria-hidden="true"
             ></div>
 
             <div class="site-hero__inner">
                 <div class="site-hero__intro">
-                    <?php if (is_front_page() && is_home()) : ?>
+                    <?php if (has_custom_logo()) : ?>
+                        <div class="site-logo">
+                            <?php the_custom_logo(); ?>
+                        </div>
+                    <?php elseif (is_front_page()) : ?>
                         <h1 class="site-title">
                             <a href="<?php echo esc_url(home_url('/')); ?>" rel="home"><?php bloginfo('name'); ?></a>
                         </h1>
@@ -38,7 +59,7 @@
                         </p>
                     <?php endif; ?>
 
-                    <?php if (is_front_page() && is_home()) : ?>
+                    <?php if (is_front_page()) : ?>
                         <h2 class="site-description"><?php echo esc_html(dh_get_tagline()); ?></h2>
                     <?php else : ?>
                         <p class="site-description"><?php echo esc_html(dh_get_tagline()); ?></p>
