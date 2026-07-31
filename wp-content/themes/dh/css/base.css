@@ -978,15 +978,6 @@ img {
     word-wrap: normal;
 }
 
-.comments-area {
-    margin-top: calc(var(--dh-space) * 2.2);
-}
-
-.comments-title {
-    margin: 0 0 var(--dh-space);
-    font-size: var(--dh-font-size-lg);
-}
-
 @media (max-width: 1024px) {
     :root {
         --dh-font-size-xs: 0.9375rem;
