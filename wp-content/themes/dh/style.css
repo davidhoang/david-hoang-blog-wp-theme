@@ -4,7 +4,7 @@ Theme URI: https://davidhoang.com
 Author: David Hoang
 Author URI: https://davidhoang.com
 Description: Custom WordPress theme for David Hoang's blog.
-Version: 0.14.1
+Version: 0.15.0
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -909,34 +909,30 @@ img {
     padding-inline: 0.15rem;
 }
 
-.search-header,
-.archive-header,
-.error-404__header,
-.no-results__header {
+.page-header {
     margin-bottom: calc(var(--dh-space) * 2);
 }
 
-.search-title,
-.archive-title,
-.error-404__title,
-.no-results__title {
+.page-header__title {
     margin: 0;
-    font-size: var(--dh-font-size-xl);
+    max-width: 16ch;
+    font-size: var(--dh-font-size-display);
     font-weight: 500;
-    line-height: 1.3;
+    line-height: 0.96;
+    letter-spacing: -0.035em;
 }
 
-.search-query,
-.archive-description {
+.page-header__description {
     display: block;
-    margin-top: 0.35rem;
+    margin-top: 0.5rem;
+    max-width: 42rem;
     font-size: var(--dh-font-size-body);
     font-weight: 400;
     line-height: 1.4;
     color: var(--dh-color-muted);
 }
 
-.archive-description p {
+.page-header__description p {
     margin: 0;
 }
 
@@ -945,10 +941,20 @@ img {
     max-width: 36rem;
 }
 
-.no-results p,
+.no-results__content,
+.error-404__content {
+    margin-top: calc(var(--dh-space) * 0.25);
+}
+
+.no-results__content p,
 .error-404__content p {
     margin: 0 0 var(--dh-space);
     color: var(--dh-color-muted);
+}
+
+.no-results__content .search-form,
+.error-404__content .search-form {
+    margin: calc(var(--dh-space) * 1.25) 0;
 }
 
 .error-404__home {
@@ -1567,7 +1573,8 @@ img {
         border-left: 0;
     }
 
-    .entry-title {
+    .entry-title,
+    .page-header__title {
         max-width: 12ch;
     }
 

@@ -8,7 +8,11 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('page'); ?>>
     <header class="entry-header">
-        <h1 class="entry-title"><?php the_title(); ?></h1>
+        <?php if (is_front_page()) : ?>
+            <h2 class="entry-title"><?php the_title(); ?></h2>
+        <?php else : ?>
+            <h1 class="entry-title"><?php the_title(); ?></h1>
+        <?php endif; ?>
     </header>
 
     <?php if (has_post_thumbnail()) : ?>
@@ -27,10 +31,4 @@
         ));
         ?>
     </div>
-
-    <?php if (comments_open() || get_comments_number()) : ?>
-        <footer class="entry-footer">
-            <?php comments_template(); ?>
-        </footer>
-    <?php endif; ?>
 </article>

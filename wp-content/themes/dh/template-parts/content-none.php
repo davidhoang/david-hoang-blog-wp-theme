@@ -7,9 +7,15 @@
 ?>
 
 <section class="no-results not-found">
-    <header class="no-results__header">
-        <h1 class="no-results__title"><?php esc_html_e('Nothing found', 'dh'); ?></h1>
-    </header>
+    <?php
+    get_template_part(
+        'template-parts/page',
+        'header',
+        array(
+            'title' => __('Nothing found', 'dh'),
+        )
+    );
+    ?>
 
     <div class="no-results__content">
         <?php if (is_home() && current_user_can('publish_posts')) : ?>

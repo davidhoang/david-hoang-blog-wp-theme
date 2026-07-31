@@ -8,15 +8,17 @@
 get_header();
 
 get_template_part('template-parts/site-nav');
-?>
+get_template_part('template-parts/layout', 'start');
 
-<main id="main" class="site-main">
-    <div class="site-layout">
-        <div class="content-area">
-            <header class="archive-header">
-                <?php the_archive_title('<h1 class="archive-title">', '</h1>'); ?>
-                <?php the_archive_description('<div class="archive-description">', '</div>'); ?>
-            </header>
+get_template_part(
+    'template-parts/page',
+    'header',
+    array(
+        'title'       => get_the_archive_title(),
+        'description' => get_the_archive_description(),
+    )
+);
+?>
 
             <?php if (have_posts()) : ?>
                 <?php while (have_posts()) : ?>
@@ -28,11 +30,7 @@ get_template_part('template-parts/site-nav');
             <?php else : ?>
                 <?php get_template_part('template-parts/content', 'none'); ?>
             <?php endif; ?>
-        </div>
-
-        <?php get_sidebar(); ?>
-    </div>
-</main>
 
 <?php
+get_template_part('template-parts/layout', 'end');
 get_footer();

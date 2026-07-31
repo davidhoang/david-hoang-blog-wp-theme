@@ -8,11 +8,9 @@
 get_header();
 
 get_template_part('template-parts/site-nav');
+get_template_part('template-parts/layout', 'start');
 ?>
 
-<main id="main" class="site-main">
-    <div class="site-layout">
-        <div class="content-area">
             <?php
             while (have_posts()) :
                 the_post();
@@ -31,11 +29,7 @@ get_template_part('template-parts/site-nav');
                 }
             endwhile;
             ?>
-        </div>
-
-        <?php get_sidebar(); ?>
-    </div>
-</main>
 
 <?php
+get_template_part('template-parts/layout', 'end');
 get_footer();
