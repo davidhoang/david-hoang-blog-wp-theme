@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('DH_THEME_VERSION')) {
-    define('DH_THEME_VERSION', '0.15.0');
+    define('DH_THEME_VERSION', '0.16.0');
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
@@ -245,10 +245,38 @@ function dh_customize_search_block($block_content, $block) {
 add_filter('render_block', 'dh_customize_search_block', 10, 2);
 
 /**
+ * Enqueue a theme stylesheet from css/.
+ */
+function dh_enqueue_theme_style($handle, $file, $deps = array('dh-base')) {
+    wp_enqueue_style(
+        $handle,
+        get_template_directory_uri() . '/css/' . $file,
+        $deps,
+        DH_THEME_VERSION
+    );
+}
+
+/**
  * Enqueue theme assets.
  */
 function dh_scripts() {
-    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), DH_THEME_VERSION);
+    wp_enqueue_style(
+        'dh-base',
+        get_template_directory_uri() . '/css/base.css',
+        array('dh-theme-font'),
+        DH_THEME_VERSION
+    );
+
+    if (is_singular('post')) {
+        dh_enqueue_theme_style('dh-single', 'single.css');
+        dh_enqueue_theme_style('dh-comments', 'comments.css');
+    } elseif (is_page()) {
+        dh_enqueue_theme_style('dh-page', 'page.css');
+    }
+
+    if (is_home() || is_archive() || is_search()) {
+        dh_enqueue_theme_style('dh-post-list', 'post-list.css');
+    }
 
     $hero_script = get_template_directory() . '/js/hero-halftone.js';
 
