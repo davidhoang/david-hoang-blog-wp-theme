@@ -1,6 +1,6 @@
 <?php
 /**
- * Main template.
+ * Blog posts index when a static page is set as the homepage.
  *
  * @package dh
  */

@@ -1,126 +1,60 @@
-# Docker Desktop Installation Guide for macOS
+# Docker Desktop install
 
-## Step-by-Step Installation
+Step-by-step guide for installing Docker Desktop on macOS so you can run the local WordPress environment for the **dh** theme.
 
-### 1. Download Docker Desktop
+## macOS
 
-1. Visit the official Docker Desktop download page:
-   - **Apple Silicon (M1/M2/M3)**: https://www.docker.com/products/docker-desktop/
-   - **Intel Mac**: https://www.docker.com/products/docker-desktop/
+1. Download [Docker Desktop for Mac](https://www.docker.com/products/docker-desktop/) (Apple Silicon or Intel, depending on your Mac).
+2. Open the `.dmg` and drag Docker to Applications.
+3. Launch Docker Desktop from Applications and complete the setup wizard.
+4. Wait until the menu bar whale icon shows **Docker Desktop is running**.
 
-2. Click "Download for Mac" and select the appropriate version for your processor
-
-### 2. Install Docker Desktop
-
-1. Open the downloaded `.dmg` file
-2. Drag the Docker icon to your Applications folder
-3. Open Docker Desktop from Applications (or Launchpad)
-4. You may be prompted to enter your password to install networking components
-
-### 3. Initial Setup
-
-1. **First Launch:**
-   - Docker Desktop will ask for system permissions
-   - Grant necessary permissions when prompted
-   - Wait for Docker to start (the Docker icon will appear in your menu bar)
-
-2. **Optional: Sign in to Docker Hub**
-   - You can skip this for local development
-   - Signing in allows you to pull private images
-
-### 4. Verify Installation
-
-Open Terminal and run:
+Verify from a terminal:
 
 ```bash
 docker --version
-```
-
-You should see output like:
-```
-Docker version 24.0.0, build abc123
-```
-
-Verify Docker Compose:
-
-```bash
 docker compose version
 ```
 
-You should see output like:
-```
-Docker Compose version v2.20.0
-```
+Both commands should print version numbers.
 
-### 5. Test Docker
+## Linux (optional)
 
-Run a test container to ensure everything works:
+If you develop on Linux instead of macOS:
 
 ```bash
-docker run hello-world
+# Ubuntu / Debian example
+sudo apt-get update
+sudo apt-get install -y docker.io docker-compose-plugin
+sudo usermod -aG docker "$USER"
 ```
 
-You should see a success message confirming Docker is working correctly.
+Log out and back in, then verify with `docker compose version`.
 
-## System Requirements
+## After Docker is installed
 
-- **macOS**: 10.15 or newer
-- **RAM**: Minimum 4GB (8GB+ recommended)
-- **Disk Space**: At least 10GB free space
-- **Virtualization**: Enabled (usually automatic on modern Macs)
+From the project root:
+
+```bash
+cp .env.example .env   # optional
+npm run up
+open http://localhost:8080
+```
+
+See [DEVELOPMENT.md](./DEVELOPMENT.md) for the full local workflow.
 
 ## Troubleshooting
 
-### Docker Desktop Won't Start
+**Docker Desktop won't start**
 
-1. **Check System Requirements:**
-   - Ensure your Mac meets the minimum requirements
-   - Check if virtualization is enabled in System Settings
+- Ensure virtualization is enabled (BIOS/firmware on Linux; Rosetta is not required for Apple Silicon builds).
+- Restart Docker Desktop from the menu bar icon.
 
-2. **Restart Docker Desktop:**
-   - Quit Docker Desktop completely
-   - Restart from Applications
+**Permission denied on Linux**
 
-3. **Reset Docker Desktop:**
-   - Docker Desktop → Settings → Troubleshoot → Reset to factory defaults
-   - **Warning:** This will remove all containers and images
+- Confirm your user is in the `docker` group: `groups | grep docker`
+- Re-login after adding the group.
 
-### Permission Denied Errors
+**Port conflicts**
 
-If you see permission errors:
-
-1. Ensure Docker Desktop is running
-2. Check that your user is in the `docker` group (usually automatic on Mac)
-3. Try restarting Docker Desktop
-
-### High CPU/Memory Usage
-
-Docker Desktop uses system resources. To limit usage:
-
-1. Docker Desktop → Settings → Resources
-2. Adjust CPU and Memory limits
-3. For WordPress development, 2-4 CPUs and 4GB RAM is usually sufficient
-
-### Port Conflicts
-
-If you see port binding errors:
-
-1. Check what's using the port:
-   ```bash
-   lsof -i :8080
-   ```
-2. Either stop the conflicting service or change the port in `.env`
-
-## Next Steps
-
-Once Docker is installed and verified:
-
-1. Navigate to your project directory
-2. Run `docker compose up -d` to start WordPress
-3. See the main README.md for usage instructions
-
-## Additional Resources
-
-- [Docker Desktop for Mac Documentation](https://docs.docker.com/desktop/install/mac-install/)
-- [Docker Desktop User Guide](https://docs.docker.com/desktop/)
-- [Docker Community Forums](https://forums.docker.com/)
+- Set `WORDPRESS_PORT=8081` in `.env`, then run `npm run down && npm run up`.

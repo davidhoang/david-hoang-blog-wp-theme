@@ -1,6 +1,6 @@
 <?php
 /**
- * Main template.
+ * Archive template (categories, tags, dates, authors).
  *
  * @package dh
  */
@@ -9,6 +9,15 @@ get_header();
 
 get_template_part('template-parts/site-nav');
 get_template_part('template-parts/layout', 'start');
+
+get_template_part(
+    'template-parts/page',
+    'header',
+    array(
+        'title'       => get_the_archive_title(),
+        'description' => get_the_archive_description(),
+    )
+);
 ?>
 
             <?php if (have_posts()) : ?>
