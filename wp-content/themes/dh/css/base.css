@@ -987,6 +987,14 @@ img {
 .comments-title {
     margin: 0 0 var(--dh-space);
     font-size: var(--dh-font-size-lg);
+}
+
+@media (max-width: 768px) {
+    :root {
+        --dh-font-size-xs: 0.9375rem;
+        --dh-font-size-sm: 1rem;
+        --dh-font-size-ui: 1.0625rem;
+        --dh-font-size-md: 1.125rem;
         --dh-font-size-body: 1.25rem;
         --dh-font-size-lg: 1.5rem;
         --dh-font-size-xl: 2.125rem;
