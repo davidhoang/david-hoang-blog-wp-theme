@@ -1,4 +1,11 @@
-font-weight: 600;
+.comments-area {
+    margin-top: calc(var(--dh-space) * 2.2);
+}
+
+.comments-title {
+    margin: 0 0 var(--dh-space);
+    font-size: var(--dh-font-size-lg);
+    font-weight: 600;
     line-height: 1.15;
 }
 
@@ -190,10 +197,3 @@ font-weight: 600;
 .comment-form .form-submit {
     margin: calc(var(--dh-space) * 0.25) 0 0;
 }
-
-@media (max-width: 768px) {
-    :root {
-        --dh-font-size-xs: 0.9375rem;
-        --dh-font-size-sm: 1rem;
-        --dh-font-size-ui: 1.0625rem;
-        --dh-font-size-md: 1.125rem;

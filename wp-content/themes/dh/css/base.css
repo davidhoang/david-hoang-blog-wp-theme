@@ -980,34 +980,7 @@ img {
     word-wrap: normal;
 }
 
-.comments-area {
-    margin-top: calc(var(--dh-space) * 2.2);
-}
-
-.comments-title {
-    margin: 0 0 var(--dh-space);
-    font-size: var(--dh-font-size-lg);
-}
-
-@media (max-width: 768px) {
-    :root {
-        --dh-font-size-xs: 0.9375rem;
-        --dh-font-size-sm: 1rem;
-        --dh-font-size-ui: 1.0625rem;
-        --dh-font-size-md: 1.125rem;
-        --dh-font-size-body: 1.25rem;
-        --dh-font-size-lg: 1.5rem;
-        --dh-font-size-xl: 2.125rem;
-        --dh-font-size-display: 2.85rem;
-        --dh-font-size-hero: clamp(3.5rem, 18vw, 5.25rem);
-        --dh-font-size-lede: 1.25rem;
-    }
-
-    .site-hero__inner {
-        min-height: 16rem;
-        padding: calc(var(--dh-space) * 3) 0;
-    }
-
+@media (max-width: 1024px) {
     .site-nav__inner {
         flex-direction: column;
         align-items: stretch;
@@ -1079,6 +1052,26 @@ img {
 
     .site-nav__actions .theme-toggle + .site-nav__social .social-links li:first-child {
         border-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --dh-font-size-xs: 0.9375rem;
+        --dh-font-size-sm: 1rem;
+        --dh-font-size-ui: 1.0625rem;
+        --dh-font-size-md: 1.125rem;
+        --dh-font-size-body: 1.25rem;
+        --dh-font-size-lg: 1.5rem;
+        --dh-font-size-xl: 2.125rem;
+        --dh-font-size-display: 2.85rem;
+        --dh-font-size-hero: clamp(3.5rem, 18vw, 5.25rem);
+        --dh-font-size-lede: 1.25rem;
+    }
+
+    .site-hero__inner {
+        min-height: 16rem;
+        padding: calc(var(--dh-space) * 3) 0;
     }
 
     .entry-title,

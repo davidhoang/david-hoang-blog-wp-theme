@@ -4,7 +4,7 @@
 (function () {
     'use strict';
 
-    var MQ = '(max-width: 768px)';
+    var MQ = '(max-width: 1024px)';
     var OPEN_CLASS = 'is-nav-open';
 
     function getElements() {
