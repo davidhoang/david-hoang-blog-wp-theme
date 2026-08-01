@@ -225,7 +225,7 @@ add_filter('render_block', 'dh_customize_search_block', 10, 2);
  * Enqueue theme assets.
  */
 function dh_scripts() {
-    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.8.4');
+    wp_enqueue_style('dh-style', get_stylesheet_uri(), array('dh-theme-font'), '0.8.5');
 
     $hero_script = get_template_directory() . '/js/hero-halftone.js';
 
@@ -240,6 +240,19 @@ function dh_scripts() {
     }
 }
 add_action('wp_enqueue_scripts', 'dh_scripts');
+
+/**
+ * Post title for display, with fallback when empty.
+ */
+function dh_get_display_title($post = null) {
+    $title = get_the_title($post);
+
+    if ('' !== $title) {
+        return $title;
+    }
+
+    return __('(no title)', 'dh');
+}
 
 /**
  * Post meta line: posted in Category on Date by Author.
