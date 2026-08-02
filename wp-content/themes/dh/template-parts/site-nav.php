@@ -31,12 +31,15 @@
             </div>
 
             <div class="site-nav__actions">
-                <?php dh_render_theme_toggle(); ?>
-
                 <div class="site-nav__social">
                     <?php dh_render_social_links(); ?>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="site-controls">
+        <?php dh_render_font_switcher(); ?>
+        <?php dh_render_theme_toggle(); ?>
     </div>
 </nav>

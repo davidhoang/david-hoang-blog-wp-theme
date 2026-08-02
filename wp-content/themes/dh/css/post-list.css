@@ -72,6 +72,9 @@
     outline: 2px solid var(--dh-color-border);
     outline-offset: 2px;
 }
+
+.posts-navigation,
+.posts-pagination {
     margin-top: calc(var(--dh-space) * 2);
     font-size: var(--dh-font-size-ui);
 }
@@ -124,9 +127,6 @@
 .page-header {
     margin-bottom: calc(var(--dh-space) * 2);
 }
-
-.page-header__title {
-    margin: 0;
 
 .entry-summary p {
     margin: 0 0 var(--dh-space);

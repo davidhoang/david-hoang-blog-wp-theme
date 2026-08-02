@@ -5,3 +5,4 @@ db_data/
 *.min.js
 wp-content/plugins/
 wp-content/themes/twentytwenty*/
+wp-content/themes/dh/js/hero-halftone.js
