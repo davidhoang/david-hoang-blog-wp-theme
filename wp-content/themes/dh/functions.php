@@ -10,10 +10,11 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('DH_THEME_VERSION')) {
-    define('DH_THEME_VERSION', '0.16.0');
+    define('DH_THEME_VERSION', '0.17.0');
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
+require_once get_template_directory() . '/inc/theme-font-switcher.php';
 require_once get_template_directory() . '/inc/social-icons.php';
 require_once get_template_directory() . '/inc/theme-mode.php';
 require_once get_template_directory() . '/inc/seo.php';

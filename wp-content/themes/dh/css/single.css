@@ -60,9 +60,18 @@
     color: var(--dh-color-muted);
     font-size: var(--dh-font-size-xs);
 }
+
 .post-featured-image + .entry-content {
     margin-top: calc(var(--dh-space) * 0.75);
 }
+
+.entry-tags {
+    margin-top: var(--dh-space);
+    font-size: var(--dh-font-size-sm);
+    color: var(--dh-color-muted);
+}
+
+.entry-tags__label {
     margin-right: 0.35rem;
 }
 
@@ -76,6 +85,16 @@
 }
 
 .page-links a {
+    margin-left: 0.35rem;
+}
+
+.post-navigation {
+    margin: calc(var(--dh-space) * 2) 0 0;
+    padding-block: calc(var(--dh-space) * 0.8);
+    border-top: 1px solid var(--dh-color-border);
+    border-bottom: 1px solid var(--dh-color-border);
+}
+
 .post-navigation .nav-links {
     display: grid;
     grid-template-columns: 1fr 1fr;
