@@ -1163,6 +1163,33 @@ img {
     word-wrap: normal;
 }
 
+.skip-link.screen-reader-text:focus {
+    clip: auto;
+    clip-path: none;
+    z-index: 100000;
+    top: 0.5rem;
+    left: 0.5rem;
+    display: block;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0.65rem 1rem;
+    border-radius: 4px;
+    background: var(--dh-color-bg);
+    color: var(--dh-color-text);
+    box-shadow: 0 1px 3px var(--dh-sidebar-border);
+    font-family: var(--dh-font-family-sans);
+    font-size: var(--dh-font-size-ui);
+    line-height: 1.2;
+    text-decoration: none;
+    outline: 2px solid var(--dh-color-border);
+    outline-offset: 2px;
+}
+
+.site-main:focus {
+    outline: none;
+}
+
 @media (max-width: 1024px) {
     .site-nav__inner {
         flex-direction: column;
