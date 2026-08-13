@@ -254,6 +254,133 @@ function dh_print_social_meta() {
 add_action('wp_head', 'dh_print_social_meta', 5);
 
 /**
+ * Publisher Person node (the site owner), reused across schema graphs.
+ *
+ * Social profile URLs from the Customizer become `sameAs` entries so search
+ * engines can connect the site to its off-site profiles.
+ *
+ * @return array
+ */
+function dh_get_person_schema() {
+    $person = array(
+        '@type' => 'Person',
+        '@id'   => home_url('/#person'),
+        'name'  => get_bloginfo('name', 'display'),
+        'url'   => home_url('/'),
+    );
+
+    $same_as = array();
+
+    foreach (dh_get_social_links() as $link) {
+        if (!empty($link['url'])) {
+            $same_as[] = $link['url'];
+        }
+    }
+
+    if ($same_as) {
+        $person['sameAs'] = array_values(array_unique($same_as));
+    }
+
+    return $person;
+}
+
+/**
+ * Breadcrumb trail for the current request, as name/url pairs.
+ *
+ * Returns an empty array for views where a breadcrumb adds no value (the front
+ * page, the blog index, search, and 404).
+ *
+ * @return array<int, array{name: string, url: string}>
+ */
+function dh_get_breadcrumb_items() {
+    if (is_front_page() || is_home() || is_search() || is_404()) {
+        return array();
+    }
+
+    $items = array(
+        array(
+            'name' => get_bloginfo('name', 'display'),
+            'url'  => home_url('/'),
+        ),
+    );
+
+    if (is_singular('post')) {
+        $categories = get_the_category();
+
+        if (!empty($categories)) {
+            $primary  = $categories[0];
+            $cat_link = get_category_link($primary);
+
+            if (!is_wp_error($cat_link)) {
+                $items[] = array(
+                    'name' => $primary->name,
+                    'url'  => $cat_link,
+                );
+            }
+        }
+
+        $items[] = array(
+            'name' => get_the_title(),
+            'url'  => get_permalink(),
+        );
+    } elseif (is_page()) {
+        $ancestors = array_reverse(get_post_ancestors(get_queried_object_id()));
+
+        foreach ($ancestors as $ancestor_id) {
+            $items[] = array(
+                'name' => get_the_title($ancestor_id),
+                'url'  => get_permalink($ancestor_id),
+            );
+        }
+
+        $items[] = array(
+            'name' => get_the_title(),
+            'url'  => get_permalink(),
+        );
+    } elseif (is_category() || is_tag() || is_tax() || is_author() || is_date() || is_post_type_archive()) {
+        $items[] = array(
+            'name' => wp_strip_all_tags(dh_get_social_title()),
+            'url'  => dh_get_canonical_url(),
+        );
+    }
+
+    return count($items) > 1 ? $items : array();
+}
+
+/**
+ * Build a BreadcrumbList schema node, or null when there is nothing to show.
+ *
+ * @return array|null
+ */
+function dh_get_breadcrumb_schema() {
+    $items = dh_get_breadcrumb_items();
+
+    if (empty($items)) {
+        return null;
+    }
+
+    $list = array();
+    $position = 1;
+
+    foreach ($items as $item) {
+        $list[] = array(
+            '@type'    => 'ListItem',
+            'position' => $position,
+            'name'     => $item['name'],
+            'item'     => $item['url'],
+        );
+
+        $position++;
+    }
+
+    return array(
+        '@type'           => 'BreadcrumbList',
+        '@id'             => dh_get_canonical_url() . '#breadcrumb',
+        'itemListElement' => $list,
+    );
+}
+
+/**
  * Print JSON-LD structured data for the homepage and blog posts.
  */
 function dh_print_schema_jsonld() {
@@ -263,11 +390,15 @@ function dh_print_schema_jsonld() {
 
     $graph = array();
 
+    $person = dh_get_person_schema();
+    $graph[] = $person;
+
     $website = array(
-        '@type' => 'WebSite',
-        '@id'   => home_url('/#website'),
-        'url'   => home_url('/'),
-        'name'  => get_bloginfo('name', 'display'),
+        '@type'     => 'WebSite',
+        '@id'       => home_url('/#website'),
+        'url'       => home_url('/'),
+        'name'      => get_bloginfo('name', 'display'),
+        'publisher' => array('@id' => $person['@id']),
     );
 
     $description = dh_get_tagline();
@@ -287,6 +418,25 @@ function dh_print_schema_jsonld() {
 
     $graph[] = $website;
 
+    if (is_home()) {
+        $blog_url = dh_get_canonical_url();
+
+        $blog = array(
+            '@type'     => 'Blog',
+            '@id'       => $blog_url . '#blog',
+            'url'       => $blog_url,
+            'name'      => dh_get_social_title(),
+            'isPartOf'  => array('@id' => home_url('/#website')),
+            'publisher' => array('@id' => $person['@id']),
+        );
+
+        if ($description) {
+            $blog['description'] = $description;
+        }
+
+        $graph[] = $blog;
+    }
+
     if (is_singular('post')) {
         $post_id = get_queried_object_id();
         $author  = get_userdata((int) get_post_field('post_author', $post_id));
@@ -299,6 +449,7 @@ function dh_print_schema_jsonld() {
             'datePublished'    => get_the_date(DATE_W3C, $post_id),
             'dateModified'     => get_the_modified_date(DATE_W3C, $post_id),
             'isPartOf'         => array('@id' => home_url('/#website')),
+            'publisher'        => array('@id' => $person['@id']),
         );
 
         $post_description = dh_get_social_description();
@@ -313,6 +464,24 @@ function dh_print_schema_jsonld() {
             $blog_posting['image'] = array($image);
         }
 
+        $word_count = str_word_count(wp_strip_all_tags(get_post_field('post_content', $post_id)));
+
+        if ($word_count > 0) {
+            $blog_posting['wordCount'] = $word_count;
+        }
+
+        $category_names = wp_get_post_categories($post_id, array('fields' => 'names'));
+
+        if (!empty($category_names) && !is_wp_error($category_names)) {
+            $blog_posting['articleSection'] = array_values($category_names);
+        }
+
+        $tag_names = wp_get_post_tags($post_id, array('fields' => 'names'));
+
+        if (!empty($tag_names) && !is_wp_error($tag_names)) {
+            $blog_posting['keywords'] = array_values($tag_names);
+        }
+
         if ($author instanceof WP_User) {
             $blog_posting['author'] = array(
                 '@type' => 'Person',
@@ -322,6 +491,12 @@ function dh_print_schema_jsonld() {
         }
 
         $graph[] = $blog_posting;
+    }
+
+    $breadcrumb = dh_get_breadcrumb_schema();
+
+    if ($breadcrumb) {
+        $graph[] = $breadcrumb;
     }
 
     $payload = array(
