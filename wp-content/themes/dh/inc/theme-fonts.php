@@ -39,3 +39,27 @@ function dh_enqueue_theme_font_editor() {
     wp_enqueue_style('dh-theme-font-editor', dh_get_theme_font_url(), array(), '2.0.0');
 }
 add_action('enqueue_block_editor_assets', 'dh_enqueue_theme_font_editor', 5);
+
+/**
+ * Preconnect to the Google Fonts hosts so font CSS and font files start
+ * downloading sooner. The crossorigin hint on fonts.gstatic.com is required
+ * for the actual font-file connection to be reused.
+ *
+ * @param array  $urls          Resource hint URLs for the given relation.
+ * @param string $relation_type Relation type being requested.
+ * @return array
+ */
+function dh_font_resource_hints($urls, $relation_type) {
+    if ('preconnect' === $relation_type) {
+        $urls[] = array(
+            'href' => 'https://fonts.googleapis.com',
+        );
+        $urls[] = array(
+            'href'        => 'https://fonts.gstatic.com',
+            'crossorigin' => 'anonymous',
+        );
+    }
+
+    return $urls;
+}
+add_filter('wp_resource_hints', 'dh_font_resource_hints', 10, 2);
