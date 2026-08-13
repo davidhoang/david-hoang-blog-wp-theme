@@ -30,7 +30,14 @@
     <?php if (has_post_thumbnail()) : ?>
         <div class="post-featured-image">
             <?php if (is_singular()) : ?>
-                <?php the_post_thumbnail('large'); ?>
+                <?php
+                // Featured image is the likely LCP element on a single post, so
+                // load it eagerly with a high fetch priority instead of lazily.
+                the_post_thumbnail('large', array(
+                    'loading'       => 'eager',
+                    'fetchpriority' => 'high',
+                ));
+                ?>
             <?php else : ?>
                 <a href="<?php the_permalink(); ?>">
                     <?php the_post_thumbnail('large'); ?>
