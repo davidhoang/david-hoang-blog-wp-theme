@@ -6,6 +6,10 @@
  */
 ?>
 
+<?php if (!is_singular() && (is_home() || is_archive())) : ?>
+    <?php dh_the_year_divider(); ?>
+<?php endif; ?>
+
 <article id="post-<?php the_ID(); ?>" <?php post_class('post'); ?>>
     <header class="entry-header">
         <?php if (is_singular()) : ?>
@@ -21,6 +25,22 @@
         <?php dh_entry_meta(); ?>
     <?php else : ?>
         <div class="entry-kicker">
+            <?php if (is_tax('series')) : ?>
+                <?php $series_context = dh_get_series_context(); ?>
+                <?php if ($series_context) : ?>
+                    <span>
+                        <?php
+                        printf(
+                            /* translators: 1: current part number, 2: total number of parts */
+                            esc_html__('Part %1$d of %2$d', 'dh'),
+                            (int) $series_context['position'],
+                            (int) $series_context['total']
+                        );
+                        ?>
+                    </span>
+                    <span aria-hidden="true">&middot;</span>
+                <?php endif; ?>
+            <?php endif; ?>
             <a href="<?php the_permalink(); ?>" rel="bookmark">
                 <time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date()); ?></time>
             </a>
@@ -64,15 +84,7 @@
     <?php endif; ?>
 
     <?php if (is_singular('post')) : ?>
-        <?php
-        $tags_list = get_the_tag_list('', ', ');
-        if ($tags_list) :
-            ?>
-            <div class="entry-tags">
-                <span class="entry-tags__label"><?php esc_html_e('Tags:', 'dh'); ?></span>
-                <?php echo $tags_list; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-            </div>
-        <?php endif; ?>
+        <?php get_template_part('template-parts/post', 'endmatter'); ?>
     <?php endif; ?>
 
     <?php if (!is_singular()) : ?>
