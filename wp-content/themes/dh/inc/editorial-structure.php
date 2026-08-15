@@ -40,6 +40,21 @@ function dh_register_series_taxonomy() {
 add_action('init', 'dh_register_series_taxonomy');
 
 /**
+ * Refresh rewrite rules once after the Series archive is introduced.
+ */
+function dh_maybe_flush_editorial_rewrites() {
+    $rewrite_version = '1';
+
+    if (get_option('dh_editorial_rewrite_version') === $rewrite_version) {
+        return;
+    }
+
+    flush_rewrite_rules();
+    update_option('dh_editorial_rewrite_version', $rewrite_version, false);
+}
+add_action('init', 'dh_maybe_flush_editorial_rewrites', 20);
+
+/**
  * Keep series archives in chapter order.
  *
  * Posts use their publication date as the reading order, oldest first.
