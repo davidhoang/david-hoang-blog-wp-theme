@@ -16,6 +16,29 @@
 .post:last-of-type {
     background-image: none;
 }
+
+.post-year-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0 0 calc(var(--dh-space) * 1.5);
+    color: var(--dh-color-muted);
+    font-size: var(--dh-font-size-sm);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
+.post-year-divider::after {
+    flex: 1;
+    height: 1px;
+    background: var(--dh-color-border);
+    content: '';
+}
+
+.post + .post-year-divider {
+    margin-top: calc(var(--dh-space) * 0.5);
+}
+
 .entry-kicker {
     margin-bottom: calc(var(--dh-space) * 0.9);
     color: var(--dh-color-muted);

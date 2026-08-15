@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('DH_THEME_VERSION')) {
-    define('DH_THEME_VERSION', '0.19.0');
+    define('DH_THEME_VERSION', '0.20.0');
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
@@ -23,6 +23,7 @@ require_once get_template_directory() . '/inc/reading-time.php';
 require_once get_template_directory() . '/inc/related-posts.php';
 require_once get_template_directory() . '/inc/reader-enhancements.php';
 require_once get_template_directory() . '/inc/block-patterns.php';
+require_once get_template_directory() . '/inc/editorial-structure.php';
 
 /**
  * Theme setup.
