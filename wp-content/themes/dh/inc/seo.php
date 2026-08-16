@@ -350,6 +350,20 @@ function dh_get_breadcrumb_items() {
             'name' => dh_get_display_title(),
             'url'  => get_permalink(),
         );
+    } elseif (is_attachment()) {
+        $parent_id = wp_get_post_parent_id(get_queried_object_id());
+
+        if ($parent_id) {
+            $items[] = array(
+                'name' => dh_get_display_title($parent_id),
+                'url'  => get_permalink($parent_id),
+            );
+        }
+
+        $items[] = array(
+            'name' => dh_get_display_title(),
+            'url'  => get_permalink(),
+        );
     } elseif (is_category() || is_tag() || is_tax() || is_author() || is_date() || is_post_type_archive()) {
         $items[] = array(
             'name' => wp_strip_all_tags(dh_get_social_title()),
