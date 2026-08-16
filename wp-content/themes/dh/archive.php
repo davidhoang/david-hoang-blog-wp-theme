@@ -20,6 +20,8 @@ get_template_part(
         'description' => get_the_archive_description(),
     )
 );
+
+dh_render_archive_meta();
 ?>
 
             <?php if (have_posts()) : ?>
