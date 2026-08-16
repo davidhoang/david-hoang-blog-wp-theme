@@ -49,20 +49,33 @@
 
     <?php if (has_post_thumbnail()) : ?>
         <div class="post-featured-image">
-            <?php if (is_singular()) : ?>
-                <?php
+            <?php
+            $thumbnail_attrs = array(
+                'decoding' => 'async',
+                'sizes'    => '(max-width: 1024px) 92vw, min(46rem, 100vw)',
+            );
+
+            if (is_singular()) {
                 // Featured image is the likely LCP element on a single post, so
                 // load it eagerly with a high fetch priority instead of lazily.
-                the_post_thumbnail('large', array(
-                    'loading'       => 'eager',
-                    'fetchpriority' => 'high',
-                ));
+                $thumbnail_attrs['loading']       = 'eager';
+                $thumbnail_attrs['fetchpriority'] = 'high';
+                the_post_thumbnail('large', $thumbnail_attrs);
+            } else {
+                $is_first_in_loop = (0 === (int) $GLOBALS['wp_query']->current_post && !is_paged());
+
+                $thumbnail_attrs['loading'] = $is_first_in_loop ? 'eager' : 'lazy';
+
+                if ($is_first_in_loop) {
+                    $thumbnail_attrs['fetchpriority'] = 'high';
+                }
                 ?>
-            <?php else : ?>
                 <a href="<?php the_permalink(); ?>">
-                    <?php the_post_thumbnail('large'); ?>
+                    <?php the_post_thumbnail('large', $thumbnail_attrs); ?>
                 </a>
-            <?php endif; ?>
+                <?php
+            }
+            ?>
         </div>
     <?php endif; ?>
 
