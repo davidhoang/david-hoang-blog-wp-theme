@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('DH_THEME_VERSION')) {
-    define('DH_THEME_VERSION', '0.25.0');
+    define('DH_THEME_VERSION', '0.26.0');
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
@@ -274,7 +274,7 @@ function dh_scripts() {
     if (is_singular('post')) {
         dh_enqueue_theme_style('dh-single', 'single.css');
         dh_enqueue_theme_style('dh-comments', 'comments.css');
-    } elseif (is_page()) {
+    } elseif (is_page() || is_attachment()) {
         dh_enqueue_theme_style('dh-page', 'page.css');
     }
 
