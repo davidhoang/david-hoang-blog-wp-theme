@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('DH_THEME_VERSION')) {
-    define('DH_THEME_VERSION', '0.24.0');
+    define('DH_THEME_VERSION', '0.25.0');
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
