@@ -320,7 +320,7 @@ function dh_get_breadcrumb_items() {
         }
 
         $items[] = array(
-            'name' => get_the_title(),
+            'name' => dh_get_display_title(),
             'url'  => get_permalink(),
         );
     } elseif (is_page()) {
@@ -328,13 +328,13 @@ function dh_get_breadcrumb_items() {
 
         foreach ($ancestors as $ancestor_id) {
             $items[] = array(
-                'name' => get_the_title($ancestor_id),
+                'name' => dh_get_display_title($ancestor_id),
                 'url'  => get_permalink($ancestor_id),
             );
         }
 
         $items[] = array(
-            'name' => get_the_title(),
+            'name' => dh_get_display_title(),
             'url'  => get_permalink(),
         );
     } elseif (is_category() || is_tag() || is_tax() || is_author() || is_date() || is_post_type_archive()) {
