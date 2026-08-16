@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <div class="site-controls">
+    <div class="site-controls" role="group" aria-label="<?php esc_attr_e('Reading preferences', 'dh'); ?>">
         <?php dh_render_font_switcher(); ?>
         <?php dh_render_theme_toggle(); ?>
     </div>

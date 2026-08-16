@@ -36,6 +36,20 @@
         els.nav.classList.toggle(OPEN_CLASS, next);
         els.toggle.setAttribute('aria-expanded', next ? 'true' : 'false');
         els.toggle.setAttribute('aria-label', label);
+        syncPanelAvailability(els);
+    }
+
+    function syncPanelAvailability(els) {
+        var open = els.nav.classList.contains(OPEN_CLASS);
+        var hideFromAssistive = isMobile() && !open;
+
+        if (hideFromAssistive) {
+            els.panel.setAttribute('inert', '');
+            els.panel.setAttribute('aria-hidden', 'true');
+        } else {
+            els.panel.removeAttribute('inert');
+            els.panel.removeAttribute('aria-hidden');
+        }
     }
 
     function close(els) {
@@ -91,6 +105,8 @@
             var onChange = function () {
                 if (!mediaQuery.matches) {
                     close(els);
+                } else {
+                    syncPanelAvailability(els);
                 }
             };
 

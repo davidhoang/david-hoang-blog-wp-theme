@@ -82,7 +82,7 @@ function dh_get_theme_toggle_icons() {
  */
 function dh_render_theme_toggle() {
     printf(
-        '<button type="button" class="theme-toggle" data-dh-theme-toggle aria-label="%1$s" title="%1$s">%2$s</button>',
+        '<button type="button" class="theme-toggle" data-dh-theme-toggle aria-pressed="false" aria-label="%1$s" title="%1$s">%2$s</button>',
         esc_attr__('Switch to dark mode', 'dh'),
         dh_get_theme_toggle_icons()
     );

@@ -107,8 +107,8 @@ function dh_render_font_switcher() {
         esc_attr($menu_id)
     );
 
-    echo '<p class="font-switcher__heading">' . esc_html__('Reading style', 'dh') . '</p>';
-    echo '<ul class="font-switcher__list" role="listbox" aria-label="' . esc_attr__('Reading style', 'dh') . '">';
+    echo '<p class="font-switcher__heading" id="dh-font-switcher-heading">' . esc_html__('Reading style', 'dh') . '</p>';
+    echo '<ul class="font-switcher__list" role="listbox" aria-labelledby="dh-font-switcher-heading">';
 
     foreach ($fonts as $slug => $font) {
         $is_default = ($slug === $default);
