@@ -15,6 +15,7 @@ get_template_part('template-parts/layout', 'start');
             while (have_posts()) :
                 the_post();
 
+                get_template_part('template-parts/breadcrumbs');
                 get_template_part('template-parts/content');
 
                 the_post_navigation(array(

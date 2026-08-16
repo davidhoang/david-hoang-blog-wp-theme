@@ -305,17 +305,30 @@ function dh_get_breadcrumb_items() {
     );
 
     if (is_singular('post')) {
-        $categories = get_the_category();
+        $series = function_exists('dh_get_post_series') ? dh_get_post_series() : null;
 
-        if (!empty($categories)) {
-            $primary  = $categories[0];
-            $cat_link = get_category_link($primary);
+        if ($series instanceof WP_Term) {
+            $series_link = get_term_link($series);
 
-            if (!is_wp_error($cat_link)) {
+            if (!is_wp_error($series_link)) {
                 $items[] = array(
-                    'name' => $primary->name,
-                    'url'  => $cat_link,
+                    'name' => $series->name,
+                    'url'  => $series_link,
                 );
+            }
+        } else {
+            $categories = get_the_category();
+
+            if (!empty($categories)) {
+                $primary  = $categories[0];
+                $cat_link = get_category_link($primary);
+
+                if (!is_wp_error($cat_link)) {
+                    $items[] = array(
+                        'name' => $primary->name,
+                        'url'  => $cat_link,
+                    );
+                }
             }
         }
 
