@@ -164,3 +164,27 @@ function dh_reader_enqueue_assets() {
     ));
 }
 add_action('wp_enqueue_scripts', 'dh_reader_enqueue_assets', 15);
+
+/**
+ * Print the reading progress bar markup on single posts.
+ */
+function dh_reader_print_progress_bar() {
+    if (!is_singular('post')) {
+        return;
+    }
+    ?>
+    <div
+        class="dh-reading-progress"
+        role="progressbar"
+        aria-label="<?php esc_attr_e('Reading progress', 'dh'); ?>"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="0"
+        hidden
+    >
+        <div class="dh-reading-progress__bar"></div>
+    </div>
+    <?php
+}
+add_action('wp_body_open', 'dh_reader_print_progress_bar');
+

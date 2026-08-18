@@ -1,5 +1,33 @@
 /* Reader experience enhancements: table of contents, code blocks, copy buttons. */
 
+/* --- Reading progress ---------------------------------------------------- */
+
+.dh-reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 3px;
+    pointer-events: none;
+    background: transparent;
+}
+
+.dh-reading-progress__bar {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--dh-color-text);
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .dh-reading-progress__bar {
+        transition: transform 0.12s linear;
+    }
+}
+
 /* Give in-content anchor jumps a little breathing room from the viewport top. */
 .entry-content :where(h2, h3)[id] {
     scroll-margin-top: calc(var(--dh-space) * 1.5);
@@ -235,7 +263,8 @@
 @media (prefers-reduced-motion: reduce) {
     .dh-heading-anchor,
     .dh-code__copy,
-    .dh-toc__link {
+    .dh-toc__link,
+    .dh-reading-progress__bar {
         transition: none;
     }
 }

@@ -239,10 +239,55 @@
         });
     }
 
+    function initReadingProgress() {
+        var root = document.querySelector('.dh-reading-progress');
+        var bar = root ? root.querySelector('.dh-reading-progress__bar') : null;
+        var article =
+            document.querySelector('article.post .entry-content') ||
+            document.querySelector('article.post');
+
+        if (!root || !bar || !article) {
+            return;
+        }
+
+        root.hidden = false;
+
+        var ticking = false;
+
+        function update() {
+            ticking = false;
+
+            var rect = article.getBoundingClientRect();
+            var articleTop = rect.top + window.scrollY;
+            var articleHeight = article.offsetHeight;
+            var viewport = window.innerHeight || document.documentElement.clientHeight;
+            var readable = Math.max(articleHeight - viewport, 1);
+            var scrolled = window.scrollY - articleTop;
+            var progress = Math.min(100, Math.max(0, (scrolled / readable) * 100));
+
+            bar.style.transform = 'scaleX(' + progress / 100 + ')';
+            root.setAttribute('aria-valuenow', String(Math.round(progress)));
+        }
+
+        function onScroll() {
+            if (ticking) {
+                return;
+            }
+
+            ticking = true;
+            window.requestAnimationFrame(update);
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        update();
+    }
+
     function init() {
         initCodeCopy();
         initHeadingAnchors();
         initTocScrollSpy();
+        initReadingProgress();
     }
 
     if (document.readyState === 'loading') {
