@@ -24,6 +24,7 @@ require_once get_template_directory() . '/inc/related-posts.php';
 require_once get_template_directory() . '/inc/reader-enhancements.php';
 require_once get_template_directory() . '/inc/block-patterns.php';
 require_once get_template_directory() . '/inc/editorial-structure.php';
+require_once get_template_directory() . '/inc/content-discovery.php';
 
 /**
  * Theme setup.
