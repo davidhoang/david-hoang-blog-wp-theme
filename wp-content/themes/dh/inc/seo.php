@@ -394,6 +394,39 @@ function dh_get_breadcrumb_schema() {
 }
 
 /**
+ * Build a CreativeWorkSeries schema node for a series term.
+ *
+ * @param WP_Term $term Series term.
+ * @return array|null
+ */
+function dh_get_series_schema($term) {
+    if (!$term instanceof WP_Term || 'series' !== $term->taxonomy) {
+        return null;
+    }
+
+    $series_link = get_term_link($term);
+
+    if (is_wp_error($series_link)) {
+        return null;
+    }
+
+    $series = array(
+        '@type'     => 'CreativeWorkSeries',
+        '@id'       => $series_link . '#series',
+        'name'      => $term->name,
+        'url'       => $series_link,
+        'isPartOf'  => array('@id' => home_url('/#website')),
+        'publisher' => array('@id' => home_url('/#person')),
+    );
+
+    if (!empty($term->description)) {
+        $series['description'] = wp_strip_all_tags($term->description);
+    }
+
+    return $series;
+}
+
+/**
  * Print JSON-LD structured data for the homepage and blog posts.
  */
 function dh_print_schema_jsonld() {
@@ -450,6 +483,15 @@ function dh_print_schema_jsonld() {
         $graph[] = $blog;
     }
 
+    if (is_tax('series')) {
+        $term = get_queried_object();
+        $series_schema = dh_get_series_schema($term);
+
+        if ($series_schema) {
+            $graph[] = $series_schema;
+        }
+    }
+
     if (is_singular('post')) {
         $post_id = get_queried_object_id();
         $author  = get_userdata((int) get_post_field('post_author', $post_id));
@@ -458,10 +500,12 @@ function dh_print_schema_jsonld() {
             '@type'            => 'BlogPosting',
             '@id'              => get_permalink($post_id) . '#article',
             'mainEntityOfPage' => get_permalink($post_id),
-            'headline'         => get_the_title($post_id),
+            'headline'         => dh_get_display_title($post_id),
             'datePublished'    => get_the_date(DATE_W3C, $post_id),
             'dateModified'     => get_the_modified_date(DATE_W3C, $post_id),
-            'isPartOf'         => array('@id' => home_url('/#website')),
+            'isPartOf'         => array(
+                array('@id' => home_url('/#website')),
+            ),
             'publisher'        => array('@id' => $person['@id']),
         );
 
@@ -501,6 +545,18 @@ function dh_print_schema_jsonld() {
                 'name'  => $author->display_name,
                 'url'   => get_author_posts_url($author->ID),
             );
+        }
+
+        $series_context = function_exists('dh_get_series_context') ? dh_get_series_context($post_id) : null;
+
+        if ($series_context && !empty($series_context['term'])) {
+            $series_schema = dh_get_series_schema($series_context['term']);
+
+            if ($series_schema) {
+                $graph[] = $series_schema;
+                $blog_posting['isPartOf'][] = array('@id' => $series_schema['@id']);
+                $blog_posting['position'] = (int) $series_context['position'];
+            }
         }
 
         $graph[] = $blog_posting;
