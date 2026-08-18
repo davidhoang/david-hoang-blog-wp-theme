@@ -151,6 +151,119 @@
     margin-bottom: calc(var(--dh-space) * 2);
 }
 
+.archive-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.85rem 1rem;
+    margin: calc(var(--dh-space) * -1.1) 0 calc(var(--dh-space) * 2);
+    color: var(--dh-color-muted);
+    font-size: var(--dh-font-size-sm);
+}
+
+.archive-meta__avatar {
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.archive-meta__summary {
+    margin: 0;
+}
+
+.archive-meta__feed {
+    color: inherit;
+    text-decoration: none;
+}
+
+.archive-meta__feed:hover,
+.archive-meta__feed:focus-visible {
+    color: var(--dh-color-text);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+.browse-topics {
+    margin: 0 0 calc(var(--dh-space) * 2.5);
+    padding-bottom: calc(var(--dh-space) * 1.5);
+    border-bottom: 1px solid var(--dh-color-border);
+}
+
+.browse-topics__title {
+    margin: 0 0 var(--dh-space);
+    color: var(--dh-color-muted);
+    font-size: var(--dh-font-size-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.browse-topics__group + .browse-topics__group {
+    margin-top: calc(var(--dh-space) * 1.15);
+}
+
+.browse-topics__heading {
+    margin: 0 0 0.45rem;
+    font-size: var(--dh-font-size-sm);
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.browse-topics__list {
+    display: grid;
+    gap: 0.35rem 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--dh-font-size-ui);
+    line-height: 1.35;
+}
+
+@media (min-width: 640px) {
+    .browse-topics__list:not(.browse-topics__list--inline) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.browse-topics__list li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    min-width: 0;
+}
+
+.browse-topics__list a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.browse-topics__list a:hover,
+.browse-topics__list a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+.browse-topics__count {
+    color: var(--dh-color-muted);
+    font-size: var(--dh-font-size-xs);
+    font-variant-numeric: tabular-nums;
+}
+
+.browse-topics__list--inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.9rem;
+}
+
+.browse-topics__list--inline li {
+    display: inline;
+    justify-content: flex-start;
+}
+
 .entry-summary p {
     margin: 0 0 var(--dh-space);
 }
