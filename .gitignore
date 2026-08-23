@@ -90,3 +90,7 @@ _development/
 # Local QA artifacts
 output/
 .playwright-cli/
+
+# PHP test dependencies
+/vendor/
+/composer.phar
