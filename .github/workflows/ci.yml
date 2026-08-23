@@ -48,9 +48,15 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           coverage: none
-          tools: none
+          tools: composer
 
       - name: Syntax-check theme PHP files
         run: |
           find wp-content/themes/dh -name '*.php' -print0 \
             | xargs -0 -n1 -P4 php -l
+
+      - name: Install PHP test dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: PHPUnit
+        run: vendor/bin/phpunit

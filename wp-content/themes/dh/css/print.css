@@ -1,0 +1,89 @@
+/**
+ * Print stylesheet — hide chrome and keep the essay readable on paper.
+ */
+
+@media print {
+    :root,
+    [data-theme='dark'] {
+        color-scheme: light;
+        --dh-color-text: #111;
+        --dh-color-bg: #fff;
+        --dh-color-muted: #333;
+        --dh-color-border: #bbb;
+        --dh-color-surface: #fff;
+        --dh-chrome-bg: #fff;
+        --dh-search-highlight-bg: #ddd;
+    }
+
+    body {
+        background: #fff !important;
+        color: #111 !important;
+    }
+
+    .skip-link,
+    .site-header,
+    .site-hero,
+    .site-nav,
+    .site-controls,
+    .sidebar,
+    .dh-reading-progress,
+    .dh-heading-anchor,
+    .dh-code__copy,
+    .comments-area,
+    .post-navigation,
+    .related-posts,
+    .recovery,
+    .browse-topics,
+    .post-view,
+    .search-form,
+    .site-footer__nav,
+    .site-footer__top {
+        display: none !important;
+    }
+
+    .site-main {
+        padding: 0;
+    }
+
+    .site-layout,
+    .content-area,
+    .entry-content,
+    .entry-content p,
+    .entry-summary p {
+        display: block;
+        max-width: none;
+        width: 100%;
+        margin: 0;
+    }
+
+    .site-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+    }
+
+    .site-footer {
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid #bbb;
+        background: transparent;
+    }
+
+    a {
+        color: inherit !important;
+        text-decoration: underline;
+        text-underline-offset: 0.12em;
+    }
+
+    .post-featured-image,
+    .wp-block-image,
+    .attachment-media__image,
+    img {
+        break-inside: avoid;
+        background: none;
+        box-shadow: none;
+    }
+
+    .dh-toc {
+        break-after: avoid;
+    }
+}

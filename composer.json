@@ -1,0 +1,16 @@
+{
+    "name": "davidhoang/dh-theme",
+    "description": "PHPUnit helpers for the dh WordPress theme",
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "7.4.33"
+        }
+    }
+}
