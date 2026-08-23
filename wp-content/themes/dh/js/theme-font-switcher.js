@@ -90,9 +90,40 @@
 
         if (open) {
             menu.removeAttribute('hidden');
+            focusSelectedOption(menu);
         } else {
             menu.setAttribute('hidden', '');
         }
+    }
+
+    function getOptions(menu) {
+        return Array.prototype.slice.call(menu.querySelectorAll('[data-dh-font-option]'));
+    }
+
+    function focusSelectedOption(menu) {
+        var options = getOptions(menu);
+        var selected =
+            menu.querySelector('[data-dh-font-option][aria-selected="true"]') || options[0];
+
+        if (selected) {
+            selected.focus();
+        }
+    }
+
+    function moveOptionFocus(menu, current, delta) {
+        var options = getOptions(menu);
+
+        if (!options.length) {
+            return;
+        }
+
+        var index = options.indexOf(current);
+        if (index === -1) {
+            index = 0;
+        }
+
+        var nextIndex = (index + delta + options.length) % options.length;
+        options[nextIndex].focus();
     }
 
     function isMenuOpen() {
@@ -125,6 +156,36 @@
             applyFont(option.getAttribute('data-dh-font-option'));
             setMenuOpen(false);
             toggle.focus();
+        });
+
+        menu.addEventListener('keydown', function (event) {
+            if (!isMenuOpen()) {
+                return;
+            }
+
+            var option = event.target.closest('[data-dh-font-option]');
+
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                moveOptionFocus(menu, option, 1);
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                moveOptionFocus(menu, option, -1);
+            } else if (event.key === 'Home') {
+                event.preventDefault();
+                getOptions(menu)[0].focus();
+            } else if (event.key === 'End') {
+                event.preventDefault();
+                var options = getOptions(menu);
+                options[options.length - 1].focus();
+            } else if (event.key === 'Enter' || event.key === ' ') {
+                if (option) {
+                    event.preventDefault();
+                    applyFont(option.getAttribute('data-dh-font-option'));
+                    setMenuOpen(false);
+                    toggle.focus();
+                }
+            }
         });
 
         document.addEventListener('click', function (event) {

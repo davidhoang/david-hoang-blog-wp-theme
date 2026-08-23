@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('DH_THEME_VERSION')) {
-    define('DH_THEME_VERSION', '0.21.0');
+    define('DH_THEME_VERSION', '0.27.0');
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
@@ -274,7 +274,7 @@ function dh_scripts() {
     if (is_singular('post')) {
         dh_enqueue_theme_style('dh-single', 'single.css');
         dh_enqueue_theme_style('dh-comments', 'comments.css');
-    } elseif (is_page()) {
+    } elseif (is_page() || is_attachment()) {
         dh_enqueue_theme_style('dh-page', 'page.css');
     }
 
@@ -284,13 +284,19 @@ function dh_scripts() {
 
     $hero_script = get_template_directory() . '/js/hero-halftone.js';
 
-    if (file_exists($hero_script)) {
+    // Hero chrome is site-wide; load the shader bundle deferred so it never
+    // competes with LCP HTML/CSS, and skip it entirely when the request is a
+    // feed/admin AJAX context where the header hero is absent.
+    if (file_exists($hero_script) && !is_admin() && !is_feed() && !wp_doing_ajax()) {
         wp_enqueue_script(
             'dh-hero-halftone',
             get_template_directory_uri() . '/js/hero-halftone.js',
             array(),
             DH_THEME_VERSION,
-            true
+            array(
+                'in_footer' => true,
+                'strategy'  => 'defer',
+            )
         );
     }
 
