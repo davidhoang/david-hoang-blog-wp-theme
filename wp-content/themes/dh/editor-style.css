@@ -4,9 +4,10 @@
  */
 
 :root {
+    color-scheme: light;
     --dh-color-text: #333;
     --dh-color-bg: #fff;
-    --dh-color-muted: #666;
+    --dh-color-muted: #575757;
     --dh-color-border: #ddd;
     --dh-color-surface: #f7f7f7;
     --dh-color-link: var(--dh-color-text);
@@ -32,16 +33,33 @@
 }
 
 [data-theme='dark'] {
+    color-scheme: dark;
     --dh-color-text: #e8e6e1;
     --dh-color-bg: #161614;
-    --dh-color-muted: #9a9890;
+    --dh-color-muted: #b0aea6;
     --dh-color-border: #333330;
     --dh-color-surface: #222220;
     --dh-color-link: var(--dh-color-text);
-    --dh-color-link-hover: var(--dh-color-muted);
+    --dh-color-link-hover: #c6c4bc;
     --dh-polaroid-bg: #242422;
     --dh-polaroid-edge: rgba(255, 255, 255, 0.14);
     --dh-polaroid-dot: rgba(255, 255, 255, 0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+        color-scheme: dark;
+        --dh-color-text: #e8e6e1;
+        --dh-color-bg: #161614;
+        --dh-color-muted: #b0aea6;
+        --dh-color-border: #333330;
+        --dh-color-surface: #222220;
+        --dh-color-link: var(--dh-color-text);
+        --dh-color-link-hover: #c6c4bc;
+        --dh-polaroid-bg: #242422;
+        --dh-polaroid-edge: rgba(255, 255, 255, 0.14);
+        --dh-polaroid-dot: rgba(255, 255, 255, 0.04);
+    }
 }
 
 body,
@@ -50,6 +68,7 @@ body,
     font-size: var(--dh-font-size-body);
     line-height: 1.7;
     color: var(--dh-color-text);
+    background-color: var(--dh-color-bg);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
