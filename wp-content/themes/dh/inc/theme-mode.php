@@ -113,3 +113,17 @@ function dh_enqueue_theme_mode_script() {
     );
 }
 add_action('wp_enqueue_scripts', 'dh_enqueue_theme_mode_script');
+
+/**
+ * Apply the site color mode inside the block editor canvas.
+ */
+function dh_enqueue_editor_theme_mode_script() {
+    wp_enqueue_script(
+        'dh-editor-theme-mode',
+        get_template_directory_uri() . '/js/editor-theme-mode.js',
+        array(),
+        defined('DH_THEME_VERSION') ? DH_THEME_VERSION : '0.30.0',
+        true
+    );
+}
+add_action('enqueue_block_editor_assets', 'dh_enqueue_editor_theme_mode_script');
