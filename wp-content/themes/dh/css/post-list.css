@@ -328,6 +328,13 @@
     font-size: var(--dh-font-size-xs);
 }
 
+.search-highlight {
+    background: var(--dh-search-highlight-bg);
+    color: inherit;
+    padding: 0 0.12em;
+    font: inherit;
+}
+
 .entry-summary p {
     margin: 0 0 var(--dh-space);
 }
