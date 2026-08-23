@@ -31,6 +31,8 @@ get_template_part('template-parts/layout', 'start');
                 </div>
             </section>
 
+            <?php dh_render_recovery_paths(); ?>
+
 <?php
 get_template_part('template-parts/layout', 'end');
 get_footer();

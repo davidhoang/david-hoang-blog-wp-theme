@@ -997,8 +997,10 @@ img {
     text-decoration: none;
 }
 
-.error-404__home a:hover {
+.error-404__home a:hover,
+.error-404__home a:focus-visible {
     text-decoration: underline;
+    text-underline-offset: 0.15em;
 }
 
 .entry-summary {
