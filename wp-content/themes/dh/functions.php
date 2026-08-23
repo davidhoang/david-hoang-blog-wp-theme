@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('DH_THEME_VERSION')) {
-    define('DH_THEME_VERSION', '0.27.0');
+    define('DH_THEME_VERSION', '0.29.0');
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
@@ -25,6 +25,7 @@ require_once get_template_directory() . '/inc/reader-enhancements.php';
 require_once get_template_directory() . '/inc/block-patterns.php';
 require_once get_template_directory() . '/inc/editorial-structure.php';
 require_once get_template_directory() . '/inc/content-discovery.php';
+require_once get_template_directory() . '/inc/search-highlight.php';
 
 /**
  * Theme setup.
@@ -278,7 +279,7 @@ function dh_scripts() {
         dh_enqueue_theme_style('dh-page', 'page.css');
     }
 
-    if (is_home() || is_archive() || is_search()) {
+    if (is_home() || is_archive() || is_search() || is_404()) {
         dh_enqueue_theme_style('dh-post-list', 'post-list.css');
     }
 

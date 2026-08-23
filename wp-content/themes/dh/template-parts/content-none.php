@@ -32,7 +32,7 @@
                 ?>
             </p>
         <?php elseif (is_search()) : ?>
-            <p><?php esc_html_e('No results matched your search. Try different keywords.', 'dh'); ?></p>
+            <p><?php esc_html_e('No results matched your search. Try different keywords, or browse recent essays.', 'dh'); ?></p>
             <?php get_search_form(); ?>
         <?php else : ?>
             <p><?php esc_html_e('It seems we can\'t find what you\'re looking for. Maybe try a search?', 'dh'); ?></p>
@@ -40,3 +40,5 @@
         <?php endif; ?>
     </div>
 </section>
+
+<?php dh_render_recovery_paths(); ?>

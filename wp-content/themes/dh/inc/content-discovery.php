@@ -140,10 +140,96 @@ function dh_get_browse_topics() {
 }
 
 /**
- * Render a quiet topic browse list on the blog index.
+ * Recent essays used as recovery paths on empty views.
+ *
+ * @param int $limit Maximum number of posts.
+ * @return WP_Post[]
  */
-function dh_render_browse_topics() {
-    if (!is_home() || is_paged()) {
+function dh_get_recent_essays($limit = 5) {
+    $limit = max(1, (int) apply_filters('dh_recent_essays_limit', $limit));
+
+    return get_posts(array(
+        'post_type'           => 'post',
+        'post_status'         => 'publish',
+        'posts_per_page'      => $limit,
+        'ignore_sticky_posts' => true,
+        'no_found_rows'       => true,
+        'orderby'             => 'date',
+        'order'               => 'DESC',
+    ));
+}
+
+/**
+ * Render a compact list of recent essays.
+ *
+ * @param array $args {
+ *     @type string $heading Heading text.
+ *     @type int    $limit   Maximum number of posts.
+ * }
+ */
+function dh_render_recent_essays($args = array()) {
+    $args = wp_parse_args($args, array(
+        'heading' => __('Recent essays', 'dh'),
+        'limit'   => 5,
+    ));
+
+    $posts = dh_get_recent_essays($args['limit']);
+
+    if (empty($posts)) {
+        return;
+    }
+    ?>
+    <section class="recovery-posts" aria-labelledby="recovery-posts-title">
+        <h2 class="recovery-posts__title" id="recovery-posts-title"><?php echo esc_html($args['heading']); ?></h2>
+        <ul class="recovery-posts__list">
+            <?php foreach ($posts as $essay) : ?>
+                <li class="recovery-posts__item">
+                    <a class="recovery-posts__link" href="<?php echo esc_url(get_permalink($essay)); ?>">
+                        <span class="recovery-posts__post-title"><?php echo esc_html(dh_get_display_title($essay)); ?></span>
+                        <time class="recovery-posts__date" datetime="<?php echo esc_attr(get_the_date('c', $essay)); ?>">
+                            <?php echo esc_html(get_the_date('', $essay)); ?>
+                        </time>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </section>
+    <?php
+}
+
+/**
+ * Recent essays and topic browse for 404 and empty result views.
+ */
+function dh_render_recovery_paths() {
+    if (is_home()) {
+        return;
+    }
+
+    ob_start();
+    dh_render_recent_essays();
+    dh_render_browse_topics(array('force' => true));
+    $html = trim(ob_get_clean());
+
+    if ('' === $html) {
+        return;
+    }
+
+    echo '<div class="recovery">' . $html . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+}
+
+/**
+ * Render a quiet topic browse list.
+ *
+ * @param array $args {
+ *     @type bool $force Render even when not on the first blog index page.
+ * }
+ */
+function dh_render_browse_topics($args = array()) {
+    $args = wp_parse_args($args, array(
+        'force' => false,
+    ));
+
+    if (!$args['force'] && (!is_home() || is_paged())) {
         return;
     }
 
