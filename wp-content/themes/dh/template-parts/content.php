@@ -16,7 +16,7 @@
             <h1 class="entry-title<?php echo get_the_title() ? '' : ' entry-title--empty'; ?>"><?php echo esc_html(dh_get_display_title()); ?></h1>
         <?php else : ?>
             <h2 class="entry-title<?php echo get_the_title() ? '' : ' entry-title--empty'; ?>">
-                <a href="<?php the_permalink(); ?>" rel="bookmark"><?php echo esc_html(dh_get_display_title()); ?></a>
+                <a href="<?php the_permalink(); ?>" rel="bookmark"><?php echo wp_kses(dh_get_highlighted_display_title(), dh_search_highlight_allowed_html()); ?></a>
             </h2>
         <?php endif; ?>
     </header>

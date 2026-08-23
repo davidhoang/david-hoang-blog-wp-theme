@@ -50,6 +50,7 @@
     --dh-polaroid-pad-top: 0.75rem;
     --dh-polaroid-pad-bottom: 2.75rem;
     --dh-search-bg: var(--dh-sidebar-bg);
+    --dh-search-highlight-bg: #f3e4b3;
 }
 
 [data-theme='dark'] {
@@ -73,6 +74,7 @@
     --dh-polaroid-edge: rgba(255, 255, 255, 0.14);
     --dh-polaroid-dot: rgba(255, 255, 255, 0.04);
     --dh-search-bg: var(--dh-sidebar-bg);
+    --dh-search-highlight-bg: #5a4a1f;
 }
 
 [data-font='editorial'] {
