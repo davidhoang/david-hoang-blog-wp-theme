@@ -353,21 +353,20 @@ add_action('atom_entry', 'dh_feed_featured_image_atom');
 /**
  * Declare the Media RSS namespace on RSS2 feeds.
  *
- * @param string $output Existing namespace attributes.
- * @return string
+ * rss2_ns is an action that prints attributes onto the <rss> root.
+ * Returning a string from a filter is discarded, so this must echo.
  */
-function dh_feed_media_namespace($output) {
-    return $output . ' xmlns:media="http://search.yahoo.com/mrss/"';
+function dh_feed_media_namespace() {
+    echo ' xmlns:media="http://search.yahoo.com/mrss/"';
 }
-add_filter('rss2_ns', 'dh_feed_media_namespace');
+add_action('rss2_ns', 'dh_feed_media_namespace');
 
 /**
  * Declare the Media RSS namespace on Atom feeds.
  *
- * @param string $output Existing namespace attributes.
- * @return string
+ * atom_ns is an action that prints attributes onto the <feed> root.
  */
-function dh_feed_atom_media_namespace($output) {
-    return $output . ' xmlns:media="http://search.yahoo.com/mrss/"';
+function dh_feed_atom_media_namespace() {
+    echo ' xmlns:media="http://search.yahoo.com/mrss/"';
 }
-add_filter('atom_ns', 'dh_feed_atom_media_namespace');
+add_action('atom_ns', 'dh_feed_atom_media_namespace');
