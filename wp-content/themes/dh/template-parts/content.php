@@ -62,7 +62,7 @@
                 $thumbnail_attrs['fetchpriority'] = 'high';
                 the_post_thumbnail('large', $thumbnail_attrs);
             } else {
-                $is_first_in_loop = (0 === (int) $GLOBALS['wp_query']->current_post && !is_paged());
+                $is_first_in_loop = dh_should_eager_load_loop_thumbnail();
 
                 $thumbnail_attrs['loading'] = $is_first_in_loop ? 'eager' : 'lazy';
 
