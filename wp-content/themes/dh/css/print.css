@@ -47,13 +47,21 @@
 
     .site-layout,
     .content-area,
+    .entry-header,
+    .entry-title,
+    .page-header__title,
     .entry-content,
-    .entry-content p,
-    .entry-summary p {
+    .entry-summary {
         display: block;
         max-width: none;
         width: 100%;
         margin: 0;
+    }
+
+    .entry-content p,
+    .entry-summary p {
+        max-width: none;
+        width: 100%;
     }
 
     .site-layout {
