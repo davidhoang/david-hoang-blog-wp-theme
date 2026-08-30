@@ -122,3 +122,4 @@ $theme_inc = dirname(__DIR__) . '/wp-content/themes/dh/inc';
 require_once $theme_inc . '/search-highlight.php';
 require_once $theme_inc . '/editorial-structure.php';
 require_once $theme_inc . '/seo.php';
+require_once $theme_inc . '/content-discovery.php';
