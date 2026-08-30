@@ -52,7 +52,7 @@
             <?php
             $thumbnail_attrs = array(
                 'decoding' => 'async',
-                'sizes'    => '(max-width: 1024px) 92vw, min(46rem, 100vw)',
+                'sizes'    => dh_get_featured_image_sizes(),
             );
 
             if (is_singular()) {

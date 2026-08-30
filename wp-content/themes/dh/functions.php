@@ -101,6 +101,19 @@ function dh_get_hero_image_url() {
 }
 
 /**
+ * `sizes` for featured images that fill the content column.
+ *
+ * `.post-featured-image` lives in `.content-area` (~58rem beside the 18rem
+ * sidebar), not inside `.entry-content` (46rem). The two-column layout holds
+ * until 768px.
+ *
+ * @return string
+ */
+function dh_get_featured_image_sizes() {
+    return '(max-width: 768px) 92vw, min(58rem, calc(100vw - 22.5rem))';
+}
+
+/**
  * Register hero customizer settings.
  */
 function dh_customize_register($wp_customize) {
