@@ -492,3 +492,25 @@ function dh_comment($comment, $args, $depth) {
     </li>
     <?php
 }
+
+/**
+ * Whether this archive/index thumbnail should load eagerly as the likely LCP.
+ *
+ * Uses the first loop item that actually has a featured image, not
+ * `current_post === 0` (the lead post may have no thumbnail).
+ *
+ * @return bool
+ */
+function dh_should_eager_load_loop_thumbnail() {
+    if (is_singular() || is_paged()) {
+        return false;
+    }
+
+    if (!empty($GLOBALS['dh_loop_thumbnail_eager_used'])) {
+        return false;
+    }
+
+    $GLOBALS['dh_loop_thumbnail_eager_used'] = true;
+
+    return true;
+}
