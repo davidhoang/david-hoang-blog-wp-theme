@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('DH_THEME_VERSION')) {
-    define('DH_THEME_VERSION', '0.32.0');
+    define('DH_THEME_VERSION', '0.33.0');
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
@@ -71,6 +71,30 @@ function dh_setup() {
     ));
 }
 add_action('after_setup_theme', 'dh_setup');
+
+/**
+ * Whether the full homepage hero should render.
+ *
+ * Interior views use a compact sticky masthead instead of the billboard.
+ *
+ * @return bool
+ */
+function dh_has_full_hero() {
+    return is_front_page() && !is_paged();
+}
+
+/**
+ * Distinguish homepage billboard vs compact reading chrome.
+ *
+ * @param string[] $classes Body classes.
+ * @return string[]
+ */
+function dh_body_classes($classes) {
+    $classes[] = dh_has_full_hero() ? 'has-full-hero' : 'has-compact-header';
+
+    return $classes;
+}
+add_filter('body_class', 'dh_body_classes');
 
 /**
  * Site tagline shown below the title.
@@ -306,10 +330,9 @@ function dh_scripts() {
 
     $hero_script = get_template_directory() . '/js/hero-halftone.js';
 
-    // Hero chrome is site-wide; load the shader bundle deferred so it never
-    // competes with LCP HTML/CSS, and skip it entirely when the request is a
-    // feed/admin AJAX context where the header hero is absent.
-    if (file_exists($hero_script) && !is_admin() && !is_feed() && !wp_doing_ajax()) {
+    // The shader is a homepage moment. Skip it on interior views and in
+    // feed/admin AJAX contexts where the header hero is absent.
+    if (file_exists($hero_script) && dh_has_full_hero() && !is_admin() && !is_feed() && !wp_doing_ajax()) {
         wp_enqueue_script(
             'dh-hero-halftone',
             get_template_directory_uri() . '/js/hero-halftone.js',
@@ -402,12 +425,10 @@ function dh_archive_title($title) {
 add_filter('get_the_archive_title', 'dh_archive_title');
 
 /**
- * Post meta line.
+ * Date and reading-time fragments shared by kickers and post meta.
  */
-function dh_entry_meta() {
+function dh_the_entry_dateline() {
     $reading_time = dh_get_reading_time_label();
-
-    echo '<div class="entry-meta">';
 
     printf(
         '<a href="%s" rel="bookmark"><time datetime="%s">%s</time></a>',
@@ -420,7 +441,40 @@ function dh_entry_meta() {
         echo '<span class="entry-meta__separator" aria-hidden="true">&middot;</span>';
         printf('<span class="entry-meta__reading-time">%s</span>', esc_html($reading_time));
     }
+}
 
+/**
+ * Post meta line on singular essays.
+ */
+function dh_entry_meta() {
+    echo '<div class="entry-meta">';
+    dh_the_entry_dateline();
+    echo '</div>';
+}
+
+/**
+ * Archive/index kicker: series position, date, and reading time above the title.
+ */
+function dh_the_entry_kicker() {
+    echo '<div class="entry-kicker">';
+
+    if (is_tax('series')) {
+        $series_context = dh_get_series_context();
+
+        if ($series_context) {
+            echo '<span>';
+            printf(
+                /* translators: 1: current part number, 2: total number of parts */
+                esc_html__('Part %1$d of %2$d', 'dh'),
+                (int) $series_context['position'],
+                (int) $series_context['total']
+            );
+            echo '</span>';
+            echo '<span class="entry-meta__separator" aria-hidden="true">&middot;</span>';
+        }
+    }
+
+    dh_the_entry_dateline();
     echo '</div>';
 }
 

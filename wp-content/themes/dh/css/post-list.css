@@ -40,12 +40,32 @@
 }
 
 .entry-kicker {
-    margin-bottom: calc(var(--dh-space) * 0.9);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 0.15rem;
+    margin: 0 0 0.55rem;
     color: var(--dh-color-muted);
     font-size: var(--dh-font-size-xs);
     font-weight: 600;
     letter-spacing: 0.02em;
-    line-height: 1;
+    line-height: 1.2;
+}
+
+.entry-title--index {
+    max-width: 22ch;
+    font-size: clamp(1.7rem, 2.6vw, 2.45rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+}
+
+.post-featured-image a img {
+    transition: opacity 0.2s ease;
+}
+
+.post-featured-image a:hover img,
+.post-featured-image a:focus-visible img {
+    opacity: 0.88;
 }
 
 .entry-kicker a {

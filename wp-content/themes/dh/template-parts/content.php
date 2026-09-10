@@ -15,7 +15,8 @@
         <?php if (is_singular()) : ?>
             <h1 class="entry-title<?php echo get_the_title() ? '' : ' entry-title--empty'; ?>"><?php echo esc_html(dh_get_display_title()); ?></h1>
         <?php else : ?>
-            <h2 class="entry-title<?php echo get_the_title() ? '' : ' entry-title--empty'; ?>">
+            <?php dh_the_entry_kicker(); ?>
+            <h2 class="entry-title entry-title--index<?php echo get_the_title() ? '' : ' entry-title--empty'; ?>">
                 <a href="<?php the_permalink(); ?>" rel="bookmark"><?php echo wp_kses(dh_get_highlighted_display_title(), dh_search_highlight_allowed_html()); ?></a>
             </h2>
         <?php endif; ?>
@@ -23,28 +24,6 @@
 
     <?php if (is_singular('post')) : ?>
         <?php dh_entry_meta(); ?>
-    <?php else : ?>
-        <div class="entry-kicker">
-            <?php if (is_tax('series')) : ?>
-                <?php $series_context = dh_get_series_context(); ?>
-                <?php if ($series_context) : ?>
-                    <span>
-                        <?php
-                        printf(
-                            /* translators: 1: current part number, 2: total number of parts */
-                            esc_html__('Part %1$d of %2$d', 'dh'),
-                            (int) $series_context['position'],
-                            (int) $series_context['total']
-                        );
-                        ?>
-                    </span>
-                    <span aria-hidden="true">&middot;</span>
-                <?php endif; ?>
-            <?php endif; ?>
-            <a href="<?php the_permalink(); ?>" rel="bookmark">
-                <time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date()); ?></time>
-            </a>
-        </div>
     <?php endif; ?>
 
     <?php if (has_post_thumbnail()) : ?>
