@@ -7,7 +7,6 @@
 
 get_header();
 
-get_template_part('template-parts/site-nav');
 get_template_part('template-parts/layout', 'start');
 
 get_template_part('template-parts/breadcrumbs');

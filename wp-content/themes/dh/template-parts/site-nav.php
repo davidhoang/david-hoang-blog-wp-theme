@@ -8,6 +8,18 @@
 
 <nav id="site-navigation" class="site-nav" aria-label="<?php esc_attr_e('Primary menu', 'dh'); ?>">
     <div class="site-nav__inner">
+        <?php if (!dh_has_full_hero()) : ?>
+            <?php if (has_custom_logo()) : ?>
+                <div class="site-nav__brand site-nav__brand--logo">
+                    <?php the_custom_logo(); ?>
+                </div>
+            <?php else : ?>
+                <a class="site-nav__brand" href="<?php echo esc_url(home_url('/')); ?>" rel="home">
+                    <?php bloginfo('name'); ?>
+                </a>
+            <?php endif; ?>
+        <?php endif; ?>
+
         <button
             type="button"
             class="site-nav__toggle"

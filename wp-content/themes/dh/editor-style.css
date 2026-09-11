@@ -155,3 +155,23 @@ body,
     color: var(--dh-color-muted);
     text-align: left;
 }
+
+.editor-styles-wrapper blockquote {
+    margin: 0 0 var(--dh-space);
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--dh-color-border);
+    font-size: var(--dh-font-size-lg);
+    line-height: 1.4;
+}
+
+.editor-styles-wrapper hr {
+    height: 0;
+    margin: calc(var(--dh-space) * 2) 0;
+    border: 0;
+    border-top: 1px solid var(--dh-color-border);
+}
+
+.editor-styles-wrapper ::selection {
+    background: #f3e4b3;
+    color: var(--dh-color-text);
+}
