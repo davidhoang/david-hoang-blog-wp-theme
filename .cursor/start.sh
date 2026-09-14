@@ -11,6 +11,14 @@ cd "$REPO_ROOT"
 
 SITE_URL="http://localhost:8080"
 
+# --- Docker networking/storage config (idempotent, belt-and-suspenders) -----
+# These are normally set by install.sh, but re-apply before the daemon starts
+# so a booted snapshot always has the nested-container fixes in place.
+sudo mkdir -p /etc/docker
+printf '{\n  "storage-driver": "fuse-overlayfs"\n}\n' | sudo tee /etc/docker/daemon.json >/dev/null
+sudo update-alternatives --set iptables /usr/sbin/iptables-legacy >/dev/null 2>&1 || true
+sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy >/dev/null 2>&1 || true
+
 # --- Docker daemon ----------------------------------------------------------
 if ! sudo docker info >/dev/null 2>&1; then
   sudo bash -c 'nohup dockerd >/tmp/dockerd.log 2>&1 &'
