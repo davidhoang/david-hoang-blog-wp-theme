@@ -1,0 +1,17 @@
+{
+  "name": "dh WordPress theme",
+  "install": "bash .cursor/install.sh",
+  "start": "bash .cursor/start.sh",
+  "terminals": [
+    {
+      "name": "wordpress-logs",
+      "command": "sudo docker compose logs -f",
+      "description": "Live logs from the WordPress and MySQL containers."
+    }
+  ],
+  "ports": [
+    { "name": "WordPress", "port": 8080 },
+    { "name": "BrowserSync live reload", "port": 3000 },
+    { "name": "MySQL", "port": 3306 }
+  ]
+}
