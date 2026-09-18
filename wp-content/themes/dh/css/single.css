@@ -221,7 +221,7 @@
     align-items: center;
     gap: 0.4rem;
     padding: 0.65rem 0.85rem;
-    color: var(--dh-color-background);
+    color: var(--dh-color-bg);
     font-size: var(--dh-font-size-sm);
     font-weight: 600;
     line-height: 1.2;
