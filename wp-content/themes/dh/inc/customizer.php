@@ -112,6 +112,68 @@ function dh_customizer_register($wp_customize) {
         'section'   => 'dh_author',
         'mime_type' => 'image',
     )));
+
+    $wp_customize->add_section('dh_subscribe', array(
+        'title'       => esc_html__('Newsletter', 'dh'),
+        'description' => esc_html__('Proof of Concept call to action shown after single posts.', 'dh'),
+        'priority'    => 38,
+    ));
+
+    $wp_customize->add_setting('dh_subscribe_enabled', array(
+        'default'           => true,
+        'sanitize_callback' => 'rest_sanitize_boolean',
+    ));
+
+    $wp_customize->add_control('dh_subscribe_enabled', array(
+        'label'   => esc_html__('Show newsletter call to action', 'dh'),
+        'section' => 'dh_subscribe',
+        'type'    => 'checkbox',
+    ));
+
+    $newsletter_fields = array(
+        'dh_subscribe_title' => array(
+            'label'    => __('Heading', 'dh'),
+            'default'  => __('Keep reading with Proof of Concept', 'dh'),
+            'type'     => 'text',
+            'sanitize' => 'sanitize_text_field',
+        ),
+        'dh_subscribe_text' => array(
+            'label'    => __('Description', 'dh'),
+            'default'  => __('Essays on design, technology, and entrepreneurship, delivered by email.', 'dh'),
+            'type'     => 'textarea',
+            'sanitize' => 'sanitize_textarea_field',
+        ),
+        'dh_subscribe_label' => array(
+            'label'    => __('Button label', 'dh'),
+            'default'  => __('Subscribe', 'dh'),
+            'type'     => 'text',
+            'sanitize' => 'sanitize_text_field',
+        ),
+    );
+
+    foreach ($newsletter_fields as $setting => $field) {
+        $wp_customize->add_setting($setting, array(
+            'default'           => $field['default'],
+            'sanitize_callback' => $field['sanitize'],
+        ));
+
+        $wp_customize->add_control($setting, array(
+            'label'   => $field['label'],
+            'section' => 'dh_subscribe',
+            'type'    => $field['type'],
+        ));
+    }
+
+    $wp_customize->add_setting('dh_subscribe_url', array(
+        'default'           => 'https://www.proofofconcept.pub/',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+
+    $wp_customize->add_control('dh_subscribe_url', array(
+        'label'   => esc_html__('Subscription URL', 'dh'),
+        'section' => 'dh_subscribe',
+        'type'    => 'url',
+    ));
 }
 add_action('customize_register', 'dh_customizer_register', 20);
 

@@ -14,6 +14,7 @@ $GLOBALS['dh_test'] = array(
     'search_query'     => '',
     'term_link'        => 'https://example.com/series/craft/',
     'term_link_error'  => false,
+    'theme_mods'       => array(),
 );
 
 function dh_test_reset() {
@@ -24,6 +25,7 @@ function dh_test_reset() {
         'search_query'    => '',
         'term_link'       => 'https://example.com/series/craft/',
         'term_link_error' => false,
+        'theme_mods'      => array(),
     );
 }
 
@@ -71,6 +73,16 @@ function wp_strip_all_tags($string) {
 
 function esc_html($text) {
     return htmlspecialchars((string) $text, ENT_QUOTES, 'UTF-8');
+}
+
+function __($text) {
+    return $text;
+}
+
+function get_theme_mod($name, $default = false) {
+    return array_key_exists($name, $GLOBALS['dh_test']['theme_mods'])
+        ? $GLOBALS['dh_test']['theme_mods'][$name]
+        : $default;
 }
 
 if (!class_exists('WP_Error')) {
@@ -123,3 +135,4 @@ require_once $theme_inc . '/search-highlight.php';
 require_once $theme_inc . '/editorial-structure.php';
 require_once $theme_inc . '/seo.php';
 require_once $theme_inc . '/content-discovery.php';
+require_once $theme_inc . '/post-actions.php';

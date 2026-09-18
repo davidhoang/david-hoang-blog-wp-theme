@@ -11,10 +11,6 @@ $tags_list     = get_the_tag_list('', ', ');
 $published     = get_the_date('U');
 $last_modified = get_the_modified_date('U');
 $was_updated   = $last_modified > ($published + DAY_IN_SECONDS);
-
-if (!$postscript && !$series && !$tags_list && !$was_updated) {
-    return;
-}
 ?>
 
 <footer class="post-endmatter">
@@ -82,4 +78,6 @@ if (!$postscript && !$series && !$tags_list && !$was_updated) {
             <?php endif; ?>
         </div>
     <?php endif; ?>
+
+    <?php dh_render_post_actions(); ?>
 </footer>

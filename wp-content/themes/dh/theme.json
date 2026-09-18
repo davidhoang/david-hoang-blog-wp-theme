@@ -37,6 +37,14 @@
                 }
             ]
         },
+        "blocks": {
+            "core/image": {
+                "lightbox": {
+                    "allowEditing": true,
+                    "enabled": true
+                }
+            }
+        },
         "layout": {
             "contentSize": "46rem",
             "wideSize": "80rem"
