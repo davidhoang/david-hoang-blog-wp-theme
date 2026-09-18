@@ -59,7 +59,11 @@
 
     function copyPostLink(button) {
         copy(button.getAttribute('data-url')).then(function (copied) {
-            announce(copied ? strings.copied || 'Link copied' : strings.copyFailed || 'Could not copy the link');
+            announce(
+                copied
+                    ? strings.copied || 'Link copied'
+                    : strings.copyFailed || 'Could not copy the link'
+            );
         });
     }
 
