@@ -987,6 +987,31 @@ img {
     text-align: left;
 }
 
+.dh-photo-comparison {
+    max-width: 80rem;
+    margin-block: calc(var(--dh-space) * 2);
+}
+
+.dh-photo-comparison__title {
+    margin: 0 0 var(--dh-space);
+    font-size: var(--dh-font-size-lg);
+}
+
+.dh-photo-comparison__images {
+    gap: var(--dh-space);
+}
+
+.dh-photo-comparison__images .wp-block-image {
+    display: block;
+    width: 100%;
+    margin: 0;
+}
+
+.dh-photo-comparison__images .wp-block-image img {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
 .post-featured-image a {
     display: block;
     text-decoration: none;
