@@ -5,9 +5,11 @@
     --dh-color-muted: #575757;
     --dh-color-border: #ddd;
     --dh-color-surface: #f7f7f7;
+    --dh-color-accent: var(--dh-color-text);
     --dh-color-link: var(--dh-color-text);
     --dh-color-link-hover: var(--dh-color-muted);
     --dh-focus-ring: var(--dh-color-text);
+    --dh-reading-progress: var(--dh-color-text);
     --dh-chrome-bg: #f8f8f6;
     --dh-sidebar-bg: var(--dh-chrome-bg);
     --dh-sidebar-border: rgba(0, 0, 0, 0.06);
@@ -112,6 +114,18 @@
     --dh-line-height: 1.75;
     --dh-letter-spacing: 0.02em;
     --dh-font-size-body: 1.1875rem;
+}
+
+[data-reading-size='small'] {
+    --dh-font-size-body: 1rem;
+}
+
+[data-reading-size='medium'] {
+    --dh-font-size-body: 1.125rem;
+}
+
+[data-reading-size='large'] {
+    --dh-font-size-body: 1.3rem;
 }
 
 *,
@@ -729,6 +743,61 @@ img {
 
 .font-switcher__option[data-font-preview='clear'] .font-switcher__option-desc {
     font-family: var(--dh-font-family-clear);
+}
+
+.font-switcher__sizes {
+    margin-top: 0.7rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--dh-color-border);
+}
+
+.font-switcher__size-heading {
+    margin-bottom: 0.45rem;
+}
+
+.font-switcher__size-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.font-switcher__size {
+    min-height: 2.5rem;
+    padding: 0.35rem;
+    border: 1px solid var(--dh-color-border);
+    border-right: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--dh-color-text);
+    font-family: var(--dh-font-family-editorial);
+    line-height: 1;
+    cursor: pointer;
+}
+
+.font-switcher__size:last-child {
+    border-right: 1px solid var(--dh-color-border);
+}
+
+.font-switcher__size--small {
+    font-size: 0.85rem;
+}
+
+.font-switcher__size--medium {
+    font-size: 1rem;
+}
+
+.font-switcher__size--large {
+    font-size: 1.2rem;
+}
+
+.font-switcher__size:hover,
+.font-switcher__size:focus-visible,
+.font-switcher__size[aria-pressed='true'] {
+    background: var(--dh-control-hover-bg);
+}
+
+.font-switcher__size:focus-visible {
+    outline: 2px solid var(--dh-focus-ring);
+    outline-offset: -3px;
 }
 
 .main-navigation {

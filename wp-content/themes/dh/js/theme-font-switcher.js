@@ -5,6 +5,8 @@
     'use strict';
 
     var STORAGE_KEY = 'dh-reading-font';
+    var SIZE_STORAGE_KEY = 'dh-reading-size';
+    var allowedSizes = ['small', 'medium', 'large'];
     var config = window.dhReadingFont || {};
     var fonts = config.fonts || {};
     var defaultFont = config.defaultFont || 'editorial';
@@ -38,6 +40,24 @@
         }
 
         return getStoredFont() || defaultFont;
+    }
+
+    function getStoredSize() {
+        try {
+            var stored = localStorage.getItem(SIZE_STORAGE_KEY);
+            if (allowedSizes.indexOf(stored) !== -1) {
+                return stored;
+            }
+        } catch (e) {
+            // private mode / blocked storage
+        }
+
+        return null;
+    }
+
+    function getSize() {
+        var current = document.documentElement.getAttribute('data-reading-size');
+        return allowedSizes.indexOf(current) !== -1 ? current : getStoredSize() || 'medium';
     }
 
     function updateOptions(font) {
@@ -74,6 +94,30 @@
                 detail: { font: next },
             })
         );
+    }
+
+    function applySize(size, options) {
+        var next = allowedSizes.indexOf(size) !== -1 ? size : 'medium';
+        var persist = !options || options.persist !== false;
+        var controls = document.querySelectorAll('[data-dh-reading-size]');
+        var i;
+
+        document.documentElement.setAttribute('data-reading-size', next);
+
+        for (i = 0; i < controls.length; i += 1) {
+            controls[i].setAttribute(
+                'aria-pressed',
+                controls[i].getAttribute('data-dh-reading-size') === next ? 'true' : 'false'
+            );
+        }
+
+        if (persist) {
+            try {
+                localStorage.setItem(SIZE_STORAGE_KEY, next);
+            } catch (e) {
+                // ignore
+            }
+        }
     }
 
     function setMenuOpen(open) {
@@ -148,6 +192,12 @@
         });
 
         menu.addEventListener('click', function (event) {
+            var size = event.target.closest('[data-dh-reading-size]');
+            if (size && menu.contains(size)) {
+                applySize(size.getAttribute('data-dh-reading-size'));
+                return;
+            }
+
             var option = event.target.closest('[data-dh-font-option]');
             if (!option || !menu.contains(option)) {
                 return;
@@ -209,10 +259,12 @@
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () {
             applyFont(getFont(), { persist: Boolean(getStoredFont()) });
+            applySize(getSize(), { persist: Boolean(getStoredSize()) });
             initSwitcher();
         });
     } else {
         applyFont(getFont(), { persist: Boolean(getStoredFont()) });
+        applySize(getSize(), { persist: Boolean(getStoredSize()) });
         initSwitcher();
     }
 })();

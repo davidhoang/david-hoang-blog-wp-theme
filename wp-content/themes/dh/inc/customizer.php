@@ -10,11 +10,198 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Default site appearance colors.
+ *
+ * @return array<string, string>
+ */
+function dh_get_appearance_defaults() {
+    return array(
+        'light_text'       => '#333333',
+        'light_background' => '#ffffff',
+        'light_accent'     => '#333333',
+        'dark_text'        => '#e8e6e1',
+        'dark_background'  => '#161614',
+        'dark_accent'      => '#e8e6e1',
+    );
+}
+
+/**
+ * Current site appearance colors, restricted to safe hex values.
+ *
+ * @return array<string, string>
+ */
+function dh_get_appearance_colors() {
+    $colors = array();
+
+    foreach (dh_get_appearance_defaults() as $key => $default) {
+        $value = (string) get_theme_mod('dh_' . $key, $default);
+        $colors[$key] = preg_match('/^#[0-9a-fA-F]{6}$/', $value) ? $value : $default;
+    }
+
+    return $colors;
+}
+
+/**
+ * CSS tokens for one color mode.
+ *
+ * Supporting surfaces are derived only when the foreground or background is
+ * customized, preserving the theme's exact default palette otherwise.
+ *
+ * @param string $text         Foreground color.
+ * @param string $background   Background color.
+ * @param string $accent       Accent color.
+ * @param string $default_text Default foreground color.
+ * @param string $default_bg   Default background color.
+ * @return string
+ */
+function dh_get_appearance_mode_css($text, $background, $accent, $default_text, $default_bg) {
+    $css = '--dh-color-text:' . $text . ';--dh-color-bg:' . $background
+        . ';--dh-color-accent:' . $accent . ';'
+        . '--dh-color-link:var(--dh-color-accent);--dh-focus-ring:var(--dh-color-accent);'
+        . '--dh-reading-progress:var(--dh-color-accent);';
+
+    if ($text !== $default_text || $background !== $default_bg) {
+        $css .= '--dh-color-muted:color-mix(in srgb,var(--dh-color-text) 68%,var(--dh-color-bg));'
+            . '--dh-color-border:color-mix(in srgb,var(--dh-color-text) 18%,var(--dh-color-bg));'
+            . '--dh-color-surface:color-mix(in srgb,var(--dh-color-text) 4%,var(--dh-color-bg));'
+            . '--dh-chrome-bg:color-mix(in srgb,var(--dh-color-text) 3%,var(--dh-color-bg));'
+            . '--dh-sidebar-border:color-mix(in srgb,var(--dh-color-text) 7%,transparent);'
+            . '--dh-hero-border:color-mix(in srgb,var(--dh-color-text) 9%,transparent);'
+            . '--dh-hero-fade-start:color-mix(in srgb,var(--dh-chrome-bg) 10%,transparent);'
+            . '--dh-hero-fade-mid:color-mix(in srgb,var(--dh-chrome-bg) 55%,transparent);'
+            . '--dh-hero-fade-end:var(--dh-chrome-bg);--dh-hero-shader-back:var(--dh-chrome-bg);'
+            . '--dh-hero-shader-fill:color-mix(in srgb,var(--dh-color-text) 9%,transparent);'
+            . '--dh-control-hover-bg:color-mix(in srgb,var(--dh-color-text) 6%,transparent);';
+    }
+
+    return $css;
+}
+
+/**
+ * CSS overrides for Customizer colors.
+ *
+ * @return string
+ */
+function dh_get_appearance_css() {
+    $colors   = dh_get_appearance_colors();
+    $defaults = dh_get_appearance_defaults();
+    $light    = dh_get_appearance_mode_css(
+        $colors['light_text'],
+        $colors['light_background'],
+        $colors['light_accent'],
+        $defaults['light_text'],
+        $defaults['light_background']
+    );
+    $dark     = dh_get_appearance_mode_css(
+        $colors['dark_text'],
+        $colors['dark_background'],
+        $colors['dark_accent'],
+        $defaults['dark_text'],
+        $defaults['dark_background']
+    );
+
+    return ':root{' . $light . '}[data-theme="dark"]{' . $dark . '}';
+}
+
+/**
+ * Attach Customizer color overrides after the base stylesheet.
+ */
+function dh_enqueue_appearance_css() {
+    wp_add_inline_style('dh-base', dh_get_appearance_css());
+}
+add_action('wp_enqueue_scripts', 'dh_enqueue_appearance_css', 20);
+
+/**
+ * Available hero density presets.
+ *
+ * @return array<string, array<string, string>>
+ */
+function dh_get_hero_density_presets() {
+    return array(
+        'subtle'   => array(
+            'dot-size'          => '1.2',
+            'gap-x'             => '20',
+            'gap-y'             => '28',
+            'opacity-range'     => '0.05',
+            'halftone-radius'   => '0.95',
+            'halftone-contrast' => '0.34',
+        ),
+        'balanced' => array(
+            'dot-size'          => '1.6',
+            'gap-x'             => '16',
+            'gap-y'             => '24',
+            'opacity-range'     => '0.08',
+            'halftone-radius'   => '1.15',
+            'halftone-contrast' => '0.42',
+        ),
+        'bold'     => array(
+            'dot-size'          => '2',
+            'gap-x'             => '12',
+            'gap-y'             => '18',
+            'opacity-range'     => '0.12',
+            'halftone-radius'   => '1.35',
+            'halftone-contrast' => '0.5',
+        ),
+    );
+}
+
+/**
+ * Current hero density data attributes.
+ *
+ * @return array<string, string>
+ */
+function dh_get_hero_density_settings() {
+    $presets = dh_get_hero_density_presets();
+    $density = get_theme_mod('dh_hero_density', 'balanced');
+
+    return isset($presets[$density]) ? $presets[$density] : $presets['balanced'];
+}
+
+/**
+ * Sanitize a hero density preset name.
+ *
+ * @param string $value Selected preset.
+ * @return string
+ */
+function dh_sanitize_hero_density($value) {
+    return isset(dh_get_hero_density_presets()[$value]) ? $value : 'balanced';
+}
+
+/**
  * Register Customizer sections and controls.
  *
  * @param WP_Customize_Manager $wp_customize Customizer instance.
  */
 function dh_customizer_register($wp_customize) {
+    $wp_customize->add_section('dh_appearance', array(
+        'title'       => esc_html__('Appearance', 'dh'),
+        'description' => esc_html__('A compact palette for the site. Supporting surfaces are generated automatically.', 'dh'),
+        'priority'    => 31,
+    ));
+
+    $color_controls = array(
+        'light_text'       => __('Light text', 'dh'),
+        'light_background' => __('Light background', 'dh'),
+        'light_accent'     => __('Light accent', 'dh'),
+        'dark_text'        => __('Dark text', 'dh'),
+        'dark_background'  => __('Dark background', 'dh'),
+        'dark_accent'      => __('Dark accent', 'dh'),
+    );
+
+    foreach ($color_controls as $key => $label) {
+        $setting = 'dh_' . $key;
+
+        $wp_customize->add_setting($setting, array(
+            'default'           => dh_get_appearance_defaults()[$key],
+            'sanitize_callback' => 'sanitize_hex_color',
+        ));
+
+        $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, $setting, array(
+            'label'   => $label,
+            'section' => 'dh_appearance',
+        )));
+    }
+
     $wp_customize->add_section('dh_sidebar', array(
         'title'       => esc_html__('Sidebar', 'dh'),
         'description' => esc_html__('Default sidebar content shown when no widgets are assigned.', 'dh'),
