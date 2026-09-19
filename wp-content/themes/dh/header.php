@@ -27,6 +27,7 @@ $dh_has_full_hero = dh_has_full_hero();
                 $dh_hero_image_url = dh_get_hero_image_url();
                 $dh_hero_classes   = 'site-hero__shader';
                 $dh_hero_style     = '';
+                $dh_hero_density   = dh_get_hero_density_settings();
 
                 if ($dh_hero_image_url) {
                     $dh_hero_classes .= ' site-hero__shader--has-image';
@@ -45,6 +46,9 @@ $dh_has_full_hero = dh_has_full_hero();
                     <?php if ($dh_hero_style) : ?>
                         style="<?php echo esc_attr($dh_hero_style); ?>"
                     <?php endif; ?>
+                    <?php foreach ($dh_hero_density as $dh_attribute => $dh_value) : ?>
+                        data-<?php echo esc_attr($dh_attribute); ?>="<?php echo esc_attr($dh_value); ?>"
+                    <?php endforeach; ?>
                     aria-hidden="true"
                 ></div>
 

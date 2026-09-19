@@ -136,3 +136,5 @@ require_once $theme_inc . '/editorial-structure.php';
 require_once $theme_inc . '/seo.php';
 require_once $theme_inc . '/content-discovery.php';
 require_once $theme_inc . '/post-actions.php';
+require_once $theme_inc . '/customizer.php';
+require_once $theme_inc . '/theme-mode.php';

@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('DH_THEME_VERSION')) {
-    define('DH_THEME_VERSION', '0.34.0');
+    define('DH_THEME_VERSION', '0.35.0');
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
@@ -159,6 +159,22 @@ function dh_customize_register($wp_customize) {
         'section'     => 'dh_hero',
         'mime_type'   => 'image',
     )));
+
+    $wp_customize->add_setting('dh_hero_density', array(
+        'default'           => 'balanced',
+        'sanitize_callback' => 'dh_sanitize_hero_density',
+    ));
+
+    $wp_customize->add_control('dh_hero_density', array(
+        'label'   => esc_html__('Pattern density', 'dh'),
+        'section' => 'dh_hero',
+        'type'    => 'select',
+        'choices' => array(
+            'subtle'   => esc_html__('Subtle', 'dh'),
+            'balanced' => esc_html__('Balanced', 'dh'),
+            'bold'     => esc_html__('Bold', 'dh'),
+        ),
+    ));
 }
 add_action('customize_register', 'dh_customize_register');
 
