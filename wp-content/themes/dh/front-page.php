@@ -17,14 +17,16 @@ $essays_url     = $posts_page_id ? get_permalink($posts_page_id) : home_url('/bl
 ?>
 
             <main class="editorial-home">
-                <?php while (have_posts()) : ?>
-                    <?php the_post(); ?>
-                    <?php if (trim((string) get_the_content())) : ?>
-                        <section class="editorial-home__intro">
-                            <div class="entry-content"><?php the_content(); ?></div>
-                        </section>
-                    <?php endif; ?>
-                <?php endwhile; ?>
+                <?php if ('page' === get_option('show_on_front')) : ?>
+                    <?php while (have_posts()) : ?>
+                        <?php the_post(); ?>
+                        <?php if (trim((string) get_the_content())) : ?>
+                            <section class="editorial-home__intro">
+                                <div class="entry-content"><?php the_content(); ?></div>
+                            </section>
+                        <?php endif; ?>
+                    <?php endwhile; ?>
+                <?php endif; ?>
 
                 <?php if ($featured_essay) : ?>
                     <?php
