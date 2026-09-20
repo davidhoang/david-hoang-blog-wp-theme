@@ -27,6 +27,8 @@ function dh_test_defaults() {
         'is_date'               => false,
         'is_post_type_archive'  => false,
         'is_archive'            => false,
+        'in_the_loop'           => false,
+        'is_main_query'         => false,
         // Data used by stubs.
         'search_query'          => '',
         'term_link'             => 'https://example.com/series/craft/',
@@ -34,10 +36,14 @@ function dh_test_defaults() {
         'bloginfo_name'         => 'Example Blog',
         'archive_title'         => 'Archive',
         'queried_object'        => null,
+        'queried_object_id'     => 1,
         'current_post'          => null,
         'current_id'            => 0,
         'post_tags'             => array(),
+        'post_categories'       => array(),
+        'post_series'           => null,
         'related_posts'         => array(),
+        'related_posts_queue'   => array(),
         'get_posts_args'        => array(),
         'filters'               => array(),
         'theme_mods'            => array(),
@@ -120,6 +126,7 @@ if (!class_exists('WP_Error')) {
 
 if (!class_exists('WP_Term')) {
     class WP_Term {
+        public $term_id = 0;
         public $taxonomy = '';
         public $name = '';
         public $description = '';
@@ -162,6 +169,25 @@ function esc_attr($text) {
     return htmlspecialchars((string) $text, ENT_QUOTES, 'UTF-8');
 }
 
+function esc_html__($text, $domain = 'default') {
+    return esc_html($text);
+}
+
+function esc_url_raw($url) {
+    return filter_var($url, FILTER_VALIDATE_URL) ? $url : '';
+}
+
+function sanitize_text_field($text) {
+    return trim(strip_tags((string) $text));
+}
+
+function sanitize_title($text) {
+    $text = strtolower(trim(wp_strip_all_tags($text)));
+    $text = preg_replace('/[^a-z0-9]+/', '-', $text);
+
+    return trim($text, '-');
+}
+
 function _x($text, $context, $domain = 'default') {
     return $text;
 }
@@ -198,8 +224,30 @@ function wp_get_post_tags($post_id = 0, $args = array()) {
     return $GLOBALS['dh_test']['post_tags'];
 }
 
+function wp_get_post_categories($post_id = 0, $args = array()) {
+    return $GLOBALS['dh_test']['post_categories'];
+}
+
+function get_the_terms($post = null, $taxonomy = '') {
+    if ('series' === $taxonomy && $GLOBALS['dh_test']['post_series']) {
+        return array($GLOBALS['dh_test']['post_series']);
+    }
+
+    return array();
+}
+
+function wp_list_pluck($list, $field) {
+    return array_map(function ($item) use ($field) {
+        return is_object($item) && isset($item->$field) ? $item->$field : null;
+    }, $list);
+}
+
 function get_posts($args = array()) {
     $GLOBALS['dh_test']['get_posts_args'][] = $args;
+
+    if ($GLOBALS['dh_test']['related_posts_queue']) {
+        return array_shift($GLOBALS['dh_test']['related_posts_queue']);
+    }
 
     return $GLOBALS['dh_test']['related_posts'];
 }
@@ -209,11 +257,43 @@ function get_bloginfo($show = '', $filter = 'raw') {
         return $GLOBALS['dh_test']['bloginfo_name'];
     }
 
+    if ('rss2_url' === $show) {
+        return 'https://example.com/feed/';
+    }
+
     return '';
 }
 
 function get_queried_object() {
     return $GLOBALS['dh_test']['queried_object'];
+}
+
+function get_queried_object_id() {
+    return (int) $GLOBALS['dh_test']['queried_object_id'];
+}
+
+function get_category_feed_link($id) {
+    return 'https://example.com/category/' . (int) $id . '/feed/';
+}
+
+function get_tag_feed_link($id) {
+    return 'https://example.com/tag/' . (int) $id . '/feed/';
+}
+
+function get_term_feed_link($id, $taxonomy = '') {
+    return 'https://example.com/' . $taxonomy . '/' . (int) $id . '/feed/';
+}
+
+function get_author_feed_link($id) {
+    return 'https://example.com/author/' . (int) $id . '/feed/';
+}
+
+function get_search_feed_link() {
+    return 'https://example.com/search/feed/';
+}
+
+function get_search_link() {
+    return 'https://example.com/?s=' . rawurlencode($GLOBALS['dh_test']['search_query']);
 }
 
 function get_the_archive_title() {
@@ -276,6 +356,14 @@ function is_archive() {
     return !empty($GLOBALS['dh_test']['is_archive']);
 }
 
+function in_the_loop() {
+    return !empty($GLOBALS['dh_test']['in_the_loop']);
+}
+
+function is_main_query() {
+    return !empty($GLOBALS['dh_test']['is_main_query']);
+}
+
 $theme_inc = dirname(__DIR__) . '/wp-content/themes/dh/inc';
 
 require_once $theme_inc . '/search-highlight.php';
@@ -287,3 +375,4 @@ require_once $theme_inc . '/customizer.php';
 require_once $theme_inc . '/theme-mode.php';
 require_once $theme_inc . '/reading-time.php';
 require_once $theme_inc . '/related-posts.php';
+require_once $theme_inc . '/reader-enhancements.php';
