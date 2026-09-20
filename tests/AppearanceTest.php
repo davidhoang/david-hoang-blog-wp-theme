@@ -43,4 +43,13 @@ class AppearanceTest extends TestCase {
         $this->assertSame('bold', dh_sanitize_hero_density('bold'));
         $this->assertSame('balanced', dh_sanitize_hero_density('unknown'));
     }
+
+    public function test_sidebar_link_sanitizer_keeps_valid_urls_and_rss_token() {
+        $input = "Portfolio | https://example.com/work\nFeed | {{rss}}\nBroken line\nUnsafe | javascript:alert(1)";
+
+        $this->assertSame(
+            "Portfolio | https://example.com/work\nFeed | {{rss}}",
+            dh_sanitize_sidebar_links($input)
+        );
+    }
 }

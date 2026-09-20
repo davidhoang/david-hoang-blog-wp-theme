@@ -24,6 +24,10 @@ function dh_get_social_image_url() {
         if ($thumbnail_url) {
             return $thumbnail_url;
         }
+
+        if (function_exists('imagecreatetruecolor')) {
+            return dh_get_generated_social_card_url(get_queried_object_id());
+        }
     }
 
     $hero_image_url = dh_get_hero_image_url();
@@ -36,6 +40,95 @@ function dh_get_social_image_url() {
 
     return $site_icon_url ? $site_icon_url : '';
 }
+
+/**
+ * Public URL for a generated PNG social card.
+ *
+ * @param int $post_id Post ID.
+ * @return string
+ */
+function dh_get_generated_social_card_url($post_id) {
+    $post = get_post($post_id);
+
+    if (!$post) {
+        return '';
+    }
+
+    return add_query_arg(
+        array(
+            'dh_social_card' => (int) $post->ID,
+            'v'              => (int) get_post_modified_time('U', true, $post),
+        ),
+        home_url('/')
+    );
+}
+
+/**
+ * Make the social-card request variable available to WordPress.
+ *
+ * @param string[] $vars Public query variables.
+ * @return string[]
+ */
+function dh_social_card_query_var($vars) {
+    $vars[] = 'dh_social_card';
+
+    return $vars;
+}
+add_filter('query_vars', 'dh_social_card_query_var');
+
+/**
+ * Render a dependency-free 1200×630 PNG card for text-only posts.
+ */
+function dh_render_social_card() {
+    $post_id = absint(get_query_var('dh_social_card'));
+
+    if (!$post_id) {
+        return;
+    }
+
+    $post = get_post($post_id);
+
+    if (!$post || 'publish' !== $post->post_status || !function_exists('imagecreatetruecolor')) {
+        status_header(404);
+        exit;
+    }
+
+    $colors     = dh_get_appearance_colors();
+    $background = sscanf($colors['light_background'], '#%02x%02x%02x');
+    $foreground = sscanf($colors['light_text'], '#%02x%02x%02x');
+    $accent     = sscanf($colors['light_accent'], '#%02x%02x%02x');
+    $canvas     = imagecreatetruecolor(600, 315);
+    $bg         = imagecolorallocate($canvas, $background[0], $background[1], $background[2]);
+    $fg         = imagecolorallocate($canvas, $foreground[0], $foreground[1], $foreground[2]);
+    $rule       = imagecolorallocate($canvas, $accent[0], $accent[1], $accent[2]);
+
+    imagefilledrectangle($canvas, 0, 0, 600, 315, $bg);
+    imagefilledrectangle($canvas, 38, 35, 42, 280, $rule);
+
+    $title = html_entity_decode(wp_strip_all_tags(get_the_title($post)), ENT_QUOTES, get_bloginfo('charset'));
+    $lines = explode("\n", wordwrap($title ? $title : __('Untitled', 'dh'), 38, "\n", true));
+    $y     = 82;
+
+    foreach (array_slice($lines, 0, 4) as $line) {
+        imagestring($canvas, 5, 72, $y, $line, $fg);
+        $y += 32;
+    }
+
+    imagestring($canvas, 3, 72, 245, get_bloginfo('name', 'display'), $fg);
+    imagestring($canvas, 2, 72, 270, wp_parse_url(home_url('/'), PHP_URL_HOST), $fg);
+
+    $output = imagecreatetruecolor(1200, 630);
+    imagecopyresampled($output, $canvas, 0, 0, 0, 0, 1200, 630, 600, 315);
+
+    nocache_headers();
+    header('Content-Type: image/png');
+    header('Content-Disposition: inline; filename="dh-' . $post_id . '-social-card.png"');
+    imagepng($output, null, 8);
+    imagedestroy($canvas);
+    imagedestroy($output);
+    exit;
+}
+add_action('template_redirect', 'dh_render_social_card', 0);
 
 /**
  * Canonical URL for the current request.

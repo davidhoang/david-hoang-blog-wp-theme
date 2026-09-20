@@ -16,6 +16,11 @@
     "build:hero": "esbuild wp-content/themes/dh/js/src/hero-halftone.js --bundle --format=iife --outfile=wp-content/themes/dh/js/hero-halftone.js --platform=browser"
   },
   "devDependencies": {
+    "@fontsource-variable/literata": "^5.3.0",
+    "@fontsource-variable/newsreader": "^5.3.0",
+    "@fontsource-variable/source-sans-3": "^5.3.0",
+    "@fontsource/atkinson-hyperlegible": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
     "@paper-design/shaders": "^0.0.77",
     "browser-sync": "^2.29.3",
     "esbuild": "^0.28.1",

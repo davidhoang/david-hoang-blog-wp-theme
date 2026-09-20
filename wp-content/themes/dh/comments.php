@@ -49,5 +49,14 @@ if (post_password_required()) {
         <?php endif; ?>
     <?php endif; ?>
 
-    <?php comment_form(); ?>
+    <?php
+    comment_form(array(
+        'title_reply'          => esc_html__('Join the conversation', 'dh'),
+        'title_reply_before'   => '<h2 id="reply-title" class="comment-reply-title">',
+        'title_reply_after'    => '</h2>',
+        'comment_notes_before' => '<p class="comment-notes">' . esc_html__('Your email stays private. Required fields are marked.', 'dh') . '</p>',
+        'label_submit'         => esc_html__('Post comment', 'dh'),
+        'class_submit'         => 'submit comment-submit',
+    ));
+    ?>
 </div>

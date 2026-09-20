@@ -112,6 +112,37 @@ function dh_enqueue_appearance_css() {
 add_action('wp_enqueue_scripts', 'dh_enqueue_appearance_css', 20);
 
 /**
+ * Mirror the saved palette into the block editor canvas.
+ */
+function dh_enqueue_editor_appearance_css() {
+    $colors   = dh_get_appearance_colors();
+    $defaults = dh_get_appearance_defaults();
+    $light    = dh_get_appearance_mode_css(
+        $colors['light_text'],
+        $colors['light_background'],
+        $colors['light_accent'],
+        $defaults['light_text'],
+        $defaults['light_background']
+    );
+    $dark     = dh_get_appearance_mode_css(
+        $colors['dark_text'],
+        $colors['dark_background'],
+        $colors['dark_accent'],
+        $defaults['dark_text'],
+        $defaults['dark_background']
+    );
+
+    wp_register_style('dh-editor-appearance', false, array(), DH_THEME_VERSION);
+    wp_enqueue_style('dh-editor-appearance');
+    wp_add_inline_style(
+        'dh-editor-appearance',
+        '.editor-styles-wrapper{' . $light . 'color:var(--dh-color-text);background:var(--dh-color-bg);}'
+        . '[data-theme="dark"] .editor-styles-wrapper{' . $dark . '}'
+    );
+}
+add_action('enqueue_block_editor_assets', 'dh_enqueue_editor_appearance_css', 20);
+
+/**
  * Available hero density presets.
  *
  * @return array<string, array<string, string>>

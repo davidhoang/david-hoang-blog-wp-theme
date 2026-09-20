@@ -80,5 +80,57 @@ function dh_register_block_patterns() {
 <ul class="wp-block-list"><li><a href="https://davidhoang.com">davidhoang.com</a></li><li><a href="#">RSS feed</a></li></ul>
 <!-- /wp:list -->',
     ));
+
+    register_block_pattern('dh/essay-opener', array(
+        'title'       => esc_html__('Essay opener', 'dh'),
+        'description' => esc_html__('A short standfirst followed by a quiet divider.', 'dh'),
+        'categories'  => array('dh', 'text'),
+        'content'     => '<!-- wp:paragraph {"className":"dh-standfirst","fontSize":"lede"} -->
+<p class="dh-standfirst has-lede-font-size">Set the scene with one concise paragraph that invites the reader into the essay.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:separator {"className":"is-style-wide"} -->
+<hr class="wp-block-separator has-alpha-channel-opacity is-style-wide" />
+<!-- /wp:separator -->',
+    ));
+
+    register_block_pattern('dh/editorial-aside', array(
+        'title'       => esc_html__('Editorial aside', 'dh'),
+        'description' => esc_html__('A compact note for context, definitions, or useful tangents.', 'dh'),
+        'categories'  => array('dh', 'text'),
+        'content'     => '<!-- wp:group {"className":"dh-editorial-aside","layout":{"type":"constrained"}} -->
+<div class="wp-block-group dh-editorial-aside"><!-- wp:paragraph {"className":"dh-editorial-aside__label"} -->
+<p class="dh-editorial-aside__label">A brief aside</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Add context without interrupting the main thread of the essay.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->',
+    ));
+
+    register_block_pattern('dh/numbered-steps', array(
+        'title'       => esc_html__('Numbered steps', 'dh'),
+        'description' => esc_html__('A clear three-step sequence for processes and guides.', 'dh'),
+        'categories'  => array('dh', 'text'),
+        'content'     => '<!-- wp:group {"className":"dh-numbered-steps","layout":{"type":"constrained"}} -->
+<div class="wp-block-group dh-numbered-steps"><!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">How it works</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list {"ordered":true} -->
+<ol class="wp-block-list"><li><strong>Start with the question.</strong> Describe what needs to change.</li><li><strong>Work through the evidence.</strong> Make the reasoning visible.</li><li><strong>Share what changed.</strong> Close with the result and what comes next.</li></ol>
+<!-- /wp:list --></div>
+<!-- /wp:group -->',
+    ));
+
+    register_block_pattern('dh/last-tended', array(
+        'title'       => esc_html__('Last tended note', 'dh'),
+        'description' => esc_html__('A small maintenance note for living documents.', 'dh'),
+        'categories'  => array('dh', 'text'),
+        'content'     => '<!-- wp:paragraph {"className":"dh-last-tended"} -->
+<p class="dh-last-tended"><strong>Last tended:</strong> Add the date and a short note about what changed.</p>
+<!-- /wp:paragraph -->',
+    ));
 }
 add_action('init', 'dh_register_block_patterns');
