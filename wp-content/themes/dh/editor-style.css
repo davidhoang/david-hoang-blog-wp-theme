@@ -200,3 +200,40 @@ body,
     background: #f3e4b3;
     color: var(--dh-color-text);
 }
+
+.editor-styles-wrapper .dh-standfirst {
+    max-width: 38rem;
+    color: var(--dh-color-muted);
+    font-size: var(--dh-font-size-lede);
+    line-height: 1.45;
+}
+
+.editor-styles-wrapper .dh-editorial-aside {
+    margin-block: calc(var(--dh-space) * 1.5);
+    padding: var(--dh-space);
+    background: var(--dh-color-surface);
+    border-left: 3px solid var(--dh-color-link);
+}
+
+.editor-styles-wrapper .dh-editorial-aside__label,
+.editor-styles-wrapper .dh-last-tended {
+    color: var(--dh-color-muted);
+    font-size: var(--dh-font-size-sm);
+}
+
+.editor-styles-wrapper .dh-editorial-aside__label {
+    margin: 0 0 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.editor-styles-wrapper .dh-numbered-steps li + li {
+    margin-top: 0.85rem;
+}
+
+.editor-styles-wrapper .dh-last-tended {
+    margin-block: calc(var(--dh-space) * 1.5);
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--dh-color-border);
+}
