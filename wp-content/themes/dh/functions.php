@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('DH_THEME_VERSION')) {
-    define('DH_THEME_VERSION', '0.35.0');
+    define('DH_THEME_VERSION', '0.36.0');
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
@@ -27,6 +27,7 @@ require_once get_template_directory() . '/inc/editorial-structure.php';
 require_once get_template_directory() . '/inc/content-discovery.php';
 require_once get_template_directory() . '/inc/search-highlight.php';
 require_once get_template_directory() . '/inc/post-actions.php';
+require_once get_template_directory() . '/inc/photos.php';
 
 /**
  * Theme setup.
@@ -182,7 +183,16 @@ add_action('customize_register', 'dh_customize_register');
  * Default primary menu when none is assigned in WordPress.
  */
 function dh_default_menu() {
+    $posts_page_id = (int) get_option('page_for_posts');
     $items = array(
+        array(
+            'label' => __('Essays', 'dh'),
+            'url'   => $posts_page_id ? get_permalink($posts_page_id) : home_url('/blog/'),
+        ),
+        array(
+            'label' => __('Photos', 'dh'),
+            'url'   => get_post_type_archive_link('photo'),
+        ),
         array(
             'label' => __('About', 'dh'),
             'url'   => home_url('/about/'),
@@ -334,15 +344,19 @@ function dh_scripts() {
         'print'
     );
 
-    if (is_singular('post')) {
+    if (is_singular('post') || is_singular('photo')) {
         dh_enqueue_theme_style('dh-single', 'single.css');
         dh_enqueue_theme_style('dh-comments', 'comments.css');
     } elseif (is_page() || is_attachment()) {
         dh_enqueue_theme_style('dh-page', 'page.css');
     }
 
-    if (is_home() || is_archive() || is_search() || is_404()) {
+    if (is_front_page() || is_home() || is_archive() || is_search() || is_404()) {
         dh_enqueue_theme_style('dh-post-list', 'post-list.css');
+    }
+
+    if (is_front_page() || is_post_type_archive('photo') || is_singular('photo')) {
+        dh_enqueue_theme_style('dh-editorial', 'editorial.css');
     }
 
     $hero_script = get_template_directory() . '/js/hero-halftone.js';
