@@ -1,0 +1,2 @@
+dh-social-card-serif.ttf is Tinos Regular from the Croscore font package (Apache License 2.0),
+bundled for server-side Open Graph card rendering.

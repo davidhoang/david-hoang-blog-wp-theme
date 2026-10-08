@@ -10,13 +10,14 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('DH_THEME_VERSION')) {
-    define('DH_THEME_VERSION', '0.36.0');
+    define('DH_THEME_VERSION', '0.39.0');
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
 require_once get_template_directory() . '/inc/theme-font-switcher.php';
 require_once get_template_directory() . '/inc/social-icons.php';
 require_once get_template_directory() . '/inc/theme-mode.php';
+require_once get_template_directory() . '/inc/social-cards.php';
 require_once get_template_directory() . '/inc/seo.php';
 require_once get_template_directory() . '/inc/customizer.php';
 require_once get_template_directory() . '/inc/reading-time.php';
