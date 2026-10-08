@@ -52,6 +52,10 @@ function dh_test_defaults() {
         'get_posts_args'        => array(),
         'filters'               => array(),
         'theme_mods'            => array(),
+        'upload_basedir'        => '/tmp/uploads',
+        'post_modified_time'    => 1700000000,
+        'query_vars'            => array(),
+        'posts_by_id'           => array(),
         'post_meta'             => array(),
         'permalink'             => 'https://example.com/post/',
     );
@@ -225,6 +229,14 @@ function get_post($post = null) {
         return $GLOBALS['dh_test']['current_post'];
     }
 
+    if (is_numeric($post)) {
+        $id = (int) $post;
+
+        if (isset($GLOBALS['dh_test']['posts_by_id'][$id])) {
+            return $GLOBALS['dh_test']['posts_by_id'][$id];
+        }
+    }
+
     return null;
 }
 
@@ -269,11 +281,68 @@ function get_bloginfo($show = '', $filter = 'raw') {
         return $GLOBALS['dh_test']['bloginfo_name'];
     }
 
+    if ('charset' === $show) {
+        return 'UTF-8';
+    }
+
     if ('rss2_url' === $show) {
         return 'https://example.com/feed/';
     }
 
     return '';
+}
+
+function absint($value) {
+    return abs((int) $value);
+}
+
+function sanitize_key($key) {
+    return strtolower(preg_replace('/[^a-z0-9_\\-]/', '', (string) $key));
+}
+
+function get_query_var($name) {
+    return isset($GLOBALS['dh_test']['query_vars'][$name])
+        ? $GLOBALS['dh_test']['query_vars'][$name]
+        : '';
+}
+
+function wp_upload_dir() {
+    return array(
+        'basedir' => $GLOBALS['dh_test']['upload_basedir'],
+        'error'   => false,
+    );
+}
+
+function trailingslashit($string) {
+    return rtrim($string, '/') . '/';
+}
+
+function wp_mkdir_p($dir) {
+    return true;
+}
+
+function get_post_modified_time($format, $gmt = false, $post = null) {
+    return $GLOBALS['dh_test']['post_modified_time'];
+}
+
+function add_query_arg($args, $url) {
+    $query = http_build_query($args);
+
+    return $url . (false === strpos($url, '?') ? '?' : '&') . $query;
+}
+
+function get_the_title($post = null) {
+    if ($post instanceof WP_Post && $post->post_title) {
+        return $post->post_title;
+    }
+
+    $current = get_post($post);
+
+    return $current instanceof WP_Post ? $current->post_title : '';
+}
+
+function wp_parse_url($url, $component = -1) {
+    return parse_url($url, $component);
 }
 
 function get_queried_object() {
@@ -374,10 +443,6 @@ function get_post_type_archive_link($post_type) {
         : '';
 }
 
-function trailingslashit($string) {
-    return rtrim($string, '/') . '/';
-}
-
 function get_post_thumbnail_id($post = null) {
     return (int) $GLOBALS['dh_test']['post_thumbnail_id'];
 }
@@ -424,14 +489,11 @@ function get_post_type($post = null) {
     return 'post';
 }
 
-function wp_parse_url($url, $component = -1) {
-    return parse_url($url, $component);
-}
-
 $theme_inc = dirname(__DIR__) . '/wp-content/themes/dh/inc';
 
 require_once $theme_inc . '/search-highlight.php';
 require_once $theme_inc . '/editorial-structure.php';
+require_once $theme_inc . '/social-cards.php';
 require_once $theme_inc . '/seo.php';
 require_once $theme_inc . '/content-discovery.php';
 require_once $theme_inc . '/post-actions.php';
