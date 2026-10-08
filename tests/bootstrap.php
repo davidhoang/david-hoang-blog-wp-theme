@@ -47,6 +47,8 @@ function dh_test_defaults() {
         'get_posts_args'        => array(),
         'filters'               => array(),
         'theme_mods'            => array(),
+        'post_meta'             => array(),
+        'permalink'             => 'https://example.com/post/',
     );
 }
 
@@ -162,6 +164,7 @@ if (!class_exists('WP_Post')) {
         public $ID = 0;
         public $post_title = '';
         public $post_content = '';
+        public $post_type = 'post';
     }
 }
 
@@ -364,6 +367,32 @@ function is_main_query() {
     return !empty($GLOBALS['dh_test']['is_main_query']);
 }
 
+function get_post_meta($post_id, $key = '', $single = false) {
+    $post_id = (int) $post_id;
+
+    if (isset($GLOBALS['dh_test']['post_meta'][$post_id][$key])) {
+        return $GLOBALS['dh_test']['post_meta'][$post_id][$key];
+    }
+
+    return '';
+}
+
+function get_permalink($post = null) {
+    return $GLOBALS['dh_test']['permalink'];
+}
+
+function get_post_type($post = null) {
+    if ($post instanceof WP_Post) {
+        return $post->post_type;
+    }
+
+    return 'post';
+}
+
+function wp_parse_url($url, $component = -1) {
+    return parse_url($url, $component);
+}
+
 $theme_inc = dirname(__DIR__) . '/wp-content/themes/dh/inc';
 
 require_once $theme_inc . '/search-highlight.php';
@@ -376,3 +405,4 @@ require_once $theme_inc . '/theme-mode.php';
 require_once $theme_inc . '/reading-time.php';
 require_once $theme_inc . '/related-posts.php';
 require_once $theme_inc . '/reader-enhancements.php';
+require_once $theme_inc . '/link-posts.php';
