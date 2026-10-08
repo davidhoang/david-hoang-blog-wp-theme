@@ -16,6 +16,8 @@ get_template_part(
         'description' => __('Observations, places, and small moments collected through a camera.', 'dh'),
     )
 );
+
+dh_render_photo_archive_meta();
 ?>
 
             <?php if (have_posts()) : ?>

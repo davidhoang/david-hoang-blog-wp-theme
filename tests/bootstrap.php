@@ -26,6 +26,11 @@ function dh_test_defaults() {
         'is_author'             => false,
         'is_date'               => false,
         'is_post_type_archive'  => false,
+        'is_post_type_archive_photo' => false,
+        'post_type_archive_link' => 'https://example.com/photos/',
+        'post_thumbnail_id'     => 0,
+        'attachment_src'        => null,
+        'attachment_alt'        => '',
         'is_archive'            => false,
         'in_the_loop'           => false,
         'is_main_query'         => false,
@@ -70,6 +75,10 @@ function is_admin() {
 
 function is_feed() {
     return !empty($GLOBALS['dh_test']['is_feed']);
+}
+
+function wp_doing_ajax() {
+    return !empty($GLOBALS['dh_test']['wp_doing_ajax']);
 }
 
 function get_search_query($escaped = true) {
@@ -166,6 +175,7 @@ if (!class_exists('WP_Post')) {
         public $ID = 0;
         public $post_title = '';
         public $post_content = '';
+        public $post_type = 'post';
     }
 }
 
@@ -417,8 +427,34 @@ function is_date() {
     return !empty($GLOBALS['dh_test']['is_date']);
 }
 
-function is_post_type_archive() {
+function is_post_type_archive($post_type = '') {
+    if ('photo' === $post_type) {
+        return !empty($GLOBALS['dh_test']['is_post_type_archive_photo']);
+    }
+
     return !empty($GLOBALS['dh_test']['is_post_type_archive']);
+}
+
+function get_post_type_archive_link($post_type) {
+    return isset($GLOBALS['dh_test']['post_type_archive_link'])
+        ? $GLOBALS['dh_test']['post_type_archive_link']
+        : '';
+}
+
+function get_post_thumbnail_id($post = null) {
+    return (int) $GLOBALS['dh_test']['post_thumbnail_id'];
+}
+
+function wp_get_attachment_image_src($attachment_id, $size = 'thumbnail') {
+    return $GLOBALS['dh_test']['attachment_src'];
+}
+
+function get_post_meta($post_id, $key = '', $single = false) {
+    if ('_wp_attachment_image_alt' === $key) {
+        return $GLOBALS['dh_test']['attachment_alt'];
+    }
+
+    return '';
 }
 
 function is_archive() {
@@ -446,3 +482,4 @@ require_once $theme_inc . '/theme-mode.php';
 require_once $theme_inc . '/reading-time.php';
 require_once $theme_inc . '/related-posts.php';
 require_once $theme_inc . '/reader-enhancements.php';
+require_once $theme_inc . '/photos.php';

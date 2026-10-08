@@ -308,7 +308,21 @@ function dh_get_breadcrumb_items() {
         ),
     );
 
-    if (is_singular('post')) {
+    if (is_singular('photo')) {
+        $archive_link = get_post_type_archive_link('photo');
+
+        if ($archive_link) {
+            $items[] = array(
+                'name' => __('Photographs', 'dh'),
+                'url'  => $archive_link,
+            );
+        }
+
+        $items[] = array(
+            'name' => dh_get_display_title(),
+            'url'  => get_permalink(),
+        );
+    } elseif (is_singular('post')) {
         $series = function_exists('dh_get_post_series') ? dh_get_post_series() : null;
 
         if ($series instanceof WP_Term) {

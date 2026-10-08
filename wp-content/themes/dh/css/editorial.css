@@ -163,7 +163,8 @@
 }
 
 .photo-card__link:hover img,
-.photo-card__link:focus-visible img {
+.photo-card__link:focus-within img,
+.photo-card__media:focus-visible img {
     transform: scale(1.025);
 }
 
@@ -173,6 +174,8 @@
     justify-content: space-between;
     gap: 1rem;
     padding-top: 0.75rem;
+    color: inherit;
+    text-decoration: none;
 }
 
 .photo-card__caption h2 {
@@ -204,6 +207,113 @@
     .photo-grid--home {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
+}
+
+.photo-card__link {
+    display: block;
+}
+
+.photo-card__media {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+    text-align: inherit;
+    font: inherit;
+}
+
+.photo-single__figure {
+    margin: 0 0 1.5rem;
+}
+
+.photo-single__zoom {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+}
+
+.photo-single__image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.photo-single__caption {
+    margin-top: 0.75rem;
+    color: var(--dh-color-muted);
+    font-size: var(--dh-font-size-sm);
+}
+
+.photo-single__notes {
+    max-width: 46rem;
+}
+
+.photo-single__meta {
+    margin-top: 0.35rem;
+}
+
+html.has-photo-lightbox {
+    overflow: hidden;
+}
+
+.photo-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: clamp(1rem, 4vw, 2.5rem);
+}
+
+.photo-lightbox__backdrop {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--dh-color-text) 72%, transparent);
+}
+
+.photo-lightbox__dialog {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 72rem);
+    max-height: calc(100vh - 2rem);
+    overflow: auto;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    background: var(--dh-color-bg);
+    border: 1px solid var(--dh-color-border);
+}
+
+.photo-lightbox__close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--dh-color-border);
+    background: var(--dh-chrome-bg);
+    color: var(--dh-color-text);
+    cursor: pointer;
+}
+
+.photo-lightbox__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: min(70vh, 52rem);
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+.photo-lightbox__caption {
+    margin: 1rem 0 0;
+}
+
+.photo-lightbox__title {
+    margin: 0 0 0.5rem;
+    font-size: var(--dh-font-size-lg);
 }
 
 @media (prefers-reduced-motion: reduce) {
