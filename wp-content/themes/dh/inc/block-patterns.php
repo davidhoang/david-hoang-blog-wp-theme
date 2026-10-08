@@ -124,6 +124,19 @@ function dh_register_block_patterns() {
 <!-- /wp:group -->',
     ));
 
+    register_block_pattern('dh/link-note', array(
+        'title'       => esc_html__('Link note', 'dh'),
+        'description' => esc_html__('A short reaction to an article elsewhere on the web.', 'dh'),
+        'categories'  => array('dh', 'text'),
+        'content'     => '<!-- wp:paragraph {"className":"dh-standfirst","fontSize":"lede"} -->
+<p class="dh-standfirst has-lede-font-size">One or two sentences on why this link is worth your time.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><a href="https://example.com/article">Read the original article</a></p>
+<!-- /wp:paragraph -->',
+    ));
+
     register_block_pattern('dh/last-tended', array(
         'title'       => esc_html__('Last tended note', 'dh'),
         'description' => esc_html__('A small maintenance note for living documents.', 'dh'),

@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('DH_THEME_VERSION')) {
-    define('DH_THEME_VERSION', '0.37.0');
+    define('DH_THEME_VERSION', '0.38.0');
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
@@ -28,6 +28,7 @@ require_once get_template_directory() . '/inc/content-discovery.php';
 require_once get_template_directory() . '/inc/search-highlight.php';
 require_once get_template_directory() . '/inc/post-actions.php';
 require_once get_template_directory() . '/inc/photos.php';
+require_once get_template_directory() . '/inc/link-posts.php';
 
 /**
  * Theme setup.
