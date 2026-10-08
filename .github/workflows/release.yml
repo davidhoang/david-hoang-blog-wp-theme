@@ -1,0 +1,47 @@
+name: Release theme
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Theme version tag (e.g. 0.40.0). Defaults to style.css Version.
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    name: Package dh theme zip
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            echo "value=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=$(grep -m1 '^Version:' wp-content/themes/dh/style.css | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create theme archive
+        run: bash scripts/package-theme.sh "${{ steps.version.outputs.value }}"
+
+      - name: Upload theme artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dh-theme-${{ steps.version.outputs.value }}
+          path: dist/dh-${{ steps.version.outputs.value }}.zip
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: dh-v${{ steps.version.outputs.value }}
+          name: dh ${{ steps.version.outputs.value }}
+          draft: true
+          files: dist/dh-${{ steps.version.outputs.value }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
