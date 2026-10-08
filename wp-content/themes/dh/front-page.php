@@ -64,7 +64,11 @@ $essays_url     = $posts_page_id ? get_permalink($posts_page_id) : home_url('/bl
                             <?php foreach ($recent_essays as $post) : ?>
                                 <?php setup_postdata($post); ?>
                                 <li>
-                                    <a href="<?php the_permalink(); ?>">
+                                    <?php
+                                    $essay_url   = dh_get_post_view_url();
+                                    $essay_link  = dh_is_link_post() ? ' target="_blank" rel="noopener noreferrer"' : '';
+                                    ?>
+                                    <a href="<?php echo esc_url($essay_url); ?>"<?php echo $essay_link; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
                                         <span><?php echo esc_html(dh_get_display_title()); ?></span>
                                         <time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date('M j, Y')); ?></time>
                                     </a>
