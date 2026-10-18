@@ -16,14 +16,28 @@
             <h1 class="entry-title<?php echo get_the_title() ? '' : ' entry-title--empty'; ?>"><?php echo esc_html(dh_get_display_title()); ?></h1>
         <?php else : ?>
             <?php dh_the_entry_kicker(); ?>
+            <?php
+            $view_url   = dh_get_post_view_url();
+            $is_link    = dh_is_link_post();
+            $link_attrs = $is_link ? ' target="_blank" rel="noopener noreferrer bookmark"' : ' rel="bookmark"';
+            ?>
             <h2 class="entry-title entry-title--index<?php echo get_the_title() ? '' : ' entry-title--empty'; ?>">
-                <a href="<?php the_permalink(); ?>" rel="bookmark"><?php echo wp_kses(dh_get_highlighted_display_title(), dh_search_highlight_allowed_html()); ?></a>
+                <a href="<?php echo esc_url($view_url); ?>"<?php echo $link_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+                    <?php echo wp_kses(dh_get_highlighted_display_title(), dh_search_highlight_allowed_html()); ?>
+                    <?php if ($is_link) : ?>
+                        <span class="entry-title__external" aria-hidden="true">&nearr;</span>
+                    <?php endif; ?>
+                </a>
             </h2>
+            <?php if ($is_link && dh_get_link_host_label()) : ?>
+                <p class="entry-link-host"><?php echo esc_html(dh_get_link_host_label()); ?></p>
+            <?php endif; ?>
         <?php endif; ?>
     </header>
 
     <?php if (is_singular('post')) : ?>
         <?php dh_entry_meta(); ?>
+        <?php dh_render_link_post_outbound(); ?>
     <?php endif; ?>
 
     <?php if (has_post_thumbnail()) : ?>
@@ -49,7 +63,7 @@
                     $thumbnail_attrs['fetchpriority'] = 'high';
                 }
                 ?>
-                <a href="<?php the_permalink(); ?>">
+                <a href="<?php echo esc_url(dh_get_post_view_url()); ?>"<?php echo dh_is_link_post() ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>>
                     <?php the_post_thumbnail('large', $thumbnail_attrs); ?>
                 </a>
                 <?php
@@ -80,7 +94,7 @@
     <?php endif; ?>
 
     <?php if (!is_singular()) : ?>
-        <a href="<?php the_permalink(); ?>" class="post-view" aria-label="<?php echo esc_attr(sprintf(__('View post: %s', 'dh'), dh_get_display_title())); ?>">
+        <a href="<?php echo esc_url(dh_get_post_view_url()); ?>" class="post-view"<?php echo dh_is_link_post() ? ' target="_blank" rel="noopener noreferrer"' : ''; ?> aria-label="<?php echo esc_attr(sprintf(__('View post: %s', 'dh'), dh_get_display_title())); ?>">
             <svg class="post-view__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
                 <path d="M3.5 8h7.5M8.5 5.25 11.75 8 8.5 10.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>

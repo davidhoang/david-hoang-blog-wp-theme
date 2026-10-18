@@ -16,8 +16,8 @@ if (empty($related_posts)) {
 }
 ?>
 
-<section class="related-posts" aria-label="<?php esc_attr_e('Related posts', 'dh'); ?>">
-    <h2 class="related-posts__title"><?php esc_html_e('Related posts', 'dh'); ?></h2>
+<section class="related-posts" aria-label="<?php esc_attr_e('Keep reading', 'dh'); ?>">
+    <h2 class="related-posts__title"><?php esc_html_e('Keep reading', 'dh'); ?></h2>
     <ul class="related-posts__list">
         <?php foreach ($related_posts as $related_post) : ?>
             <li class="related-posts__item">

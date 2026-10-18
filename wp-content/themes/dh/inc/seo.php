@@ -24,6 +24,10 @@ function dh_get_social_image_url() {
         if ($thumbnail_url) {
             return $thumbnail_url;
         }
+
+        if (function_exists('imagecreatetruecolor')) {
+            return dh_get_generated_social_card_url(get_queried_object_id());
+        }
     }
 
     $hero_image_url = dh_get_hero_image_url();
@@ -304,7 +308,21 @@ function dh_get_breadcrumb_items() {
         ),
     );
 
-    if (is_singular('post')) {
+    if (is_singular('photo')) {
+        $archive_link = get_post_type_archive_link('photo');
+
+        if ($archive_link) {
+            $items[] = array(
+                'name' => __('Photographs', 'dh'),
+                'url'  => $archive_link,
+            );
+        }
+
+        $items[] = array(
+            'name' => dh_get_display_title(),
+            'url'  => get_permalink(),
+        );
+    } elseif (is_singular('post')) {
         $series = function_exists('dh_get_post_series') ? dh_get_post_series() : null;
 
         if ($series instanceof WP_Term) {

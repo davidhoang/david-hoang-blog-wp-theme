@@ -15,9 +15,16 @@ if (!defined('ABSPATH')) {
  * @return array{light: string, dark: string}
  */
 function dh_get_theme_colors() {
+    $appearance = function_exists('dh_get_appearance_colors')
+        ? dh_get_appearance_colors()
+        : array(
+            'light_background' => '#ffffff',
+            'dark_background'  => '#161614',
+        );
+
     return array(
-        'light' => '#ffffff',
-        'dark'  => '#161614',
+        'light' => $appearance['light_background'],
+        'dark'  => $appearance['dark_background'],
     );
 }
 

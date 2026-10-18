@@ -70,6 +70,66 @@ function dh_order_series_archive($query) {
 add_action('pre_get_posts', 'dh_order_series_archive');
 
 /**
+ * Render an ordered table of contents above a series archive.
+ */
+function dh_render_series_archive_toc() {
+    if (!is_tax('series')) {
+        return;
+    }
+
+    $term = get_queried_object();
+
+    if (!($term instanceof WP_Term)) {
+        return;
+    }
+
+    $posts = get_posts(array(
+        'post_type'              => 'post',
+        'post_status'            => 'publish',
+        'posts_per_page'         => -1,
+        'orderby'                => 'date',
+        'order'                  => 'ASC',
+        'ignore_sticky_posts'    => true,
+        'no_found_rows'          => true,
+        'update_post_meta_cache' => false,
+        'tax_query'              => array(
+            array(
+                'taxonomy' => 'series',
+                'field'    => 'term_id',
+                'terms'    => (int) $term->term_id,
+            ),
+        ),
+    ));
+
+    if (!$posts) {
+        return;
+    }
+    ?>
+    <nav class="series-toc" aria-labelledby="series-toc-title">
+        <h2 id="series-toc-title"><?php esc_html_e('In this series', 'dh'); ?></h2>
+        <ol>
+            <?php foreach ($posts as $index => $post) : ?>
+                <li>
+                    <a href="<?php echo esc_url(get_permalink($post)); ?>">
+                        <span><?php echo esc_html(dh_get_display_title($post)); ?></span>
+                        <small>
+                            <?php
+                            printf(
+                                /* translators: %d: chapter number */
+                                esc_html__('Part %d', 'dh'),
+                                $index + 1
+                            );
+                            ?>
+                        </small>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ol>
+    </nav>
+    <?php
+}
+
+/**
  * Get the primary series assigned to a post.
  *
  * @param int|WP_Post|null $post Post ID or object.

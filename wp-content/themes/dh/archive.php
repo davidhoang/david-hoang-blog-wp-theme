@@ -21,6 +21,7 @@ get_template_part(
 );
 
 dh_render_archive_meta();
+dh_render_series_archive_toc();
 ?>
 
             <?php if (have_posts()) : ?>

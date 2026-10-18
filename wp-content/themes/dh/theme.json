@@ -57,7 +57,121 @@
                 {
                     "fontFamily": "'Newsreader', Georgia, 'Times New Roman', serif",
                     "slug": "newsreader",
-                    "name": "Newsreader"
+                    "name": "Newsreader",
+                    "fontFace": [
+                        {
+                            "fontFamily": "Newsreader",
+                            "fontStyle": "normal",
+                            "fontWeight": "200 800",
+                            "src": ["file:./assets/fonts/newsreader-latin-opsz-normal.woff2"]
+                        },
+                        {
+                            "fontFamily": "Newsreader",
+                            "fontStyle": "italic",
+                            "fontWeight": "200 800",
+                            "src": ["file:./assets/fonts/newsreader-latin-opsz-italic.woff2"]
+                        }
+                    ]
+                },
+                {
+                    "fontFamily": "'Literata', Georgia, 'Times New Roman', serif",
+                    "slug": "literata",
+                    "name": "Literata",
+                    "fontFace": [
+                        {
+                            "fontFamily": "Literata",
+                            "fontStyle": "normal",
+                            "fontWeight": "200 900",
+                            "src": ["file:./assets/fonts/literata-latin-opsz-normal.woff2"]
+                        },
+                        {
+                            "fontFamily": "Literata",
+                            "fontStyle": "italic",
+                            "fontWeight": "200 900",
+                            "src": ["file:./assets/fonts/literata-latin-opsz-italic.woff2"]
+                        }
+                    ]
+                },
+                {
+                    "fontFamily": "'Source Sans 3', 'Helvetica Neue', Arial, sans-serif",
+                    "slug": "source-sans-3",
+                    "name": "Source Sans 3",
+                    "fontFace": [
+                        {
+                            "fontFamily": "Source Sans 3",
+                            "fontStyle": "normal",
+                            "fontWeight": "200 900",
+                            "src": ["file:./assets/fonts/source-sans-3-latin-wght-normal.woff2"]
+                        },
+                        {
+                            "fontFamily": "Source Sans 3",
+                            "fontStyle": "italic",
+                            "fontWeight": "200 900",
+                            "src": ["file:./assets/fonts/source-sans-3-latin-wght-italic.woff2"]
+                        }
+                    ]
+                },
+                {
+                    "fontFamily": "'IBM Plex Mono', ui-monospace, monospace",
+                    "slug": "ibm-plex-mono",
+                    "name": "IBM Plex Mono",
+                    "fontFace": [
+                        {
+                            "fontFamily": "IBM Plex Mono",
+                            "fontStyle": "normal",
+                            "fontWeight": "400",
+                            "src": ["file:./assets/fonts/ibm-plex-mono-latin-400-normal.woff2"]
+                        },
+                        {
+                            "fontFamily": "IBM Plex Mono",
+                            "fontStyle": "italic",
+                            "fontWeight": "400",
+                            "src": ["file:./assets/fonts/ibm-plex-mono-latin-400-italic.woff2"]
+                        },
+                        {
+                            "fontFamily": "IBM Plex Mono",
+                            "fontStyle": "normal",
+                            "fontWeight": "600",
+                            "src": ["file:./assets/fonts/ibm-plex-mono-latin-600-normal.woff2"]
+                        },
+                        {
+                            "fontFamily": "IBM Plex Mono",
+                            "fontStyle": "italic",
+                            "fontWeight": "600",
+                            "src": ["file:./assets/fonts/ibm-plex-mono-latin-600-italic.woff2"]
+                        }
+                    ]
+                },
+                {
+                    "fontFamily": "'Atkinson Hyperlegible', 'Helvetica Neue', Arial, sans-serif",
+                    "slug": "atkinson-hyperlegible",
+                    "name": "Atkinson Hyperlegible",
+                    "fontFace": [
+                        {
+                            "fontFamily": "Atkinson Hyperlegible",
+                            "fontStyle": "normal",
+                            "fontWeight": "400",
+                            "src": ["file:./assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2"]
+                        },
+                        {
+                            "fontFamily": "Atkinson Hyperlegible",
+                            "fontStyle": "italic",
+                            "fontWeight": "400",
+                            "src": ["file:./assets/fonts/atkinson-hyperlegible-latin-400-italic.woff2"]
+                        },
+                        {
+                            "fontFamily": "Atkinson Hyperlegible",
+                            "fontStyle": "normal",
+                            "fontWeight": "700",
+                            "src": ["file:./assets/fonts/atkinson-hyperlegible-latin-700-normal.woff2"]
+                        },
+                        {
+                            "fontFamily": "Atkinson Hyperlegible",
+                            "fontStyle": "italic",
+                            "fontWeight": "700",
+                            "src": ["file:./assets/fonts/atkinson-hyperlegible-latin-700-italic.woff2"]
+                        }
+                    ]
                 }
             ],
             "fontSizes": [

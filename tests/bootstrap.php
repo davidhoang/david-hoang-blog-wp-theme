@@ -26,7 +26,14 @@ function dh_test_defaults() {
         'is_author'             => false,
         'is_date'               => false,
         'is_post_type_archive'  => false,
+        'is_post_type_archive_photo' => false,
+        'post_type_archive_link' => 'https://example.com/photos/',
+        'post_thumbnail_id'     => 0,
+        'attachment_src'        => null,
+        'attachment_alt'        => '',
         'is_archive'            => false,
+        'in_the_loop'           => false,
+        'is_main_query'         => false,
         // Data used by stubs.
         'search_query'          => '',
         'term_link'             => 'https://example.com/series/craft/',
@@ -34,13 +41,23 @@ function dh_test_defaults() {
         'bloginfo_name'         => 'Example Blog',
         'archive_title'         => 'Archive',
         'queried_object'        => null,
+        'queried_object_id'     => 1,
         'current_post'          => null,
         'current_id'            => 0,
         'post_tags'             => array(),
+        'post_categories'       => array(),
+        'post_series'           => null,
         'related_posts'         => array(),
+        'related_posts_queue'   => array(),
         'get_posts_args'        => array(),
         'filters'               => array(),
         'theme_mods'            => array(),
+        'upload_basedir'        => '/tmp/uploads',
+        'post_modified_time'    => 1700000000,
+        'query_vars'            => array(),
+        'posts_by_id'           => array(),
+        'post_meta'             => array(),
+        'permalink'             => 'https://example.com/post/',
     );
 }
 
@@ -60,6 +77,10 @@ function is_admin() {
 
 function is_feed() {
     return !empty($GLOBALS['dh_test']['is_feed']);
+}
+
+function wp_doing_ajax() {
+    return !empty($GLOBALS['dh_test']['wp_doing_ajax']);
 }
 
 function get_search_query($escaped = true) {
@@ -120,6 +141,7 @@ if (!class_exists('WP_Error')) {
 
 if (!class_exists('WP_Term')) {
     class WP_Term {
+        public $term_id = 0;
         public $taxonomy = '';
         public $name = '';
         public $description = '';
@@ -155,11 +177,31 @@ if (!class_exists('WP_Post')) {
         public $ID = 0;
         public $post_title = '';
         public $post_content = '';
+        public $post_type = 'post';
     }
 }
 
 function esc_attr($text) {
     return htmlspecialchars((string) $text, ENT_QUOTES, 'UTF-8');
+}
+
+function esc_html__($text, $domain = 'default') {
+    return esc_html($text);
+}
+
+function esc_url_raw($url) {
+    return filter_var($url, FILTER_VALIDATE_URL) ? $url : '';
+}
+
+function sanitize_text_field($text) {
+    return trim(strip_tags((string) $text));
+}
+
+function sanitize_title($text) {
+    $text = strtolower(trim(wp_strip_all_tags($text)));
+    $text = preg_replace('/[^a-z0-9]+/', '-', $text);
+
+    return trim($text, '-');
 }
 
 function _x($text, $context, $domain = 'default') {
@@ -187,6 +229,14 @@ function get_post($post = null) {
         return $GLOBALS['dh_test']['current_post'];
     }
 
+    if (is_numeric($post)) {
+        $id = (int) $post;
+
+        if (isset($GLOBALS['dh_test']['posts_by_id'][$id])) {
+            return $GLOBALS['dh_test']['posts_by_id'][$id];
+        }
+    }
+
     return null;
 }
 
@@ -198,8 +248,30 @@ function wp_get_post_tags($post_id = 0, $args = array()) {
     return $GLOBALS['dh_test']['post_tags'];
 }
 
+function wp_get_post_categories($post_id = 0, $args = array()) {
+    return $GLOBALS['dh_test']['post_categories'];
+}
+
+function get_the_terms($post = null, $taxonomy = '') {
+    if ('series' === $taxonomy && $GLOBALS['dh_test']['post_series']) {
+        return array($GLOBALS['dh_test']['post_series']);
+    }
+
+    return array();
+}
+
+function wp_list_pluck($list, $field) {
+    return array_map(function ($item) use ($field) {
+        return is_object($item) && isset($item->$field) ? $item->$field : null;
+    }, $list);
+}
+
 function get_posts($args = array()) {
     $GLOBALS['dh_test']['get_posts_args'][] = $args;
+
+    if ($GLOBALS['dh_test']['related_posts_queue']) {
+        return array_shift($GLOBALS['dh_test']['related_posts_queue']);
+    }
 
     return $GLOBALS['dh_test']['related_posts'];
 }
@@ -209,11 +281,100 @@ function get_bloginfo($show = '', $filter = 'raw') {
         return $GLOBALS['dh_test']['bloginfo_name'];
     }
 
+    if ('charset' === $show) {
+        return 'UTF-8';
+    }
+
+    if ('rss2_url' === $show) {
+        return 'https://example.com/feed/';
+    }
+
     return '';
+}
+
+function absint($value) {
+    return abs((int) $value);
+}
+
+function sanitize_key($key) {
+    return strtolower(preg_replace('/[^a-z0-9_\\-]/', '', (string) $key));
+}
+
+function get_query_var($name) {
+    return isset($GLOBALS['dh_test']['query_vars'][$name])
+        ? $GLOBALS['dh_test']['query_vars'][$name]
+        : '';
+}
+
+function wp_upload_dir() {
+    return array(
+        'basedir' => $GLOBALS['dh_test']['upload_basedir'],
+        'error'   => false,
+    );
+}
+
+function trailingslashit($string) {
+    return rtrim($string, '/') . '/';
+}
+
+function wp_mkdir_p($dir) {
+    return true;
+}
+
+function get_post_modified_time($format, $gmt = false, $post = null) {
+    return $GLOBALS['dh_test']['post_modified_time'];
+}
+
+function add_query_arg($args, $url) {
+    $query = http_build_query($args);
+
+    return $url . (false === strpos($url, '?') ? '?' : '&') . $query;
+}
+
+function get_the_title($post = null) {
+    if ($post instanceof WP_Post && $post->post_title) {
+        return $post->post_title;
+    }
+
+    $current = get_post($post);
+
+    return $current instanceof WP_Post ? $current->post_title : '';
+}
+
+function wp_parse_url($url, $component = -1) {
+    return parse_url($url, $component);
 }
 
 function get_queried_object() {
     return $GLOBALS['dh_test']['queried_object'];
+}
+
+function get_queried_object_id() {
+    return (int) $GLOBALS['dh_test']['queried_object_id'];
+}
+
+function get_category_feed_link($id) {
+    return 'https://example.com/category/' . (int) $id . '/feed/';
+}
+
+function get_tag_feed_link($id) {
+    return 'https://example.com/tag/' . (int) $id . '/feed/';
+}
+
+function get_term_feed_link($id, $taxonomy = '') {
+    return 'https://example.com/' . $taxonomy . '/' . (int) $id . '/feed/';
+}
+
+function get_author_feed_link($id) {
+    return 'https://example.com/author/' . (int) $id . '/feed/';
+}
+
+function get_search_feed_link() {
+    return 'https://example.com/search/feed/';
+}
+
+function get_search_link() {
+    return 'https://example.com/?s=' . rawurlencode($GLOBALS['dh_test']['search_query']);
 }
 
 function get_the_archive_title() {
@@ -268,20 +429,78 @@ function is_date() {
     return !empty($GLOBALS['dh_test']['is_date']);
 }
 
-function is_post_type_archive() {
+function is_post_type_archive($post_type = '') {
+    if ('photo' === $post_type) {
+        return !empty($GLOBALS['dh_test']['is_post_type_archive_photo']);
+    }
+
     return !empty($GLOBALS['dh_test']['is_post_type_archive']);
+}
+
+function get_post_type_archive_link($post_type) {
+    return isset($GLOBALS['dh_test']['post_type_archive_link'])
+        ? $GLOBALS['dh_test']['post_type_archive_link']
+        : '';
+}
+
+function get_post_thumbnail_id($post = null) {
+    return (int) $GLOBALS['dh_test']['post_thumbnail_id'];
+}
+
+function wp_get_attachment_image_src($attachment_id, $size = 'thumbnail') {
+    return $GLOBALS['dh_test']['attachment_src'];
 }
 
 function is_archive() {
     return !empty($GLOBALS['dh_test']['is_archive']);
 }
 
+function in_the_loop() {
+    return !empty($GLOBALS['dh_test']['in_the_loop']);
+}
+
+function is_main_query() {
+    return !empty($GLOBALS['dh_test']['is_main_query']);
+}
+
+function get_post_meta($post_id, $key = '', $single = false) {
+    if ('_wp_attachment_image_alt' === $key) {
+        return $GLOBALS['dh_test']['attachment_alt'];
+    }
+
+    $post_id = (int) $post_id;
+
+    if (isset($GLOBALS['dh_test']['post_meta'][$post_id][$key])) {
+        return $GLOBALS['dh_test']['post_meta'][$post_id][$key];
+    }
+
+    return '';
+}
+
+function get_permalink($post = null) {
+    return $GLOBALS['dh_test']['permalink'];
+}
+
+function get_post_type($post = null) {
+    if ($post instanceof WP_Post) {
+        return $post->post_type;
+    }
+
+    return 'post';
+}
+
 $theme_inc = dirname(__DIR__) . '/wp-content/themes/dh/inc';
 
 require_once $theme_inc . '/search-highlight.php';
 require_once $theme_inc . '/editorial-structure.php';
+require_once $theme_inc . '/social-cards.php';
 require_once $theme_inc . '/seo.php';
 require_once $theme_inc . '/content-discovery.php';
 require_once $theme_inc . '/post-actions.php';
+require_once $theme_inc . '/customizer.php';
+require_once $theme_inc . '/theme-mode.php';
 require_once $theme_inc . '/reading-time.php';
 require_once $theme_inc . '/related-posts.php';
+require_once $theme_inc . '/reader-enhancements.php';
+require_once $theme_inc . '/photos.php';
+require_once $theme_inc . '/link-posts.php';

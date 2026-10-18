@@ -10,13 +10,14 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('DH_THEME_VERSION')) {
-    define('DH_THEME_VERSION', '0.34.0');
+    define('DH_THEME_VERSION', '0.39.0');
 }
 
 require_once get_template_directory() . '/inc/theme-fonts.php';
 require_once get_template_directory() . '/inc/theme-font-switcher.php';
 require_once get_template_directory() . '/inc/social-icons.php';
 require_once get_template_directory() . '/inc/theme-mode.php';
+require_once get_template_directory() . '/inc/social-cards.php';
 require_once get_template_directory() . '/inc/seo.php';
 require_once get_template_directory() . '/inc/customizer.php';
 require_once get_template_directory() . '/inc/reading-time.php';
@@ -27,6 +28,8 @@ require_once get_template_directory() . '/inc/editorial-structure.php';
 require_once get_template_directory() . '/inc/content-discovery.php';
 require_once get_template_directory() . '/inc/search-highlight.php';
 require_once get_template_directory() . '/inc/post-actions.php';
+require_once get_template_directory() . '/inc/photos.php';
+require_once get_template_directory() . '/inc/link-posts.php';
 
 /**
  * Theme setup.
@@ -159,6 +162,22 @@ function dh_customize_register($wp_customize) {
         'section'     => 'dh_hero',
         'mime_type'   => 'image',
     )));
+
+    $wp_customize->add_setting('dh_hero_density', array(
+        'default'           => 'balanced',
+        'sanitize_callback' => 'dh_sanitize_hero_density',
+    ));
+
+    $wp_customize->add_control('dh_hero_density', array(
+        'label'   => esc_html__('Pattern density', 'dh'),
+        'section' => 'dh_hero',
+        'type'    => 'select',
+        'choices' => array(
+            'subtle'   => esc_html__('Subtle', 'dh'),
+            'balanced' => esc_html__('Balanced', 'dh'),
+            'bold'     => esc_html__('Bold', 'dh'),
+        ),
+    ));
 }
 add_action('customize_register', 'dh_customize_register');
 
@@ -166,7 +185,16 @@ add_action('customize_register', 'dh_customize_register');
  * Default primary menu when none is assigned in WordPress.
  */
 function dh_default_menu() {
+    $posts_page_id = (int) get_option('page_for_posts');
     $items = array(
+        array(
+            'label' => __('Essays', 'dh'),
+            'url'   => $posts_page_id ? get_permalink($posts_page_id) : home_url('/blog/'),
+        ),
+        array(
+            'label' => __('Photos', 'dh'),
+            'url'   => get_post_type_archive_link('photo'),
+        ),
         array(
             'label' => __('About', 'dh'),
             'url'   => home_url('/about/'),
@@ -318,15 +346,19 @@ function dh_scripts() {
         'print'
     );
 
-    if (is_singular('post')) {
+    if (is_singular('post') || is_singular('photo')) {
         dh_enqueue_theme_style('dh-single', 'single.css');
         dh_enqueue_theme_style('dh-comments', 'comments.css');
     } elseif (is_page() || is_attachment()) {
         dh_enqueue_theme_style('dh-page', 'page.css');
     }
 
-    if (is_home() || is_archive() || is_search() || is_404()) {
+    if (is_front_page() || is_home() || is_archive() || is_search() || is_404()) {
         dh_enqueue_theme_style('dh-post-list', 'post-list.css');
+    }
+
+    if (is_front_page() || is_post_type_archive('photo') || is_singular('photo')) {
+        dh_enqueue_theme_style('dh-editorial', 'editorial.css');
     }
 
     $hero_script = get_template_directory() . '/js/hero-halftone.js';
@@ -353,6 +385,10 @@ function dh_scripts() {
         DH_THEME_VERSION,
         true
     );
+
+    if (is_singular() && comments_open() && get_option('thread_comments')) {
+        wp_enqueue_script('comment-reply');
+    }
 }
 add_action('wp_enqueue_scripts', 'dh_scripts');
 

@@ -159,6 +159,30 @@
     font-size: var(--dh-font-size-md);
 }
 
+.comment-notes {
+    max-width: 40rem;
+    color: var(--dh-color-muted);
+    font-size: var(--dh-font-size-sm);
+}
+
+.comment-form-cookies-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    color: var(--dh-color-muted);
+    font-size: var(--dh-font-size-sm);
+}
+
+.comment-form-cookies-consent input {
+    margin-top: 0.3rem;
+}
+
+.comment-form-cookies-consent label {
+    margin: 0;
+    font-size: inherit;
+    font-weight: 400;
+}
+
 .comment-form label {
     display: block;
     margin-bottom: 0.35rem;
@@ -196,4 +220,17 @@
 
 .comment-form .form-submit {
     margin: calc(var(--dh-space) * 0.25) 0 0;
+}
+
+@media (min-width: 680px) {
+    .comment-form-author,
+    .comment-form-email {
+        display: inline-block;
+        width: calc(50% - 0.5rem);
+        vertical-align: top;
+    }
+
+    .comment-form-author {
+        margin-right: 0.65rem;
+    }
 }

@@ -52,23 +52,42 @@ function dh_get_default_reading_font() {
 }
 
 /**
+ * Available reader text sizes.
+ *
+ * @return array<string, string>
+ */
+function dh_get_reading_sizes() {
+    return array(
+        'small'  => __('Small', 'dh'),
+        'medium' => __('Medium', 'dh'),
+        'large'  => __('Large', 'dh'),
+    );
+}
+
+/**
  * Inline script that applies the saved reading font before first paint.
  */
 function dh_print_reading_font_boot_script() {
     $fonts   = array_keys(dh_get_reading_fonts());
     $default = dh_get_default_reading_font();
+    $sizes   = array_keys(dh_get_reading_sizes());
     ?>
     <script>
     (function () {
         try {
-            var key = 'dh-reading-font';
+            var fontKey = 'dh-reading-font';
+            var sizeKey = 'dh-reading-size';
             var allowed = <?php echo wp_json_encode($fonts); ?>;
-            var stored = localStorage.getItem(key);
-            var font = allowed.indexOf(stored) !== -1
-                ? stored
+            var allowedSizes = <?php echo wp_json_encode($sizes); ?>;
+            var storedFont = localStorage.getItem(fontKey);
+            var storedSize = localStorage.getItem(sizeKey);
+            var font = allowed.indexOf(storedFont) !== -1
+                ? storedFont
                 : <?php echo wp_json_encode($default); ?>;
+            var size = allowedSizes.indexOf(storedSize) !== -1 ? storedSize : 'medium';
 
             document.documentElement.setAttribute('data-font', font);
+            document.documentElement.setAttribute('data-reading-size', size);
         } catch (e) {
             // no-op
         }
@@ -123,6 +142,23 @@ function dh_render_font_switcher() {
     }
 
     echo '</ul>';
+
+    echo '<div class="font-switcher__sizes" role="group" aria-labelledby="dh-font-size-heading">';
+    echo '<p class="font-switcher__heading font-switcher__size-heading" id="dh-font-size-heading">' . esc_html__('Text size', 'dh') . '</p>';
+    echo '<div class="font-switcher__size-options">';
+
+    foreach (dh_get_reading_sizes() as $slug => $label) {
+        printf(
+            '<button type="button" class="font-switcher__size font-switcher__size--%1$s" data-dh-reading-size="%1$s" aria-pressed="%2$s" aria-label="%3$s">%4$s</button>',
+            esc_attr($slug),
+            'medium' === $slug ? 'true' : 'false',
+            esc_attr(sprintf(__('%s text', 'dh'), $label)),
+            esc_html__('A', 'dh')
+        );
+    }
+
+    echo '</div>';
+    echo '</div>';
     echo '</div>';
     echo '</div>';
 }

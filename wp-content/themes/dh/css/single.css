@@ -32,6 +32,30 @@
     color: inherit;
 }
 
+.link-post-outbound {
+    margin: 0 0 calc(var(--dh-space) * 1.25);
+}
+
+.link-post-outbound__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid var(--dh-color-border);
+    border-radius: 999px;
+    background: var(--dh-color-surface);
+    color: var(--dh-color-text);
+    font-size: var(--dh-font-size-sm);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.link-post-outbound__button:hover,
+.link-post-outbound__button:focus-visible {
+    border-color: var(--dh-color-accent);
+    color: var(--dh-color-accent);
+}
+
 .post-endmatter {
     margin-top: calc(var(--dh-space) * 2.5);
     padding-top: calc(var(--dh-space) * 1.5);

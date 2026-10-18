@@ -22,7 +22,9 @@ get_template_part('template-parts/layout', 'start');
                     'next_text' => '<span class="post-navigation__title">%title</span><span class="post-navigation__icon" aria-hidden="true">&rarr;</span>',
                 ));
 
-                dh_render_related_posts();
+                if (is_singular('post')) {
+                    dh_render_related_posts();
+                }
 
                 if (comments_open() || get_comments_number()) {
                     comments_template();
