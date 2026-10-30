@@ -60,4 +60,31 @@ class SearchHighlightTest extends TestCase {
 
         $this->assertSame($source, dh_highlight_search_in_html($source));
     }
+
+    public function test_highlighted_search_query_wraps_terms() {
+        $GLOBALS['dh_test']['search_query'] = 'craft systems';
+
+        $html = dh_get_highlighted_search_query_html();
+
+        $this->assertStringContainsString('<mark class="search-highlight">craft</mark>', $html);
+        $this->assertStringContainsString('<mark class="search-highlight">systems</mark>', $html);
+    }
+
+    public function test_search_result_type_labels() {
+        $essay = new WP_Post();
+        $essay->post_type = 'post';
+        $this->assertSame('Essay', dh_get_search_result_type_label($essay));
+
+        $photo = new WP_Post();
+        $photo->post_type = 'photo';
+        $this->assertSame('Photo', dh_get_search_result_type_label($photo));
+
+        $link = new WP_Post();
+        $link->ID = 42;
+        $link->post_type = 'post';
+        $GLOBALS['dh_test']['post_meta'][42] = array(
+            '_dh_link_url' => 'https://example.org/note',
+        );
+        $this->assertSame('Link', dh_get_search_result_type_label($link));
+    }
 }

@@ -32,6 +32,15 @@ class ContentDiscoveryTest extends TestCase {
         $this->assertFalse(dh_should_show_archive_meta());
     }
 
+    public function test_recent_photos_query_uses_photo_post_type() {
+        dh_get_recent_photos(3);
+
+        $this->assertNotEmpty($GLOBALS['dh_test']['get_posts_args']);
+        $last = end($GLOBALS['dh_test']['get_posts_args']);
+        $this->assertSame('photo', $last['post_type']);
+        $this->assertSame(3, $last['posts_per_page']);
+    }
+
     public function test_default_context_uses_site_feed() {
         $this->assertSame('https://example.com/feed/', dh_get_context_feed_url());
     }

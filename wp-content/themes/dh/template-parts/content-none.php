@@ -32,8 +32,16 @@
                 ?>
             </p>
         <?php elseif (is_search()) : ?>
-            <p><?php esc_html_e('No results matched your search. Try different keywords, or browse recent essays.', 'dh'); ?></p>
+            <p><?php esc_html_e('No results matched your search. Try different keywords, or browse recent essays and photographs below.', 'dh'); ?></p>
             <?php get_search_form(); ?>
+            <?php
+            $photo_archive = get_post_type_archive_link('photo');
+            if ($photo_archive) :
+                ?>
+                <p class="no-results__browse">
+                    <a href="<?php echo esc_url($photo_archive); ?>"><?php esc_html_e('Browse all photographs', 'dh'); ?></a>
+                </p>
+            <?php endif; ?>
         <?php else : ?>
             <p><?php esc_html_e('It seems we can\'t find what you\'re looking for. Maybe try a search?', 'dh'); ?></p>
             <?php get_search_form(); ?>
