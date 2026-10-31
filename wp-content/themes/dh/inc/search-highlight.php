@@ -175,6 +175,50 @@ function dh_get_highlighted_display_title($post = null) {
 }
 
 /**
+ * Current search query with matches wrapped for display in headers.
+ *
+ * @return string Safe HTML (plain text plus optional mark.search-highlight).
+ */
+function dh_get_highlighted_search_query_html() {
+    $query = get_search_query(false);
+
+    if ('' === trim($query)) {
+        return '';
+    }
+
+    return dh_highlight_escaped_text(esc_html($query));
+}
+
+/**
+ * Short content-type label for a search result row.
+ *
+ * @param int|WP_Post|null $post Post ID or object.
+ * @return string
+ */
+function dh_get_search_result_type_label($post = null) {
+    $post = get_post($post);
+
+    if (!$post) {
+        return '';
+    }
+
+    if (function_exists('dh_is_link_post') && dh_is_link_post($post)) {
+        return __('Link', 'dh');
+    }
+
+    switch ($post->post_type) {
+        case 'photo':
+            return __('Photo', 'dh');
+        case 'page':
+            return __('Page', 'dh');
+        case 'post':
+            return __('Essay', 'dh');
+        default:
+            return ucfirst($post->post_type);
+    }
+}
+
+/**
  * Highlight matches inside the excerpt on search result views.
  *
  * @param string $excerpt Excerpt HTML.

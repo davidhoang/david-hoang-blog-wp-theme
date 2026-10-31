@@ -54,6 +54,36 @@ function dh_should_show_archive_meta() {
 /**
  * Render count + subscribe meta under archive headers.
  */
+function dh_render_search_meta() {
+    if (!is_search()) {
+        return;
+    }
+
+    global $wp_query;
+
+    $count = isset($wp_query->found_posts) ? (int) $wp_query->found_posts : 0;
+    $feed  = dh_get_context_feed_url();
+
+    $count_label = sprintf(
+        /* translators: %s: number of search results */
+        _n('%s result', '%s results', $count, 'dh'),
+        number_format_i18n($count)
+    );
+    ?>
+    <div class="archive-meta archive-meta--search">
+        <p class="archive-meta__summary">
+            <span class="archive-meta__count"><?php echo esc_html($count_label); ?></span>
+            <?php if ($feed) : ?>
+                <span aria-hidden="true">&middot;</span>
+                <a class="archive-meta__feed" href="<?php echo esc_url($feed); ?>">
+                    <?php esc_html_e('Subscribe via RSS', 'dh'); ?>
+                </a>
+            <?php endif; ?>
+        </p>
+    </div>
+    <?php
+}
+
 function dh_render_archive_meta() {
     if (!dh_should_show_archive_meta()) {
         return;
@@ -160,6 +190,26 @@ function dh_get_recent_essays($limit = 5) {
 }
 
 /**
+ * Recent photographs for recovery paths on empty views.
+ *
+ * @param int $limit Maximum number of photos.
+ * @return WP_Post[]
+ */
+function dh_get_recent_photos($limit = 4) {
+    $limit = max(1, (int) apply_filters('dh_recent_photos_limit', $limit));
+
+    return get_posts(array(
+        'post_type'           => 'photo',
+        'post_status'         => 'publish',
+        'posts_per_page'      => $limit,
+        'ignore_sticky_posts' => true,
+        'no_found_rows'       => true,
+        'orderby'             => 'date',
+        'order'               => 'DESC',
+    ));
+}
+
+/**
  * Render a compact list of recent essays.
  *
  * @param array $args {
@@ -198,6 +248,51 @@ function dh_render_recent_essays($args = array()) {
 }
 
 /**
+ * Render a compact list of recent photographs.
+ *
+ * @param array $args {
+ *     @type string $heading Heading text.
+ *     @type int    $limit   Maximum number of photos.
+ * }
+ */
+function dh_render_recent_photos($args = array()) {
+    $args = wp_parse_args($args, array(
+        'heading' => __('Recent photographs', 'dh'),
+        'limit'   => 4,
+    ));
+
+    $posts = dh_get_recent_photos($args['limit']);
+
+    if (empty($posts)) {
+        return;
+    }
+
+    $archive_link = get_post_type_archive_link('photo');
+    ?>
+    <section class="recovery-posts recovery-posts--photos" aria-labelledby="recovery-photos-title">
+        <h2 class="recovery-posts__title" id="recovery-photos-title"><?php echo esc_html($args['heading']); ?></h2>
+        <ul class="recovery-posts__list">
+            <?php foreach ($posts as $photo) : ?>
+                <li class="recovery-posts__item">
+                    <a class="recovery-posts__link" href="<?php echo esc_url(get_permalink($photo)); ?>">
+                        <span class="recovery-posts__post-title"><?php echo esc_html(dh_get_display_title($photo)); ?></span>
+                        <time class="recovery-posts__date" datetime="<?php echo esc_attr(get_the_date('c', $photo)); ?>">
+                            <?php echo esc_html(get_the_date('', $photo)); ?>
+                        </time>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <?php if ($archive_link) : ?>
+            <p class="recovery-posts__more">
+                <a href="<?php echo esc_url($archive_link); ?>"><?php esc_html_e('View all photographs', 'dh'); ?></a>
+            </p>
+        <?php endif; ?>
+    </section>
+    <?php
+}
+
+/**
  * Recent essays and topic browse for 404 and empty result views.
  */
 function dh_render_recovery_paths() {
@@ -207,6 +302,9 @@ function dh_render_recovery_paths() {
 
     ob_start();
     dh_render_recent_essays();
+    if (is_search() || is_404()) {
+        dh_render_recent_photos();
+    }
     dh_render_browse_topics(array('force' => true));
     $html = trim(ob_get_clean());
 
